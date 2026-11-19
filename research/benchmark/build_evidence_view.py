@@ -104,6 +104,55 @@ def render_case(index, case, answer, *, scale_pixels=None, title=None):
 <fieldset><legend>Camera group</legend>{"".join(panels)}</fieldset></section>"""
 
 
+def trajectory(cases):
+    """Plot the estimated horizontal position without bridging missing frames."""
+    positions = [case["result"]["point_m"] for case in cases]
+    observed_x = [point[0] for point in positions if point is not None]
+    if not observed_x:
+        return "<p>No trajectory positions were reconstructed.</p>"
+    lower, upper = min(observed_x), max(observed_x)
+    if lower == upper:
+        lower, upper = lower - 0.5, upper + 0.5
+    first_time, last_time = cases[0]["time_s"], cases[-1]["time_s"]
+    timespan = last_time - first_time or 1
+    segments, marks = [], []
+    previous = None
+    for index, (case, point) in enumerate(zip(cases, positions)):
+        x = 80 + 640 * (case["time_s"] - first_time) / timespan
+        y = 155 if point is None else 145 - 120 * (point[0] - lower) / (upper - lower)
+        if point is None:
+            description = f"Frame {index + 1}: position withheld"
+            marker = (f'<path class="gap" d="M{x-5:.2f} {y-5} l10 10 '
+                      'm-10 0 l10 -10"/>')
+            previous = None
+        else:
+            description = f"Frame {index + 1}: estimated X {point[0]:.3f} m"
+            marker = f'<circle class="estimate" cx="{x:.2f}" cy="{y:.2f}" r="5"/>'
+            if previous is not None:
+                px, py, prior_index = previous
+                segments.append(f'<line class="segment" data-from="{prior_index}" data-to="{index}" '
+                                f'x1="{px:.2f}" y1="{py:.2f}" x2="{x:.2f}" y2="{y:.2f}"/>')
+            previous = (x, y, index)
+        active = " active" if index == 0 else ""
+        marks.append(f'<g class="trajectory-frame{active}" data-frame-index="{index}">'
+                     f'<title>{escape(description)}</title>'
+                     f'<line class="cursor" x1="{x:.2f}" x2="{x:.2f}" y1="18" y2="167"/>'
+                     f'{marker}<text x="{x:.2f}" y="188">{case["time_s"] * 1000:.1f}</text></g>')
+    return f"""<figure class="trajectory">
+<h3>Ball trajectory</h3>
+<svg id="trajectory-plot" viewBox="0 0 760 220" role="img"
+aria-label="Estimated horizontal ball position in metres over time, with withheld frames marked">
+<rect class="plot-area" x="65" y="18" width="670" height="149" rx="8"/>
+<text x="57" y="30" text-anchor="end">{upper:.2f}</text>
+<text x="57" y="150" text-anchor="end">{lower:.2f}</text>
+<text x="22" y="88" transform="rotate(-90 22 88)" text-anchor="middle">X (m)</text>
+{"".join(segments)}{"".join(marks)}
+<text x="400" y="211">Time (ms)</text>
+</svg>
+<figcaption>Crosses mark withheld frames. Their vertical placement does not represent a position.</figcaption>
+</figure>"""
+
+
 def timeline():
     """Render a scripted timing fault in a short synthetic ball sequence."""
     cameras = {"A": -2, "B": -1, "C": 1, "D": 2}
@@ -147,6 +196,7 @@ def timeline():
 list="frame-ticks" aria-describedby="frame-label">
 <datalist id="frame-ticks">{"".join(options)}</datalist>
 <output id="frame-label" for="frame-scrubber" aria-live="polite">{labels[0]}</output>
+{trajectory(cases)}
 <div id="timeline-frames">{"".join(panels)}</div></div>"""
 
 
@@ -186,6 +236,17 @@ th,td {{padding:.45rem .6rem;text-align:left;white-space:nowrap;border-bottom:1p
 .camera-plot .axis-label {{fill:#acbfd5;font-size:14px}}
 .timeline {{margin:1.4rem 0 2rem}} .timeline input[type=range] {{width:min(100%,24rem);vertical-align:middle}}
 .timeline output {{display:block;font-weight:600;margin:.4rem 0 .75rem}}
+.trajectory {{margin:.75rem 0 1rem}}
+.trajectory h3 {{margin:0}}
+.trajectory svg {{display:block;width:100%;height:auto}}
+.trajectory figcaption,.trajectory text {{color:#acbfd5;fill:#acbfd5;font-size:14px}}
+.trajectory text:not([text-anchor]) {{text-anchor:middle}}
+.trajectory .segment,.trajectory .gap {{stroke:#8df6ed;stroke-width:2}}
+.trajectory .estimate {{fill:#8df6ed}}
+.trajectory .cursor {{visibility:hidden;stroke:#ffd185;stroke-dasharray:4 4}}
+.trajectory .active .cursor {{visibility:visible}}
+.trajectory .active .estimate {{fill:#ffd185;stroke:#ffd185;stroke-width:4}}
+.trajectory .active .gap {{stroke:#ffd185;stroke-width:3}}
 .included circle {{fill:#8df6ed;stroke:#1c7779;stroke-width:2}}
 .excluded rect {{fill:none;stroke:#acbfd5;stroke-width:2}}
 </style></head><body><main><h1>ReplayAxis evidence review</h1>
@@ -197,9 +258,11 @@ th,td {{padding:.45rem .6rem;text-align:left;white-space:nowrap;border-bottom:1p
 const scrubber = document.getElementById("frame-scrubber");
 const label = document.getElementById("frame-label");
 const frames = [...document.getElementById("timeline-frames").children];
+const trajectoryFrames = [...document.querySelectorAll(".trajectory-frame")];
 function showFrame() {{
     const index = Number(scrubber.value);
     frames.forEach((frame, position) => {{ frame.hidden = position !== index; }});
+    trajectoryFrames.forEach((mark, position) => {{ mark.classList.toggle("active", position === index); }});
     label.textContent = frames[index].dataset.label;
     scrubber.setAttribute("aria-valuetext", label.textContent);
 }}
