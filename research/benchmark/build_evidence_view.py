@@ -182,12 +182,16 @@ def comparison_pane(side, cases, scale_pixels, default_index):
         margin = consensus["score_margin"]
         margin_label = str(margin) if margin is not None else "Unavailable"
         answer = explain(case)
+        export = {"frame_number": index + 1, "timestamp_s": case["time_s"],
+                  "simulated_camera_d_offset_ms": case["skew_ms"],
+                  "reconstruction": result, "explanation": answer["message"]}
+        export_json = escape(json.dumps(export, allow_nan=False), quote=True)
         panel = render_case(f"compare-{side}-{index}", case, answer, scale_pixels=scale_pixels,
                             title=f"Frame {index + 1} · {status}")
         cards.append(f"""<div class="comparison-card" data-compare-frame="{index + 1}" data-status="{status}" data-margin="{margin_label}"
 data-accepted="{escape(accepted_cameras, quote=True)}"
 data-rejected="{escape(rejected_cameras, quote=True)}"
-data-explanation="{escape(answer["message"], quote=True)}"
+data-explanation="{escape(answer["message"], quote=True)}" data-export="{export_json}"
 data-time-ms="{time_ms:.2f}" data-source-ids="{escape(", ".join(
     view["frame_id"] for view in result["observations"]), quote=True)}"{hidden}>
 {panel}
@@ -226,6 +230,7 @@ under the 2 px reprojection rule.</p>
 <textarea id="comparison-report-text" rows="9" readonly></textarea>
 <button id="copy-comparison-report" type="button">Copy report</button>
 <a id="download-comparison-report" download>Download .txt</a>
+<a id="download-comparison-json" download>Download JSON</a>
 <span id="comparison-copy-status" role="status"></span>
 </details></div>"""
 
@@ -324,8 +329,8 @@ th,td {{padding:.45rem .6rem;text-align:left;white-space:nowrap;border-bottom:1p
 .comparison-report label {{display:block}}
 .comparison-report textarea {{box-sizing:border-box;width:100%;font:inherit;resize:vertical}}
 .comparison-report button {{font:inherit;margin-top:.4rem}}
-#comparison-copy-status,#download-comparison-report {{margin-left:.5rem}}
-#download-comparison-report {{color:#9ff8ef}}
+#comparison-copy-status,#download-comparison-report,#download-comparison-json {{margin-left:.5rem}}
+#download-comparison-report,#download-comparison-json {{color:#9ff8ef}}
 .comparison-pane {{min-width:0}}
 .comparison-pane select {{font:inherit;margin-bottom:.55rem;max-width:100%}}
 .comparison-card {{min-width:0;border:1px solid #324459;border-radius:12px;padding:.8rem}}
@@ -388,6 +393,7 @@ const displayedEvidence = {{}};
 const report = document.getElementById("comparison-report-text");
 const copyStatus = document.getElementById("comparison-copy-status");
 const downloadReport = document.getElementById("download-comparison-report");
+const downloadJson = document.getElementById("download-comparison-json");
 document.getElementById("copy-comparison-report").addEventListener("click", async () => {{
     const text = report.value;
     try {{
@@ -425,6 +431,15 @@ function updateComparisonSummary() {{
     report.value = ["ReplayAxis synthetic frame comparison", ...reportSections].join("\\n\\n");
     downloadReport.download = `replayaxis-frames-${{left.compareFrame}}-${{right.compareFrame}}.txt`;
     downloadReport.href = `data:text/plain;charset=utf-8,${{encodeURIComponent(report.value)}}`;
+    const comparisonExport = {{
+        schema_version: 1,
+        dataset: "synthetic",
+        left: JSON.parse(left.export),
+        right: JSON.parse(right.export),
+    }};
+    downloadJson.download = `replayaxis-frames-${{left.compareFrame}}-${{right.compareFrame}}.json`;
+    const jsonText = JSON.stringify(comparisonExport, null, 2) + "\\n";
+    downloadJson.href = `data:application/json;charset=utf-8,${{encodeURIComponent(jsonText)}}`;
     copyStatus.textContent = "";
     for (const side of comparisonSides) {{
         document.getElementById(`summary-${{side}}`).textContent =
