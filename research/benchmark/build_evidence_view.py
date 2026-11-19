@@ -181,11 +181,13 @@ def comparison_pane(side, cases, scale_pixels, default_index):
                                      if view.get("decision") == "rejected") or "None recorded"
         margin = consensus["score_margin"]
         margin_label = str(margin) if margin is not None else "Unavailable"
-        panel = render_case(f"compare-{side}-{index}", case, explain(case), scale_pixels=scale_pixels,
+        answer = explain(case)
+        panel = render_case(f"compare-{side}-{index}", case, answer, scale_pixels=scale_pixels,
                             title=f"Frame {index + 1} · {status}")
         cards.append(f"""<div class="comparison-card" data-compare-frame="{index + 1}" data-status="{status}" data-margin="{margin_label}"
 data-accepted="{escape(accepted_cameras, quote=True)}"
-data-rejected="{escape(rejected_cameras, quote=True)}"{hidden}>
+data-rejected="{escape(rejected_cameras, quote=True)}"
+data-explanation="{escape(answer["message"], quote=True)}"{hidden}>
 {panel}
 <dl><div><dt>Simulated camera D offset</dt><dd>{case["skew_ms"]:g} ms</dd></div>
 <div><dt>Rejected source frames</dt><dd>{rejection}</dd></div></dl>
@@ -203,6 +205,7 @@ def compare_transition(cases, scale_pixels):
 <h3 id="transition-heading">Compare frames</h3>
 <p>Both panes use the same camera-plane scale. Camera groups are ranked by inlier count
 under the 2 px reprojection rule.</p>
+<p id="comparison-explanation" aria-live="polite" aria-atomic="true"></p>
 <div class="comparison-summary">
 <table>
 <caption>What changed</caption>
@@ -303,6 +306,7 @@ th,td {{padding:.45rem .6rem;text-align:left;white-space:nowrap;border-bottom:1p
 .timeline output {{display:block;font-weight:600;margin:.4rem 0 .75rem}}
 .transition {{margin:1.5rem 0 2rem}}
 .comparison-grid {{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}}
+#comparison-explanation {{background:#121e30;border-left:3px solid #78e2db;padding:.7rem .85rem}}
 .comparison-summary {{overflow:auto;margin:0 0 1rem}}
 .comparison-summary .changed {{background:#213849;color:#a8f5ee}}
 .comparison-pane {{min-width:0}}
@@ -368,6 +372,13 @@ function updateComparisonSummary() {{
     const left = displayedEvidence.left;
     const right = displayedEvidence.right;
     if (!left || !right) return;
+    const comparisonExplanation = document.getElementById("comparison-explanation");
+    const leftReason = `Frame ${{left.compareFrame}} — ${{left.explanation}}`;
+    const rightReason = `Frame ${{right.compareFrame}} — ${{right.explanation}}`;
+    const summary = left.compareFrame === right.compareFrame
+        ? `Both panes show frame ${{left.compareFrame}}. ${{left.explanation}}`
+        : `${{leftReason}} ${{rightReason}}`;
+    comparisonExplanation.textContent = summary;
     for (const side of comparisonSides) {{
         document.getElementById(`summary-${{side}}`).textContent =
             `Frame ${{displayedEvidence[side].compareFrame}}`;
