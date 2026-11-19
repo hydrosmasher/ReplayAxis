@@ -1,0 +1,65 @@
+[
+  {
+    "case": "biased_accepted",
+    "status": "reconstructed",
+    "reason": "unique_top_group",
+    "score_metric": "inlier_count",
+    "score_margin": 1,
+    "inlier_threshold_px": 2,
+    "message": "Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.",
+    "camera_groups": [
+      {
+        "camera_ids": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "frame_ids": [
+          "A:0",
+          "B:0",
+          "C:0",
+          "D:0"
+        ],
+        "score": 4
+      }
+    ]
+  },
+  {
+    "case": "withheld",
+    "status": "ambiguous",
+    "reason": "tied_top_groups",
+    "score_metric": "inlier_count",
+    "score_margin": 0,
+    "inlier_threshold_px": 2,
+    "message": "Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule.",
+    "camera_groups": [
+      {
+        "camera_ids": [
+          "A",
+          "B",
+          "C"
+        ],
+        "frame_ids": [
+          "A:0",
+          "B:0",
+          "C:0"
+        ],
+        "score": 3
+      },
+      {
+        "camera_ids": [
+          "A",
+          "B",
+          "D"
+        ],
+        "frame_ids": [
+          "A:0",
+          "B:0",
+          "D:0"
+        ],
+        "score": 3
+      }
+    ]
+  }
+]
