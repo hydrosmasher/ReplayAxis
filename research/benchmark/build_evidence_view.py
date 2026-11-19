@@ -225,6 +225,7 @@ under the 2 px reprojection rule.</p>
 <label for="comparison-report-text">Plain-text report</label>
 <textarea id="comparison-report-text" rows="9" readonly></textarea>
 <button id="copy-comparison-report" type="button">Copy report</button>
+<a id="download-comparison-report" download>Download .txt</a>
 <span id="comparison-copy-status" role="status"></span>
 </details></div>"""
 
@@ -323,7 +324,8 @@ th,td {{padding:.45rem .6rem;text-align:left;white-space:nowrap;border-bottom:1p
 .comparison-report label {{display:block}}
 .comparison-report textarea {{box-sizing:border-box;width:100%;font:inherit;resize:vertical}}
 .comparison-report button {{font:inherit;margin-top:.4rem}}
-#comparison-copy-status {{margin-left:.5rem}}
+#comparison-copy-status,#download-comparison-report {{margin-left:.5rem}}
+#download-comparison-report {{color:#9ff8ef}}
 .comparison-pane {{min-width:0}}
 .comparison-pane select {{font:inherit;margin-bottom:.55rem;max-width:100%}}
 .comparison-card {{min-width:0;border:1px solid #324459;border-radius:12px;padding:.8rem}}
@@ -385,6 +387,7 @@ const comparisonSides = ["left", "right"];
 const displayedEvidence = {{}};
 const report = document.getElementById("comparison-report-text");
 const copyStatus = document.getElementById("comparison-copy-status");
+const downloadReport = document.getElementById("download-comparison-report");
 document.getElementById("copy-comparison-report").addEventListener("click", async () => {{
     const text = report.value;
     try {{
@@ -420,6 +423,8 @@ function updateComparisonSummary() {{
         ].join("\\n");
     }});
     report.value = ["ReplayAxis synthetic frame comparison", ...reportSections].join("\\n\\n");
+    downloadReport.download = `replayaxis-frames-${{left.compareFrame}}-${{right.compareFrame}}.txt`;
+    downloadReport.href = `data:text/plain;charset=utf-8,${{encodeURIComponent(report.value)}}`;
     copyStatus.textContent = "";
     for (const side of comparisonSides) {{
         document.getElementById(`summary-${{side}}`).textContent =
