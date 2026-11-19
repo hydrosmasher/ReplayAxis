@@ -26,6 +26,7 @@ th,td {padding:.45rem .6rem;text-align:left;white-space:nowrap;border-bottom:1px
 .timeline output {display:block;font-weight:600;margin:.4rem 0 .75rem}
 .transition {margin:1.5rem 0 2rem}
 .comparison-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+#comparison-explanation {background:#121e30;border-left:3px solid #78e2db;padding:.7rem .85rem}
 .comparison-summary {overflow:auto;margin:0 0 1rem}
 .comparison-summary .changed {background:#213849;color:#a8f5ee}
 .comparison-pane {min-width:0}
@@ -293,6 +294,7 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <h3 id="transition-heading">Compare frames</h3>
 <p>Both panes use the same camera-plane scale. Camera groups are ranked by inlier count
 under the 2 px reprojection rule.</p>
+<p id="comparison-explanation" aria-live="polite" aria-atomic="true"></p>
 <div class="comparison-summary">
 <table>
 <caption>What changed</caption>
@@ -309,7 +311,8 @@ under the 2 px reprojection rule.</p>
 <select id="compare-left" aria-controls="compare-left-cards"><option value="0">Frame 1 · 0.00 ms</option><option value="1">Frame 2 · 4.17 ms</option><option value="2">Frame 3 · 8.33 ms</option><option value="3" selected>Frame 4 · 12.50 ms</option><option value="4">Frame 5 · 16.67 ms</option><option value="5">Frame 6 · 20.83 ms</option><option value="6">Frame 7 · 25.00 ms</option></select>
 <div id="compare-left-cards"><div class="comparison-card" data-compare-frame="1" data-status="Recovered" data-margin="Unavailable"
 data-accepted="A, B, C, D"
-data-rejected="None recorded" hidden>
+data-rejected="None recorded"
+data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy." hidden>
 <section aria-labelledby="heading-compare-left-0">
 <h2 id="heading-compare-left-0">Frame 1 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -340,7 +343,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <div><dt>Rejected source frames</dt><dd>No view-level rejection recorded</dd></div></dl>
 <h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li></ol></div><div class="comparison-card" data-compare-frame="2" data-status="Recovered" data-margin="1"
 data-accepted="A, B, C, D"
-data-rejected="None recorded" hidden>
+data-rejected="None recorded"
+data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy." hidden>
 <section aria-labelledby="heading-compare-left-1">
 <h2 id="heading-compare-left-1">Frame 2 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -371,7 +375,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <div><dt>Rejected source frames</dt><dd>No view-level rejection recorded</dd></div></dl>
 <h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li><li>B–C–D · 3 inliers</li></ol></div><div class="comparison-card" data-compare-frame="3" data-status="Withheld" data-margin="0"
 data-accepted="None recorded"
-data-rejected="None recorded" hidden>
+data-rejected="None recorded"
+data-explanation="Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule." hidden>
 <section aria-labelledby="heading-compare-left-2">
 <h2 id="heading-compare-left-2">Frame 3 · Withheld</h2>
 <p>Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule.</p>
@@ -422,7 +427,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <div><dt>Rejected source frames</dt><dd>No view-level rejection recorded</dd></div></dl>
 <h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–B–D · 3 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="4" data-status="Withheld" data-margin="0"
 data-accepted="None recorded"
-data-rejected="None recorded">
+data-rejected="None recorded"
+data-explanation="Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule.">
 <section aria-labelledby="heading-compare-left-3">
 <h2 id="heading-compare-left-3">Frame 4 · Withheld</h2>
 <p>Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule.</p>
@@ -473,7 +479,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <div><dt>Rejected source frames</dt><dd>No view-level rejection recorded</dd></div></dl>
 <h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–B–D · 3 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="5" data-status="Recovered" data-margin="1"
 data-accepted="A, B, C"
-data-rejected="D" hidden>
+data-rejected="D"
+data-explanation="Position reconstructed from A–B–C under the reprojection rule. Camera agreement does not establish position accuracy." hidden>
 <section aria-labelledby="heading-compare-left-4">
 <h2 id="heading-compare-left-4">Frame 5 · Recovered</h2>
 <p>Position reconstructed from A–B–C under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -504,7 +511,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <div><dt>Rejected source frames</dt><dd>D:4</dd></div></dl>
 <h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–D · 2 inliers</li><li>B–D · 2 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="6" data-status="Recovered" data-margin="1"
 data-accepted="A, B, C, D"
-data-rejected="None recorded" hidden>
+data-rejected="None recorded"
+data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy." hidden>
 <section aria-labelledby="heading-compare-left-5">
 <h2 id="heading-compare-left-5">Frame 6 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -535,7 +543,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <div><dt>Rejected source frames</dt><dd>No view-level rejection recorded</dd></div></dl>
 <h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li><li>B–C–D · 3 inliers</li></ol></div><div class="comparison-card" data-compare-frame="7" data-status="Recovered" data-margin="Unavailable"
 data-accepted="A, B, C, D"
-data-rejected="None recorded" hidden>
+data-rejected="None recorded"
+data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy." hidden>
 <section aria-labelledby="heading-compare-left-6">
 <h2 id="heading-compare-left-6">Frame 7 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -569,7 +578,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <select id="compare-right" aria-controls="compare-right-cards"><option value="0">Frame 1 · 0.00 ms</option><option value="1">Frame 2 · 4.17 ms</option><option value="2">Frame 3 · 8.33 ms</option><option value="3">Frame 4 · 12.50 ms</option><option value="4" selected>Frame 5 · 16.67 ms</option><option value="5">Frame 6 · 20.83 ms</option><option value="6">Frame 7 · 25.00 ms</option></select>
 <div id="compare-right-cards"><div class="comparison-card" data-compare-frame="1" data-status="Recovered" data-margin="Unavailable"
 data-accepted="A, B, C, D"
-data-rejected="None recorded" hidden>
+data-rejected="None recorded"
+data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy." hidden>
 <section aria-labelledby="heading-compare-right-0">
 <h2 id="heading-compare-right-0">Frame 1 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -600,7 +610,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <div><dt>Rejected source frames</dt><dd>No view-level rejection recorded</dd></div></dl>
 <h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li></ol></div><div class="comparison-card" data-compare-frame="2" data-status="Recovered" data-margin="1"
 data-accepted="A, B, C, D"
-data-rejected="None recorded" hidden>
+data-rejected="None recorded"
+data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy." hidden>
 <section aria-labelledby="heading-compare-right-1">
 <h2 id="heading-compare-right-1">Frame 2 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -631,7 +642,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <div><dt>Rejected source frames</dt><dd>No view-level rejection recorded</dd></div></dl>
 <h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li><li>B–C–D · 3 inliers</li></ol></div><div class="comparison-card" data-compare-frame="3" data-status="Withheld" data-margin="0"
 data-accepted="None recorded"
-data-rejected="None recorded" hidden>
+data-rejected="None recorded"
+data-explanation="Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule." hidden>
 <section aria-labelledby="heading-compare-right-2">
 <h2 id="heading-compare-right-2">Frame 3 · Withheld</h2>
 <p>Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule.</p>
@@ -682,7 +694,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <div><dt>Rejected source frames</dt><dd>No view-level rejection recorded</dd></div></dl>
 <h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–B–D · 3 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="4" data-status="Withheld" data-margin="0"
 data-accepted="None recorded"
-data-rejected="None recorded" hidden>
+data-rejected="None recorded"
+data-explanation="Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule." hidden>
 <section aria-labelledby="heading-compare-right-3">
 <h2 id="heading-compare-right-3">Frame 4 · Withheld</h2>
 <p>Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule.</p>
@@ -733,7 +746,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <div><dt>Rejected source frames</dt><dd>No view-level rejection recorded</dd></div></dl>
 <h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–B–D · 3 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="5" data-status="Recovered" data-margin="1"
 data-accepted="A, B, C"
-data-rejected="D">
+data-rejected="D"
+data-explanation="Position reconstructed from A–B–C under the reprojection rule. Camera agreement does not establish position accuracy.">
 <section aria-labelledby="heading-compare-right-4">
 <h2 id="heading-compare-right-4">Frame 5 · Recovered</h2>
 <p>Position reconstructed from A–B–C under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -764,7 +778,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <div><dt>Rejected source frames</dt><dd>D:4</dd></div></dl>
 <h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–D · 2 inliers</li><li>B–D · 2 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="6" data-status="Recovered" data-margin="1"
 data-accepted="A, B, C, D"
-data-rejected="None recorded" hidden>
+data-rejected="None recorded"
+data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy." hidden>
 <section aria-labelledby="heading-compare-right-5">
 <h2 id="heading-compare-right-5">Frame 6 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -795,7 +810,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <div><dt>Rejected source frames</dt><dd>No view-level rejection recorded</dd></div></dl>
 <h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li><li>B–C–D · 3 inliers</li></ol></div><div class="comparison-card" data-compare-frame="7" data-status="Recovered" data-margin="Unavailable"
 data-accepted="A, B, C, D"
-data-rejected="None recorded" hidden>
+data-rejected="None recorded"
+data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy." hidden>
 <section aria-labelledby="heading-compare-right-6">
 <h2 id="heading-compare-right-6">Frame 7 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -932,6 +948,13 @@ function updateComparisonSummary() {
     const left = displayedEvidence.left;
     const right = displayedEvidence.right;
     if (!left || !right) return;
+    const comparisonExplanation = document.getElementById("comparison-explanation");
+    const leftReason = `Frame ${left.compareFrame} — ${left.explanation}`;
+    const rightReason = `Frame ${right.compareFrame} — ${right.explanation}`;
+    const summary = left.compareFrame === right.compareFrame
+        ? `Both panes show frame ${left.compareFrame}. ${left.explanation}`
+        : `${leftReason} ${rightReason}`;
+    comparisonExplanation.textContent = summary;
     for (const side of comparisonSides) {
         document.getElementById(`summary-${side}`).textContent =
             `Frame ${displayedEvidence[side].compareFrame}`;
