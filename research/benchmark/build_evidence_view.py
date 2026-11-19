@@ -158,6 +158,35 @@ aria-label="Estimated horizontal ball position in metres over time, with withhel
 </figure>"""
 
 
+def compare_transition(cases, scale_pixels):
+    """Compare the scripted transition from ambiguous to reconstructed."""
+    cards = []
+    for index in (3, 4):
+        case = cases[index]
+        result = case["result"]
+        status = "Recovered" if result["status"] == "reconstructed" else "Withheld"
+        consensus = result["consensus"]
+        groups = "".join(
+            f'<li>{escape("–".join(group["camera_ids"]))} · {group["score"]} inliers</li>'
+            for group in consensus["candidates"]
+        )
+        rejected = ", ".join(view["frame_id"] for view in result["observations"]
+                             if view.get("decision") == "rejected")
+        rejection = escape(rejected) if rejected else "No view-level rejection recorded"
+        panel = render_case(f"compare-{index}", case, explain(case), scale_pixels=scale_pixels,
+                            title=f"Frame {index + 1} · {status}")
+        cards.append(f"""<div class="comparison-card" data-compare-frame="{index + 1}">
+{panel}
+<dl><div><dt>Simulated camera D offset</dt><dd>{case["skew_ms"]:g} ms</dd></div>
+<div><dt>Rejected source frames</dt><dd>{rejection}</dd></div></dl>
+<h4>Ranked camera groups</h4><ol>{groups}</ol></div>""")
+    return f"""<div class="transition" aria-labelledby="transition-heading">
+<h3 id="transition-heading">Withheld frame vs. recovered frame</h3>
+<p>Compare the two synthetic decisions on the same camera-plane scale.
+Camera groups are ranked by their inlier count under the 2 px reprojection rule.</p>
+<div class="comparison-grid">{"".join(cards)}</div></div>"""
+
+
 def timeline():
     """Render a scripted timing fault in a short synthetic ball sequence."""
     cameras = {"A": -2, "B": -1, "C": 1, "D": 2}
@@ -202,7 +231,8 @@ list="frame-ticks" aria-describedby="frame-label">
 <datalist id="frame-ticks">{"".join(options)}</datalist>
 <output id="frame-label" for="frame-scrubber" aria-live="polite">{labels[0]}</output>
 {trajectory(cases)}
-<div id="timeline-frames">{"".join(panels)}</div></div>"""
+<div id="timeline-frames">{"".join(panels)}</div>
+{compare_transition(cases, shared_pixels)}</div>"""
 
 
 def main():
@@ -241,6 +271,13 @@ th,td {{padding:.45rem .6rem;text-align:left;white-space:nowrap;border-bottom:1p
 .camera-plot .axis-label {{fill:#acbfd5;font-size:14px}}
 .timeline {{margin:1.4rem 0 2rem}} .timeline input[type=range] {{width:min(100%,24rem);vertical-align:middle}}
 .timeline output {{display:block;font-weight:600;margin:.4rem 0 .75rem}}
+.transition {{margin:1.5rem 0 2rem}}
+.comparison-grid {{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}}
+.comparison-card {{min-width:0;border:1px solid #324459;border-radius:12px;padding:.8rem}}
+.comparison-card section {{margin:0;padding:.8rem}}
+.comparison-card h4 {{margin:.8rem 0 .2rem}}
+.comparison-card ol {{margin:.3rem 0;padding-left:1.6rem}}
+@media(max-width:760px) {{.comparison-grid {{grid-template-columns:1fr}}}}
 .trajectory {{margin:.75rem 0 1rem}}
 .trajectory h3 {{margin:0}}
 .trajectory svg {{display:block;width:100%;height:auto}}
