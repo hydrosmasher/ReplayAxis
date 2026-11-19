@@ -187,7 +187,9 @@ def comparison_pane(side, cases, scale_pixels, default_index):
         cards.append(f"""<div class="comparison-card" data-compare-frame="{index + 1}" data-status="{status}" data-margin="{margin_label}"
 data-accepted="{escape(accepted_cameras, quote=True)}"
 data-rejected="{escape(rejected_cameras, quote=True)}"
-data-explanation="{escape(answer["message"], quote=True)}"{hidden}>
+data-explanation="{escape(answer["message"], quote=True)}"
+data-time-ms="{time_ms:.2f}" data-source-ids="{escape(", ".join(
+    view["frame_id"] for view in result["observations"]), quote=True)}"{hidden}>
 {panel}
 <dl><div><dt>Simulated camera D offset</dt><dd>{case["skew_ms"]:g} ms</dd></div>
 <div><dt>Rejected source frames</dt><dd>{rejection}</dd></div></dl>
@@ -217,7 +219,14 @@ under the 2 px reprojection rule.</p>
 <tr><th scope="row">Accepted cameras</th><td data-summary="left-accepted"></td><td data-summary="right-accepted"></td></tr>
 <tr><th scope="row">Rejected cameras</th><td data-summary="left-rejected"></td><td data-summary="right-rejected"></td></tr>
 </tbody></table></div>
-<div class="comparison-grid">{left}{right}</div></div>"""
+<div class="comparison-grid">{left}{right}</div>
+<details class="comparison-report">
+<summary>Comparison report</summary>
+<label for="comparison-report-text">Plain-text report</label>
+<textarea id="comparison-report-text" rows="9" readonly></textarea>
+<button id="copy-comparison-report" type="button">Copy report</button>
+<span id="comparison-copy-status" role="status"></span>
+</details></div>"""
 
 
 def timeline():
@@ -309,6 +318,12 @@ th,td {{padding:.45rem .6rem;text-align:left;white-space:nowrap;border-bottom:1p
 #comparison-explanation {{background:#121e30;border-left:3px solid #78e2db;padding:.7rem .85rem}}
 .comparison-summary {{overflow:auto;margin:0 0 1rem}}
 .comparison-summary .changed {{background:#213849;color:#a8f5ee}}
+.comparison-report {{margin-top:1rem}}
+.comparison-report summary {{cursor:pointer;font-weight:600}}
+.comparison-report label {{display:block}}
+.comparison-report textarea {{box-sizing:border-box;width:100%;font:inherit;resize:vertical}}
+.comparison-report button {{font:inherit;margin-top:.4rem}}
+#comparison-copy-status {{margin-left:.5rem}}
 .comparison-pane {{min-width:0}}
 .comparison-pane select {{font:inherit;margin-bottom:.55rem;max-width:100%}}
 .comparison-card {{min-width:0;border:1px solid #324459;border-radius:12px;padding:.8rem}}
@@ -368,6 +383,19 @@ for (const mark of trajectoryFrames) {{
 }}
 const comparisonSides = ["left", "right"];
 const displayedEvidence = {{}};
+const report = document.getElementById("comparison-report-text");
+const copyStatus = document.getElementById("comparison-copy-status");
+document.getElementById("copy-comparison-report").addEventListener("click", async () => {{
+    const text = report.value;
+    try {{
+        await navigator.clipboard.writeText(text);
+        copyStatus.textContent = report.value === text ? "Report copied." : "Previous report copied.";
+    }} catch {{
+        report.focus();
+        report.select();
+        copyStatus.textContent = "Report selected. Press Ctrl+C or Command+C to copy.";
+    }}
+}});
 function updateComparisonSummary() {{
     const left = displayedEvidence.left;
     const right = displayedEvidence.right;
@@ -379,6 +407,20 @@ function updateComparisonSummary() {{
         ? `Both panes show frame ${{left.compareFrame}}. ${{left.explanation}}`
         : `${{leftReason}} ${{rightReason}}`;
     comparisonExplanation.textContent = summary;
+    const reportSections = comparisonSides.map(side => {{
+        const evidence = displayedEvidence[side];
+        return [
+            `Frame ${{evidence.compareFrame}} (${{evidence.timeMs}} ms)`,
+            `Decision: ${{evidence.status}}`,
+            `Score margin (inliers): ${{evidence.margin}}`,
+            `Accepted cameras: ${{evidence.accepted}}`,
+            `Rejected cameras: ${{evidence.rejected}}`,
+            `Source frame IDs: ${{evidence.sourceIds}}`,
+            evidence.explanation,
+        ].join("\\n");
+    }});
+    report.value = ["ReplayAxis synthetic frame comparison", ...reportSections].join("\\n\\n");
+    copyStatus.textContent = "";
     for (const side of comparisonSides) {{
         document.getElementById(`summary-${{side}}`).textContent =
             `Frame ${{displayedEvidence[side].compareFrame}}`;
