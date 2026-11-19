@@ -126,7 +126,7 @@ def examples():
     for label, skew_ms in (("biased_accepted", 0.1), ("withheld", 0.5)):
         cameras = LAYOUTS["wide"]
         views = observations(cameras, 0, 0, skew_ms, 0, 0, random.Random(0))
-        result = reconstruct(views, CALIBRATION)
+        result = reconstruct(views, CALIBRATION, include_consensus=True)
         truth = scene(0)["ball"]
         point = result["point_m"]
         if label == "biased_accepted":
@@ -134,6 +134,8 @@ def examples():
             assert all(v["decision"] == "accepted" for v in result["observations"])
         else:
             assert result["status"] == "ambiguous"
+            assert result["consensus"]["reason"] == "tied_top_groups"
+            assert result["consensus"]["score_margin"] == 0
         yield {"case": label, "track": "ball", "calibration": CALIBRATION,
                "simulated_camera_d_skew_ms": skew_ms, "reference_point_m": truth,
                "result": result, "error_mm": None if point is None else 1000 * math.dist(point, truth)}
