@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ReplayAxis evidence review</title>
+<style>
+:root {color-scheme:dark;font:16px/1.55 system-ui;color:#e5edf8;background:#0b1220}
+body {margin:0} main {max-width:1040px;margin:auto;padding:2rem 1rem}
+h1,h2,p {margin:0 0 .7rem} h1 {font-size:clamp(2rem,5vw,3rem)}
+section {background:#121e30;border:1px solid #324459;border-radius:12px;padding:1.25rem;margin:1.25rem 0}
+dl {display:flex;gap:1.5rem;flex-wrap:wrap} dt,caption {color:#acbfd5} dd {margin:0;font-weight:600}
+fieldset {border:1px solid #43546b;border-radius:8px;margin:0;padding:.8rem;min-width:0}
+.group {display:contents} label {display:inline-block;padding:.3rem .6rem;margin-right:.5rem;cursor:pointer}
+input {accent-color:#78e2db} input:checked+label {color:#8df6ed;font-weight:700}
+input:not(:checked)~.observations {display:none}
+.observations {overflow:auto;margin:.6rem 0}
+table {border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+caption {text-align:left;margin:.2rem 0}
+th,td {padding:.45rem .6rem;text-align:left;white-space:nowrap;border-bottom:1px solid #3b4a5c}
+.selected {background:#153c43} .selected td:first-child {font-weight:700;color:#9ff8ef}
+</style></head><body><main><h1>ReplayAxis evidence review</h1>
+<p>Select a camera group to highlight its synthetic source observations.</p>
+<section aria-labelledby="heading-0">
+<h2 id="heading-0">Accepted position</h2>
+<p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
+<dl><div><dt>Reconstruction status</dt><dd>reconstructed</dd></div>
+<div><dt>Consensus score margin</dt><dd>1</dd></div></dl>
+<fieldset><legend>Camera group</legend><div class="group"><input type="radio" name="case-0" id="case-0-group-0" checked><label for="case-0-group-0">A–B–C–D · 4 inliers</label>
+<div class="observations" tabindex="0">
+<table>
+<caption>Source observations</caption>
+<thead><tr><th>Membership</th><th>Camera</th><th>Frame ID</th><th>Time (s)</th>
+<th>X (px)</th><th>Y (px)</th><th>Result residual (px)</th></tr></thead>
+<tbody><tr class="selected"><td>In this group</td><td>A</td><td>A:0</td><td>0.000</td><td>0.00</td><td>170.21</td><td>0.128</td></tr>
+<tr class="selected"><td>In this group</td><td>B</td><td>B:0</td><td>0.000</td><td>-212.77</td><td>170.21</td><td>0.044</td></tr>
+<tr class="selected"><td>In this group</td><td>C</td><td>C:0</td><td>0.000</td><td>-638.30</td><td>170.21</td><td>0.383</td></tr>
+<tr class="selected"><td>In this group</td><td>D</td><td>D:0</td><td>0.000</td><td>-850.21</td><td>170.26</td><td>0.300</td></tr></tbody></table></div></div></fieldset></section><section aria-labelledby="heading-1">
+<h2 id="heading-1">Withheld position</h2>
+<p>Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule.</p>
+<dl><div><dt>Reconstruction status</dt><dd>ambiguous</dd></div>
+<div><dt>Consensus score margin</dt><dd>0</dd></div></dl>
+<fieldset><legend>Camera group</legend><div class="group"><input type="radio" name="case-1" id="case-1-group-0" checked><label for="case-1-group-0">A–B–C · 3 inliers</label>
+<div class="observations" tabindex="0">
+<table>
+<caption>Source observations</caption>
+<thead><tr><th>Membership</th><th>Camera</th><th>Frame ID</th><th>Time (s)</th>
+<th>X (px)</th><th>Y (px)</th><th>Result residual (px)</th></tr></thead>
+<tbody><tr class="selected"><td>In this group</td><td>A</td><td>A:0</td><td>0.000</td><td>0.00</td><td>170.21</td><td>Unavailable</td></tr>
+<tr class="selected"><td>In this group</td><td>B</td><td>B:0</td><td>0.000</td><td>-212.77</td><td>170.21</td><td>Unavailable</td></tr>
+<tr class="selected"><td>In this group</td><td>C</td><td>C:0</td><td>0.000</td><td>-638.30</td><td>170.21</td><td>Unavailable</td></tr>
+<tr><td>Outside this group</td><td>D</td><td>D:0</td><td>0.000</td><td>-846.81</td><td>170.43</td><td>Unavailable</td></tr></tbody></table></div></div><div class="group"><input type="radio" name="case-1" id="case-1-group-1"><label for="case-1-group-1">A–B–D · 3 inliers</label>
+<div class="observations" tabindex="0">
+<table>
+<caption>Source observations</caption>
+<thead><tr><th>Membership</th><th>Camera</th><th>Frame ID</th><th>Time (s)</th>
+<th>X (px)</th><th>Y (px)</th><th>Result residual (px)</th></tr></thead>
+<tbody><tr class="selected"><td>In this group</td><td>A</td><td>A:0</td><td>0.000</td><td>0.00</td><td>170.21</td><td>Unavailable</td></tr>
+<tr class="selected"><td>In this group</td><td>B</td><td>B:0</td><td>0.000</td><td>-212.77</td><td>170.21</td><td>Unavailable</td></tr>
+<tr><td>Outside this group</td><td>C</td><td>C:0</td><td>0.000</td><td>-638.30</td><td>170.21</td><td>Unavailable</td></tr>
+<tr class="selected"><td>In this group</td><td>D</td><td>D:0</td><td>0.000</td><td>-846.81</td><td>170.43</td><td>Unavailable</td></tr></tbody></table></div></div></fieldset></section></main></body></html>
