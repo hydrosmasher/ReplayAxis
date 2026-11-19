@@ -1,0 +1,116 @@
+[
+  {
+    "filename": "2023_Uhlrich_OpenCap.pdf",
+    "url": "https://journals.plos.org/ploscompbiol/article/file?id=10.1371/journal.pcbi.1011462&type=printable",
+    "access": "direct-pdf",
+    "license": "CC BY 4.0"
+  },
+  {
+    "filename": "2024_Cronin_OpenPose_Long_Jump.pdf",
+    "url": "https://www.frontiersin.org/journals/sports-and-active-living/articles/10.3389/fspor.2023.1298003/pdf",
+    "access": "direct-pdf",
+    "license": "CC BY 4.0"
+  },
+  {
+    "filename": "2021_Pagnon_Pose2Sim_Part_1_Robustness.pdf",
+    "url": "https://www.mdpi.com/1424-8220/21/19/6530/pdf",
+    "access": "direct-pdf",
+    "license": "CC BY 4.0"
+  },
+  {
+    "filename": "2022_Pagnon_Pose2Sim_Part_2_Accuracy.pdf",
+    "url": "https://www.mdpi.com/1424-8220/22/7/2712/pdf",
+    "access": "direct-pdf",
+    "license": "CC BY 4.0"
+  },
+  {
+    "filename": "2026_Lee_Whos_That_Player.pdf",
+    "url": "https://arxiv.org/pdf/2608.00876",
+    "access": "direct-pdf"
+  },
+  {
+    "filename": "2024_Cheng_VisCourt.pdf",
+    "url": "https://yulingyun.com/wp-content/uploads/2025/02/Cheng_2024_VisCourt.pdf",
+    "access": "direct-pdf"
+  },
+  {
+    "filename": "1980_Bolt_Put_That_There.pdf",
+    "url": "https://www.media.mit.edu/speech/papers/1980/bolt_SIGGRAPH80_put-that-there.pdf",
+    "access": "direct-pdf"
+  },
+  {
+    "filename": "2023_Ingwersen_SportsPose.pdf",
+    "url": "https://openaccess.thecvf.com/content/CVPR2023W/CVSports/papers/Ingwersen_SportsPose_-_A_Dynamic_3D_Sports_Pose_Dataset_CVPRW_2023_paper.pdf",
+    "access": "direct-pdf"
+  },
+  {
+    "filename": "2025_Ingwersen_Two_Views_Are_Better_Than_One.pdf",
+    "url": "https://openaccess.thecvf.com/content/CVPR2025W/CVSPORTS/papers/Ingwersen_Two_Views_Are_Better_than_One_Monocular_3D_Pose_Estimation_CVPRW_2025_paper.pdf",
+    "access": "direct-pdf"
+  },
+  {
+    "filename": "2023_Zhu_MotionBERT.pdf",
+    "url": "https://openaccess.thecvf.com/content/ICCV2023/papers/Zhu_MotionBERT_A_Unified_Perspective_on_Learning_Human_Motion_Representations_ICCV_2023_paper.pdf",
+    "access": "direct-pdf"
+  },
+  {
+    "filename": "2025_Fu_MoFlow.pdf",
+    "url": "https://openaccess.thecvf.com/content/CVPR2025/papers/Fu_MoFlow_One-Step_Flow_Matching_for_Human_Trajectory_Forecasting_via_Implicit_CVPR_2025_paper.pdf",
+    "access": "direct-pdf"
+  },
+  {
+    "filename": "2006_Callahan_VisTrails.pdf",
+    "url": "https://sci.utah.edu/~csilva/papers/sigmod2006.pdf",
+    "access": "direct-pdf"
+  },
+  {
+    "filename": "2006_Grau_Free_Viewpoint_Sports.pdf",
+    "url": "https://freeviewpointvideo.co.uk/Publications/Papers/Grau06IBC.pdf",
+    "access": "direct-pdf"
+  },
+  {
+    "filename": "2024_Wu_4D_Gaussian_Splatting.pdf",
+    "url": "https://openaccess.thecvf.com/content/CVPR2024/papers/Wu_4D_Gaussian_Splatting_for_Real-Time_Dynamic_Scene_Rendering_CVPR_2024_paper.pdf",
+    "access": "direct-pdf"
+  },
+  {
+    "filename": "2019_Iskakov_Learnable_Triangulation.pdf",
+    "url": "https://openaccess.thecvf.com/content_ICCV_2019/papers/Iskakov_Learnable_Triangulation_of_Human_Pose_ICCV_2019_paper.pdf",
+    "access": "direct-pdf"
+  },
+  {
+    "filename": "2020_Karashchuk_Anipose_Preprint.pdf",
+    "url": "https://www.biorxiv.org/content/10.1101/2020.05.26.117325v1.full.pdf",
+    "access": "direct-pdf"
+  },
+  {
+    "filename": "2021_Karashchuk_Anipose.pdf",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8498918/",
+    "access": "landing-page"
+  },
+  {
+    "filename": "2021_Srinivasan_DataBreeze.pdf",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/32149639/",
+    "access": "landing-page"
+  },
+  {
+    "filename": "2021_Narechania_NL4DV.pdf",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/33048704/",
+    "access": "landing-page"
+  },
+  {
+    "filename": "2019_Cordeil_IATK.pdf",
+    "url": "https://digital.library.adelaide.edu.au/items/93e8dc6c-b596-429c-bf83-ac1ad4dea8ab",
+    "access": "landing-page"
+  },
+  {
+    "filename": "2023_Lin_The_Ball_Is_in_Our_Court.pdf",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/37022362/",
+    "access": "landing-page"
+  },
+  {
+    "filename": "2024_Simultaneous_In_Air_And_Underwater_Swimming_Kinematics.pdf",
+    "url": "https://www.sciencedirect.com/science/article/pii/S0021929024001556",
+    "access": "landing-page"
+  }
+]
