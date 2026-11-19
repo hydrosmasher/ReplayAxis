@@ -24,6 +24,17 @@ th,td {padding:.45rem .6rem;text-align:left;white-space:nowrap;border-bottom:1px
 .camera-plot .axis-label {fill:#acbfd5;font-size:14px}
 .timeline {margin:1.4rem 0 2rem} .timeline input[type=range] {width:min(100%,24rem);vertical-align:middle}
 .timeline output {display:block;font-weight:600;margin:.4rem 0 .75rem}
+.trajectory {margin:.75rem 0 1rem}
+.trajectory h3 {margin:0}
+.trajectory svg {display:block;width:100%;height:auto}
+.trajectory figcaption,.trajectory text {color:#acbfd5;fill:#acbfd5;font-size:14px}
+.trajectory text:not([text-anchor]) {text-anchor:middle}
+.trajectory .segment,.trajectory .gap {stroke:#8df6ed;stroke-width:2}
+.trajectory .estimate {fill:#8df6ed}
+.trajectory .cursor {visibility:hidden;stroke:#ffd185;stroke-dasharray:4 4}
+.trajectory .active .cursor {visibility:visible}
+.trajectory .active .estimate {fill:#ffd185;stroke:#ffd185;stroke-width:4}
+.trajectory .active .gap {stroke:#ffd185;stroke-width:3}
 .included circle {fill:#8df6ed;stroke:#1c7779;stroke-width:2}
 .excluded rect {fill:none;stroke:#acbfd5;stroke-width:2}
 </style></head><body><main><h1>ReplayAxis evidence review</h1>
@@ -35,6 +46,19 @@ th,td {padding:.45rem .6rem;text-align:left;white-space:nowrap;border-bottom:1px
 list="frame-ticks" aria-describedby="frame-label">
 <datalist id="frame-ticks"><option value="0" label="Reconstructed"></option><option value="1" label="Reconstructed"></option><option value="2" label="Withheld"></option><option value="3" label="Withheld"></option><option value="4" label="Reconstructed with a rejected view"></option><option value="5" label="Reconstructed"></option><option value="6" label="Reconstructed"></option></datalist>
 <output id="frame-label" for="frame-scrubber" aria-live="polite">Frame 1 · 0.00 ms · Reconstructed</output>
+<figure class="trajectory">
+<h3>Ball trajectory</h3>
+<svg id="trajectory-plot" viewBox="0 0 760 220" role="img"
+aria-label="Estimated horizontal ball position in metres over time, with withheld frames marked">
+<rect class="plot-area" x="65" y="18" width="670" height="149" rx="8"/>
+<text x="57" y="30" text-anchor="end">-1.00</text>
+<text x="57" y="150" text-anchor="end">-2.00</text>
+<text x="22" y="88" transform="rotate(-90 22 88)" text-anchor="middle">X (m)</text>
+<line class="segment" data-from="0" data-to="1" x1="80.00" y1="145.00" x2="186.67" y2="125.06"/><line class="segment" data-from="4" data-to="5" x1="506.67" y1="65.00" x2="613.33" y2="44.99"/><line class="segment" data-from="5" data-to="6" x1="613.33" y1="44.99" x2="720.00" y2="25.00"/><g class="trajectory-frame active" data-frame-index="0"><title>Frame 1: estimated X -2.000 m</title><line class="cursor" x1="80.00" x2="80.00" y1="18" y2="167"/><circle class="estimate" cx="80.00" cy="145.00" r="5"/><text x="80.00" y="188">0.0</text></g><g class="trajectory-frame" data-frame-index="1"><title>Frame 2: estimated X -1.834 m</title><line class="cursor" x1="186.67" x2="186.67" y1="18" y2="167"/><circle class="estimate" cx="186.67" cy="125.06" r="5"/><text x="186.67" y="188">4.2</text></g><g class="trajectory-frame" data-frame-index="2"><title>Frame 3: position withheld</title><line class="cursor" x1="293.33" x2="293.33" y1="18" y2="167"/><path class="gap" d="M288.33 150 l10 10 m-10 0 l10 -10"/><text x="293.33" y="188">8.3</text></g><g class="trajectory-frame" data-frame-index="3"><title>Frame 4: position withheld</title><line class="cursor" x1="400.00" x2="400.00" y1="18" y2="167"/><path class="gap" d="M395.00 150 l10 10 m-10 0 l10 -10"/><text x="400.00" y="188">12.5</text></g><g class="trajectory-frame" data-frame-index="4"><title>Frame 5: estimated X -1.333 m</title><line class="cursor" x1="506.67" x2="506.67" y1="18" y2="167"/><circle class="estimate" cx="506.67" cy="65.00" r="5"/><text x="506.67" y="188">16.7</text></g><g class="trajectory-frame" data-frame-index="5"><title>Frame 6: estimated X -1.167 m</title><line class="cursor" x1="613.33" x2="613.33" y1="18" y2="167"/><circle class="estimate" cx="613.33" cy="44.99" r="5"/><text x="613.33" y="188">20.8</text></g><g class="trajectory-frame" data-frame-index="6"><title>Frame 7: estimated X -1.000 m</title><line class="cursor" x1="720.00" x2="720.00" y1="18" y2="167"/><circle class="estimate" cx="720.00" cy="25.00" r="5"/><text x="720.00" y="188">25.0</text></g>
+<text x="400" y="211">Time (ms)</text>
+</svg>
+<figcaption>Crosses mark withheld frames. Their vertical placement does not represent a position.</figcaption>
+</figure>
 <div id="timeline-frames"><div data-label="Frame 1 · 0.00 ms · Reconstructed"><p>Simulated camera D offset: 0 ms</p><section aria-labelledby="heading-timeline-0">
 <h2 id="heading-timeline-0">Frame 1 · 0.00 ms</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -327,9 +351,11 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 const scrubber = document.getElementById("frame-scrubber");
 const label = document.getElementById("frame-label");
 const frames = [...document.getElementById("timeline-frames").children];
+const trajectoryFrames = [...document.querySelectorAll(".trajectory-frame")];
 function showFrame() {
     const index = Number(scrubber.value);
     frames.forEach((frame, position) => { frame.hidden = position !== index; });
+    trajectoryFrames.forEach((mark, position) => { mark.classList.toggle("active", position === index); });
     label.textContent = frames[index].dataset.label;
     scrubber.setAttribute("aria-valuetext", label.textContent);
 }
