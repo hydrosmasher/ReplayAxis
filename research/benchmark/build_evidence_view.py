@@ -175,9 +175,17 @@ def comparison_pane(side, cases, scale_pixels, default_index):
         hidden = "" if index == default_index else " hidden"
         time_ms = case["time_s"] * 1000
         options.append(f'<option value="{index}"{selected}>Frame {index + 1} · {time_ms:.2f} ms</option>')
+        accepted_cameras = ", ".join(view["camera_id"] for view in result["observations"]
+                                     if view.get("decision") == "accepted") or "None recorded"
+        rejected_cameras = ", ".join(view["camera_id"] for view in result["observations"]
+                                     if view.get("decision") == "rejected") or "None recorded"
+        margin = consensus["score_margin"]
+        margin_label = str(margin) if margin is not None else "Unavailable"
         panel = render_case(f"compare-{side}-{index}", case, explain(case), scale_pixels=scale_pixels,
                             title=f"Frame {index + 1} · {status}")
-        cards.append(f"""<div class="comparison-card" data-compare-frame="{index + 1}"{hidden}>
+        cards.append(f"""<div class="comparison-card" data-compare-frame="{index + 1}" data-status="{status}" data-margin="{margin_label}"
+data-accepted="{escape(accepted_cameras, quote=True)}"
+data-rejected="{escape(rejected_cameras, quote=True)}"{hidden}>
 {panel}
 <dl><div><dt>Simulated camera D offset</dt><dd>{case["skew_ms"]:g} ms</dd></div>
 <div><dt>Rejected source frames</dt><dd>{rejection}</dd></div></dl>
@@ -195,6 +203,17 @@ def compare_transition(cases, scale_pixels):
 <h3 id="transition-heading">Compare frames</h3>
 <p>Both panes use the same camera-plane scale. Camera groups are ranked by inlier count
 under the 2 px reprojection rule.</p>
+<div class="comparison-summary">
+<table>
+<caption>What changed</caption>
+<thead><tr><th scope="col">Evidence</th><th scope="col" id="summary-left">Left frame</th>
+<th scope="col" id="summary-right">Right frame</th></tr></thead>
+<tbody>
+<tr><th scope="row">Decision</th><td data-summary="left-status"></td><td data-summary="right-status"></td></tr>
+<tr><th scope="row">Score margin (inliers)</th><td data-summary="left-margin"></td><td data-summary="right-margin"></td></tr>
+<tr><th scope="row">Accepted cameras</th><td data-summary="left-accepted"></td><td data-summary="right-accepted"></td></tr>
+<tr><th scope="row">Rejected cameras</th><td data-summary="left-rejected"></td><td data-summary="right-rejected"></td></tr>
+</tbody></table></div>
 <div class="comparison-grid">{left}{right}</div></div>"""
 
 
@@ -284,6 +303,8 @@ th,td {{padding:.45rem .6rem;text-align:left;white-space:nowrap;border-bottom:1p
 .timeline output {{display:block;font-weight:600;margin:.4rem 0 .75rem}}
 .transition {{margin:1.5rem 0 2rem}}
 .comparison-grid {{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}}
+.comparison-summary {{overflow:auto;margin:0 0 1rem}}
+.comparison-summary .changed {{background:#213849;color:#a8f5ee}}
 .comparison-pane {{min-width:0}}
 .comparison-pane select {{font:inherit;margin-bottom:.55rem;max-width:100%}}
 .comparison-card {{min-width:0;border:1px solid #324459;border-radius:12px;padding:.8rem}}
@@ -341,12 +362,32 @@ for (const mark of trajectoryFrames) {{
         }}
     }});
 }}
-for (const side of ["left", "right"]) {{
+const comparisonSides = ["left", "right"];
+const displayedEvidence = {{}};
+function updateComparisonSummary() {{
+    const left = displayedEvidence.left;
+    const right = displayedEvidence.right;
+    if (!left || !right) return;
+    for (const side of comparisonSides) {{
+        document.getElementById(`summary-${{side}}`).textContent =
+            `Frame ${{displayedEvidence[side].compareFrame}}`;
+    }}
+    for (const field of ["status", "margin", "accepted", "rejected"]) {{
+        for (const side of comparisonSides) {{
+            const cell = document.querySelector(`[data-summary="${{side}}-${{field}}"]`);
+            cell.textContent = displayedEvidence[side][field];
+            cell.classList.toggle("changed", left[field] !== right[field]);
+        }}
+    }}
+}}
+for (const side of comparisonSides) {{
     const picker = document.getElementById(`compare-${{side}}`);
     const cards = [...document.getElementById(`compare-${{side}}-cards`).children];
     function showComparisonFrame() {{
         const frameIndex = Number(picker.value);
         cards.forEach((card, index) => {{ card.hidden = index !== frameIndex; }});
+        displayedEvidence[side] = cards[frameIndex].dataset;
+        updateComparisonSummary();
     }}
     picker.addEventListener("change", showComparisonFrame);
     showComparisonFrame();
