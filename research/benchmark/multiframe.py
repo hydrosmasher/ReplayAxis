@@ -24,10 +24,12 @@ def scene(time_s):
     return dict(zip(TRACKS, (hip, knee, ankle, ball)))
 
 
-def summarize(skew_ms, noise_px, calibration_mm):
+def summarize(skew_ms, noise_px, calibration_mm, *, seed=42, cameras=None,
+              exclude_camera_d=False):
     # Reuse the same noise sequence across levels for paired comparisons.
-    rng = random.Random(42)
-    cameras = {"A": -2, "B": -1, "C": 1, "D": 2}
+    rng = random.Random(seed)
+    if cameras is None:
+        cameras = {"A": -2, "B": -1, "C": 1, "D": 2}
     calibration = {"focal_px": 1000, "inlier_threshold_px": 2}
     errors = {track: [] for track in ("ball_mm", "angle_deg", "speed_m_s")}
     rejected = 0
@@ -44,6 +46,8 @@ def summarize(skew_ms, noise_px, calibration_mm):
             for track, point in scene(actual_time).items():
                 pixel = [value + noise_px * rng.gauss(0, 1)
                          for value in project(point, actual_x, calibration["focal_px"])]
+                if exclude_camera_d and camera == "D":
+                    continue
                 inputs[track].append({"camera_id": camera, "camera_x_m": x,
                                       "frame_id": f"{camera}:{frame}", "time_s": time_s,
                                       "pixel": pixel})
