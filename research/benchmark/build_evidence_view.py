@@ -134,13 +134,18 @@ def trajectory(cases):
                                 f'x1="{px:.2f}" y1="{py:.2f}" x2="{x:.2f}" y2="{y:.2f}"/>')
             previous = (x, y, index)
         active = " active" if index == 0 else ""
-        marks.append(f'<g class="trajectory-frame{active}" data-frame-index="{index}">'
+        pressed = "true" if index == 0 else "false"
+        name = escape(description, quote=True)
+        marks.append(f'<g class="trajectory-frame{active}" data-frame-index="{index}" '
+                     f'role="button" tabindex="0" aria-label="{name}" aria-pressed="{pressed}" '
+                     'aria-controls="timeline-frames">'
                      f'<title>{escape(description)}</title>'
+                     f'<circle class="hit-target" cx="{x:.2f}" cy="{y:.2f}" r="18"/>'
                      f'<line class="cursor" x1="{x:.2f}" x2="{x:.2f}" y1="18" y2="167"/>'
                      f'{marker}<text x="{x:.2f}" y="188">{case["time_s"] * 1000:.1f}</text></g>')
     return f"""<figure class="trajectory">
 <h3>Ball trajectory</h3>
-<svg id="trajectory-plot" viewBox="0 0 760 220" role="img"
+<svg id="trajectory-plot" viewBox="0 0 760 220" role="group"
 aria-label="Estimated horizontal ball position in metres over time, with withheld frames marked">
 <rect class="plot-area" x="65" y="18" width="670" height="149" rx="8"/>
 <text x="57" y="30" text-anchor="end">{upper:.2f}</text>
@@ -149,7 +154,7 @@ aria-label="Estimated horizontal ball position in metres over time, with withhel
 {"".join(segments)}{"".join(marks)}
 <text x="400" y="211">Time (ms)</text>
 </svg>
-<figcaption>Crosses mark withheld frames. Their vertical placement does not represent a position.</figcaption>
+<figcaption>Select a point or cross to view its frame evidence. Crosses mark withheld frames. Their vertical placement does not represent a position.</figcaption>
 </figure>"""
 
 
@@ -244,6 +249,9 @@ th,td {{padding:.45rem .6rem;text-align:left;white-space:nowrap;border-bottom:1p
 .trajectory .segment,.trajectory .gap {{stroke:#8df6ed;stroke-width:2}}
 .trajectory .estimate {{fill:#8df6ed}}
 .trajectory .cursor {{visibility:hidden;stroke:#ffd185;stroke-dasharray:4 4}}
+.trajectory .hit-target {{fill:transparent;stroke:transparent;stroke-width:2;cursor:pointer}}
+.trajectory-frame {{cursor:pointer}}
+.trajectory-frame:focus-visible .hit-target {{stroke:#fff;stroke-dasharray:3 2}}
 .trajectory .active .cursor {{visibility:visible}}
 .trajectory .active .estimate {{fill:#ffd185;stroke:#ffd185;stroke-width:4}}
 .trajectory .active .gap {{stroke:#ffd185;stroke-width:3}}
@@ -262,9 +270,26 @@ const trajectoryFrames = [...document.querySelectorAll(".trajectory-frame")];
 function showFrame() {{
     const index = Number(scrubber.value);
     frames.forEach((frame, position) => {{ frame.hidden = position !== index; }});
-    trajectoryFrames.forEach((mark, position) => {{ mark.classList.toggle("active", position === index); }});
+    trajectoryFrames.forEach((mark, position) => {{
+        const active = position === index;
+        mark.classList.toggle("active", active);
+        mark.setAttribute("aria-pressed", String(active));
+    }});
     label.textContent = frames[index].dataset.label;
     scrubber.setAttribute("aria-valuetext", label.textContent);
+}}
+for (const mark of trajectoryFrames) {{
+    function selectFrame() {{
+        scrubber.value = mark.dataset.frameIndex;
+        showFrame();
+    }}
+    mark.addEventListener("click", selectFrame);
+    mark.addEventListener("keydown", event => {{
+        if (event.key === "Enter" || event.key === " ") {{
+            event.preventDefault();
+            selectFrame();
+        }}
+    }});
 }}
 scrubber.addEventListener("input", showFrame);
 showFrame();
