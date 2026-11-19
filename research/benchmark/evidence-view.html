@@ -29,6 +29,12 @@ th,td {padding:.45rem .6rem;text-align:left;white-space:nowrap;border-bottom:1px
 #comparison-explanation {background:#121e30;border-left:3px solid #78e2db;padding:.7rem .85rem}
 .comparison-summary {overflow:auto;margin:0 0 1rem}
 .comparison-summary .changed {background:#213849;color:#a8f5ee}
+.comparison-report {margin-top:1rem}
+.comparison-report summary {cursor:pointer;font-weight:600}
+.comparison-report label {display:block}
+.comparison-report textarea {box-sizing:border-box;width:100%;font:inherit;resize:vertical}
+.comparison-report button {font:inherit;margin-top:.4rem}
+#comparison-copy-status {margin-left:.5rem}
 .comparison-pane {min-width:0}
 .comparison-pane select {font:inherit;margin-bottom:.55rem;max-width:100%}
 .comparison-card {min-width:0;border:1px solid #324459;border-radius:12px;padding:.8rem}
@@ -312,7 +318,8 @@ under the 2 px reprojection rule.</p>
 <div id="compare-left-cards"><div class="comparison-card" data-compare-frame="1" data-status="Recovered" data-margin="Unavailable"
 data-accepted="A, B, C, D"
 data-rejected="None recorded"
-data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy." hidden>
+data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy."
+data-time-ms="0.00" data-source-ids="A:0, B:0, C:0, D:0" hidden>
 <section aria-labelledby="heading-compare-left-0">
 <h2 id="heading-compare-left-0">Frame 1 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -344,7 +351,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li></ol></div><div class="comparison-card" data-compare-frame="2" data-status="Recovered" data-margin="1"
 data-accepted="A, B, C, D"
 data-rejected="None recorded"
-data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy." hidden>
+data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy."
+data-time-ms="4.17" data-source-ids="A:1, B:1, C:1, D:1" hidden>
 <section aria-labelledby="heading-compare-left-1">
 <h2 id="heading-compare-left-1">Frame 2 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -376,7 +384,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li><li>B–C–D · 3 inliers</li></ol></div><div class="comparison-card" data-compare-frame="3" data-status="Withheld" data-margin="0"
 data-accepted="None recorded"
 data-rejected="None recorded"
-data-explanation="Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule." hidden>
+data-explanation="Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule."
+data-time-ms="8.33" data-source-ids="A:2, B:2, C:2, D:2" hidden>
 <section aria-labelledby="heading-compare-left-2">
 <h2 id="heading-compare-left-2">Frame 3 · Withheld</h2>
 <p>Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule.</p>
@@ -428,7 +437,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–B–D · 3 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="4" data-status="Withheld" data-margin="0"
 data-accepted="None recorded"
 data-rejected="None recorded"
-data-explanation="Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule.">
+data-explanation="Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule."
+data-time-ms="12.50" data-source-ids="A:3, B:3, C:3, D:3">
 <section aria-labelledby="heading-compare-left-3">
 <h2 id="heading-compare-left-3">Frame 4 · Withheld</h2>
 <p>Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule.</p>
@@ -480,7 +490,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–B–D · 3 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="5" data-status="Recovered" data-margin="1"
 data-accepted="A, B, C"
 data-rejected="D"
-data-explanation="Position reconstructed from A–B–C under the reprojection rule. Camera agreement does not establish position accuracy." hidden>
+data-explanation="Position reconstructed from A–B–C under the reprojection rule. Camera agreement does not establish position accuracy."
+data-time-ms="16.67" data-source-ids="A:4, B:4, C:4, D:4" hidden>
 <section aria-labelledby="heading-compare-left-4">
 <h2 id="heading-compare-left-4">Frame 5 · Recovered</h2>
 <p>Position reconstructed from A–B–C under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -512,7 +523,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–D · 2 inliers</li><li>B–D · 2 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="6" data-status="Recovered" data-margin="1"
 data-accepted="A, B, C, D"
 data-rejected="None recorded"
-data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy." hidden>
+data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy."
+data-time-ms="20.83" data-source-ids="A:5, B:5, C:5, D:5" hidden>
 <section aria-labelledby="heading-compare-left-5">
 <h2 id="heading-compare-left-5">Frame 6 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -544,7 +556,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li><li>B–C–D · 3 inliers</li></ol></div><div class="comparison-card" data-compare-frame="7" data-status="Recovered" data-margin="Unavailable"
 data-accepted="A, B, C, D"
 data-rejected="None recorded"
-data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy." hidden>
+data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy."
+data-time-ms="25.00" data-source-ids="A:6, B:6, C:6, D:6" hidden>
 <section aria-labelledby="heading-compare-left-6">
 <h2 id="heading-compare-left-6">Frame 7 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -579,7 +592,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <div id="compare-right-cards"><div class="comparison-card" data-compare-frame="1" data-status="Recovered" data-margin="Unavailable"
 data-accepted="A, B, C, D"
 data-rejected="None recorded"
-data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy." hidden>
+data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy."
+data-time-ms="0.00" data-source-ids="A:0, B:0, C:0, D:0" hidden>
 <section aria-labelledby="heading-compare-right-0">
 <h2 id="heading-compare-right-0">Frame 1 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -611,7 +625,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li></ol></div><div class="comparison-card" data-compare-frame="2" data-status="Recovered" data-margin="1"
 data-accepted="A, B, C, D"
 data-rejected="None recorded"
-data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy." hidden>
+data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy."
+data-time-ms="4.17" data-source-ids="A:1, B:1, C:1, D:1" hidden>
 <section aria-labelledby="heading-compare-right-1">
 <h2 id="heading-compare-right-1">Frame 2 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -643,7 +658,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li><li>B–C–D · 3 inliers</li></ol></div><div class="comparison-card" data-compare-frame="3" data-status="Withheld" data-margin="0"
 data-accepted="None recorded"
 data-rejected="None recorded"
-data-explanation="Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule." hidden>
+data-explanation="Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule."
+data-time-ms="8.33" data-source-ids="A:2, B:2, C:2, D:2" hidden>
 <section aria-labelledby="heading-compare-right-2">
 <h2 id="heading-compare-right-2">Frame 3 · Withheld</h2>
 <p>Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule.</p>
@@ -695,7 +711,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–B–D · 3 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="4" data-status="Withheld" data-margin="0"
 data-accepted="None recorded"
 data-rejected="None recorded"
-data-explanation="Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule." hidden>
+data-explanation="Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule."
+data-time-ms="12.50" data-source-ids="A:3, B:3, C:3, D:3" hidden>
 <section aria-labelledby="heading-compare-right-3">
 <h2 id="heading-compare-right-3">Frame 4 · Withheld</h2>
 <p>Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule.</p>
@@ -747,7 +764,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–B–D · 3 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="5" data-status="Recovered" data-margin="1"
 data-accepted="A, B, C"
 data-rejected="D"
-data-explanation="Position reconstructed from A–B–C under the reprojection rule. Camera agreement does not establish position accuracy.">
+data-explanation="Position reconstructed from A–B–C under the reprojection rule. Camera agreement does not establish position accuracy."
+data-time-ms="16.67" data-source-ids="A:4, B:4, C:4, D:4">
 <section aria-labelledby="heading-compare-right-4">
 <h2 id="heading-compare-right-4">Frame 5 · Recovered</h2>
 <p>Position reconstructed from A–B–C under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -779,7 +797,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–D · 2 inliers</li><li>B–D · 2 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="6" data-status="Recovered" data-margin="1"
 data-accepted="A, B, C, D"
 data-rejected="None recorded"
-data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy." hidden>
+data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy."
+data-time-ms="20.83" data-source-ids="A:5, B:5, C:5, D:5" hidden>
 <section aria-labelledby="heading-compare-right-5">
 <h2 id="heading-compare-right-5">Frame 6 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -811,7 +830,8 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li><li>B–C–D · 3 inliers</li></ol></div><div class="comparison-card" data-compare-frame="7" data-status="Recovered" data-margin="Unavailable"
 data-accepted="A, B, C, D"
 data-rejected="None recorded"
-data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy." hidden>
+data-explanation="Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy."
+data-time-ms="25.00" data-source-ids="A:6, B:6, C:6, D:6" hidden>
 <section aria-labelledby="heading-compare-right-6">
 <h2 id="heading-compare-right-6">Frame 7 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -840,7 +860,14 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <tr class="selected"><td>In this group</td><td>D</td><td>D:6</td><td>0.025</td><td>-638.30</td><td>180.20</td><td>0.000</td><td>accepted</td></tr></tbody></table></div></div></fieldset></section>
 <dl><div><dt>Simulated camera D offset</dt><dd>0 ms</dd></div>
 <div><dt>Rejected source frames</dt><dd>No view-level rejection recorded</dd></div></dl>
-<h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li></ol></div></div></div></div></div></div>
+<h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li></ol></div></div></div></div>
+<details class="comparison-report">
+<summary>Comparison report</summary>
+<label for="comparison-report-text">Plain-text report</label>
+<textarea id="comparison-report-text" rows="9" readonly></textarea>
+<button id="copy-comparison-report" type="button">Copy report</button>
+<span id="comparison-copy-status" role="status"></span>
+</details></div></div>
 <h2>Reference cases</h2>
 <section aria-labelledby="heading-0">
 <h2 id="heading-0">Accepted position</h2>
@@ -944,6 +971,19 @@ for (const mark of trajectoryFrames) {
 }
 const comparisonSides = ["left", "right"];
 const displayedEvidence = {};
+const report = document.getElementById("comparison-report-text");
+const copyStatus = document.getElementById("comparison-copy-status");
+document.getElementById("copy-comparison-report").addEventListener("click", async () => {
+    const text = report.value;
+    try {
+        await navigator.clipboard.writeText(text);
+        copyStatus.textContent = report.value === text ? "Report copied." : "Previous report copied.";
+    } catch {
+        report.focus();
+        report.select();
+        copyStatus.textContent = "Report selected. Press Ctrl+C or Command+C to copy.";
+    }
+});
 function updateComparisonSummary() {
     const left = displayedEvidence.left;
     const right = displayedEvidence.right;
@@ -955,6 +995,20 @@ function updateComparisonSummary() {
         ? `Both panes show frame ${left.compareFrame}. ${left.explanation}`
         : `${leftReason} ${rightReason}`;
     comparisonExplanation.textContent = summary;
+    const reportSections = comparisonSides.map(side => {
+        const evidence = displayedEvidence[side];
+        return [
+            `Frame ${evidence.compareFrame} (${evidence.timeMs} ms)`,
+            `Decision: ${evidence.status}`,
+            `Score margin (inliers): ${evidence.margin}`,
+            `Accepted cameras: ${evidence.accepted}`,
+            `Rejected cameras: ${evidence.rejected}`,
+            `Source frame IDs: ${evidence.sourceIds}`,
+            evidence.explanation,
+        ].join("\n");
+    });
+    report.value = ["ReplayAxis synthetic frame comparison", ...reportSections].join("\n\n");
+    copyStatus.textContent = "";
     for (const side of comparisonSides) {
         document.getElementById(`summary-${side}`).textContent =
             `Frame ${displayedEvidence[side].compareFrame}`;
