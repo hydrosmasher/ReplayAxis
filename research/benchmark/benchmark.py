@@ -38,7 +38,20 @@ def residual(point, view, focal_px):
     return math.dist(project(point, view["camera_x_m"], focal_px), view["pixel"])
 
 
-def reconstruct(views, calibration):
+def consensus_evidence(ranked, scores, metric, threshold_px, reason):
+    """Describe ranked hypotheses and the gap used by the selection rule."""
+    return {"score_metric": metric, "inlier_threshold_px": threshold_px,
+            "reason": reason,
+            "score_margin": scores[0] - scores[1] if len(scores) >= 2 else None,
+            "candidates": [
+                {"camera_ids": [view["camera_id"] for view in group],
+                 "frame_ids": [view["frame_id"] for view in group],
+                 "score": score}
+                for group, score in zip(ranked, scores)
+            ]}
+
+
+def reconstruct(views, calibration, *, include_consensus=False):
     focal_px = calibration["focal_px"]
     threshold_px = calibration["inlier_threshold_px"]
     candidates = {}
@@ -50,10 +63,21 @@ def reconstruct(views, calibration):
         inliers = [view for view in views if residual(seed, view, focal_px) <= threshold_px]
         if len(inliers) >= 2:
             candidates[tuple(view["camera_id"] for view in inliers)] = inliers
-    ranked = sorted(candidates, key=len, reverse=True)
-    if not ranked or (len(ranked) > 1 and len(ranked[0]) == len(ranked[1])):
-        return {"status": "ambiguous", "point_m": None, "observations": views}
-    accepted = candidates[ranked[0]]
+    ranked = sorted(candidates.values(), key=len, reverse=True)
+    scores = [len(group) for group in ranked]
+    if not ranked:
+        reason = "no_supported_group"
+    elif len(ranked) > 1 and scores[0] == scores[1]:
+        reason = "tied_top_groups"
+    else:
+        reason = "unique_top_group"
+    details = {}
+    if include_consensus:
+        details["consensus"] = consensus_evidence(
+            ranked, scores, "inlier_count", threshold_px, reason)
+    if reason != "unique_top_group":
+        return {"status": "ambiguous", "point_m": None, "observations": views, **details}
+    accepted = ranked[0]
     point = triangulate(accepted, focal_px)
     evidence = []
     for view in views:
@@ -62,8 +86,8 @@ def reconstruct(views, calibration):
                          "decision": "accepted" if view in accepted else "rejected",
                          "reason": "selected_consensus" if view in accepted else "outside_consensus"})
     if any(item["residual_px"] > threshold_px for item in evidence if item["decision"] == "accepted"):
-        return {"status": "inconsistent_refit", "point_m": None, "observations": evidence}
-    return {"status": "reconstructed", "point_m": point, "observations": evidence}
+        return {"status": "inconsistent_refit", "point_m": None, "observations": evidence, **details}
+    return {"status": "reconstructed", "point_m": point, "observations": evidence, **details}
 
 
 def flexion(hip, knee, ankle):
