@@ -5,6 +5,10 @@ import json
 from html import escape
 from pathlib import Path
 
+from benchmark import reconstruct
+from explain_evidence import explain
+from multiframe import FPS, project, scene
+
 
 def observation_rows(observations, frame_ids):
     rows = []
@@ -15,18 +19,18 @@ def observation_rows(observations, frame_ids):
         residual = view.get("residual_px")
         residual_text = f"{residual:.3f}" if residual is not None else "Unavailable"
         values = (marker, view["camera_id"], view["frame_id"], f"{view['time_s']:.3f}",
-                  f"{x:.2f}", f"{y:.2f}", residual_text)
+                  f"{x:.2f}", f"{y:.2f}", residual_text, view.get("decision", "Unavailable"))
         cells = "".join(f"<td>{escape(str(value))}</td>" for value in values)
         style = ' class="selected"' if selected else ""
         rows.append(f"<tr{style}>{cells}</tr>")
     return "\n".join(rows)
 
 
-def plot_observations(observations, frame_ids):
+def plot_observations(observations, frame_ids, scale_pixels=None):
     if not observations:
         return "<p>No pixel observations available.</p>"
     width, height, padding = 760, 280, 68
-    pixels = [view["pixel"] for view in observations]
+    pixels = scale_pixels if scale_pixels is not None else [view["pixel"] for view in observations]
     xs, ys = zip(*pixels)
     scale = min((width - 2 * padding) / max(max(xs) - min(xs), 1),
                 (height - 2 * padding) / max(max(ys) - min(ys), 1))
@@ -58,14 +62,14 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 </figure>"""
 
 
-def render_case(index, case, answer):
+def render_case(index, case, answer, *, scale_pixels=None, title=None):
     result = case["result"]
     consensus = result["consensus"]
     groups = answer["camera_groups"]
     if answer["status"] != result["status"] or any(
             group not in consensus["candidates"] for group in groups):
         raise ValueError(f"Explanation differs from evidence for {case['case']}")
-    title = {"biased_accepted": "Accepted position", "withheld": "Withheld position"}.get(
+    title = title or {"biased_accepted": "Accepted position", "withheld": "Withheld position"}.get(
         case["case"], case["case"])
     margin = consensus["score_margin"]
     margin_text = str(margin) if margin is not None else "Unavailable"
@@ -83,14 +87,14 @@ def render_case(index, case, answer):
         else:
             control = ""
         rows = observation_rows(result["observations"], frames)
-        plot = plot_observations(result["observations"], frames)
+        plot = plot_observations(result["observations"], frames, scale_pixels)
         panels.append(f"""<div class="group">{control}
 <div class="observations" tabindex="0">
 {plot}
 <table>
 <caption>Source observations</caption>
 <thead><tr><th>Membership</th><th>Camera</th><th>Frame ID</th><th>Time (s)</th>
-<th>X (px)</th><th>Y (px)</th><th>Result residual (px)</th></tr></thead>
+<th>X (px)</th><th>Y (px)</th><th>Result residual (px)</th><th>Estimator decision</th></tr></thead>
 <tbody>{rows}</tbody></table></div></div>""")
     return f"""<section aria-labelledby="heading-{index}">
 <h2 id="heading-{index}">{escape(title)}</h2>
@@ -98,6 +102,52 @@ def render_case(index, case, answer):
 <dl><div><dt>Reconstruction status</dt><dd>{escape(result["status"])}</dd></div>
 <div><dt>Consensus score margin</dt><dd>{margin_text}</dd></div></dl>
 <fieldset><legend>Camera group</legend>{"".join(panels)}</fieldset></section>"""
+
+
+def timeline():
+    """Render a scripted timing fault in a short synthetic ball sequence."""
+    cameras = {"A": -2, "B": -1, "C": 1, "D": 2}
+    calibration = {"focal_px": 1000, "inlier_threshold_px": 2}
+    skews_ms = (0, 0.1, 0.5, 0.5, 1, 0.1, 0)
+    cases = []
+    for frame, skew_ms in enumerate(skews_ms):
+        time_s = frame / FPS
+        observations = []
+        for camera, position in cameras.items():
+            capture_time = time_s + (skew_ms / 1000 if camera == "D" else 0)
+            pixel = project(scene(capture_time)["ball"], position, calibration["focal_px"])
+            observations.append({"camera_id": camera, "camera_x_m": position,
+                                 "frame_id": f"{camera}:{frame}", "time_s": time_s, "pixel": pixel})
+        cases.append({"case": f"sequence-{frame}", "time_s": time_s, "skew_ms": skew_ms,
+                      "result": reconstruct(observations, calibration, include_consensus=True)})
+    shared_pixels = [view["pixel"] for case in cases for view in case["result"]["observations"]]
+    panels = []
+    options = []
+    labels = []
+    for frame, case in enumerate(cases):
+        answer = explain(case)
+        label = f"Frame {frame + 1} · {case['time_s'] * 1000:.2f} ms"
+        result = case["result"]
+        if result["status"] != "reconstructed":
+            state = "Withheld"
+        elif any(view.get("decision") == "rejected" for view in result["observations"]):
+            state = "Reconstructed with a rejected view"
+        else:
+            state = "Reconstructed"
+        labels.append(f"{label} · {state}")
+        options.append(f'<option value="{frame}" label="{state}"></option>')
+        panel = render_case(f"timeline-{frame}", case, answer, scale_pixels=shared_pixels, title=label)
+        hidden = " hidden" if frame else ""
+        panels.append(f'<div data-label="{labels[-1]}"{hidden}>'
+                      f'<p>Simulated camera D offset: {case["skew_ms"]:g} ms</p>{panel}</div>')
+    return f"""<div class="timeline" aria-labelledby="timeline-heading">
+<h2 id="timeline-heading">Synthetic frame sequence</h2>
+<label for="frame-scrubber">Frame</label>
+<input type="range" id="frame-scrubber" min="0" max="{len(cases) - 1}" value="0"
+list="frame-ticks" aria-describedby="frame-label">
+<datalist id="frame-ticks">{"".join(options)}</datalist>
+<output id="frame-label" for="frame-scrubber" aria-live="polite">{labels[0]}</output>
+<div id="timeline-frames">{"".join(panels)}</div></div>"""
 
 
 def main():
@@ -134,11 +184,28 @@ th,td {{padding:.45rem .6rem;text-align:left;white-space:nowrap;border-bottom:1p
 .plot-area {{fill:#0b1527;stroke:#43546b}}
 .camera-plot text {{text-anchor:middle;fill:#e5edf8;font:600 16px system-ui}}
 .camera-plot .axis-label {{fill:#acbfd5;font-size:14px}}
+.timeline {{margin:1.4rem 0 2rem}} .timeline input[type=range] {{width:min(100%,24rem);vertical-align:middle}}
+.timeline output {{display:block;font-weight:600;margin:.4rem 0 .75rem}}
 .included circle {{fill:#8df6ed;stroke:#1c7779;stroke-width:2}}
 .excluded rect {{fill:none;stroke:#acbfd5;stroke-width:2}}
 </style></head><body><main><h1>ReplayAxis evidence review</h1>
 <p>Select a camera group to highlight its synthetic source observations.</p>
-{sections}</main></body></html>
+{timeline()}
+<h2>Reference cases</h2>
+{sections}</main>
+<script>
+const scrubber = document.getElementById("frame-scrubber");
+const label = document.getElementById("frame-label");
+const frames = [...document.getElementById("timeline-frames").children];
+function showFrame() {{
+    const index = Number(scrubber.value);
+    frames.forEach((frame, position) => {{ frame.hidden = position !== index; }});
+    label.textContent = frames[index].dataset.label;
+    scrubber.setAttribute("aria-valuetext", label.textContent);
+}}
+scrubber.addEventListener("input", showFrame);
+showFrame();
+</script></body></html>
 """
     with args.output.open("x", encoding="utf-8") as output:
         output.write(html)
