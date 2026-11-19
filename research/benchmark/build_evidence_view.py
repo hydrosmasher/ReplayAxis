@@ -22,6 +22,42 @@ def observation_rows(observations, frame_ids):
     return "\n".join(rows)
 
 
+def plot_observations(observations, frame_ids):
+    if not observations:
+        return "<p>No pixel observations available.</p>"
+    width, height, padding = 760, 280, 68
+    pixels = [view["pixel"] for view in observations]
+    xs, ys = zip(*pixels)
+    scale = min((width - 2 * padding) / max(max(xs) - min(xs), 1),
+                (height - 2 * padding) / max(max(ys) - min(ys), 1))
+    x_mid, y_mid = (min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2
+    marks = []
+    for view in observations:
+        u, v = view["pixel"]
+        x = width / 2 + (u - x_mid) * scale
+        y = height / 2 + (v - y_mid) * scale
+        frame = escape(view["frame_id"], quote=True)
+        active = view["frame_id"] in frame_ids
+        state = "included" if active else "excluded"
+        description = escape(f"{view['frame_id']}, ({u:.2f}, {v:.2f}) px, {state}")
+        label = escape(view["camera_id"])
+        mark = (f'<circle cx="{x:.2f}" cy="{y:.2f}" r="9"/>' if active else
+                f'<rect x="{x - 8:.2f}" y="{y - 8:.2f}" width="16" height="16"/>')
+        marks.append(f'<g class="{state}" data-frame="{frame}"><title>{description}</title>'
+                     f'{mark}<text x="{x:.2f}" y="{y - 17:.2f}">{label}</text></g>')
+    return f"""<figure class="camera-plot">
+<svg viewBox="0 0 {width} {height}" role="img"
+aria-label="Observed pixel coordinates on a shared image-coordinate scale">
+<rect class="plot-area" x="45" y="20" width="690" height="220" rx="8"/>
+<text class="axis-label" x="390" y="268">X increases right (px)</text>
+<text class="axis-label" transform="translate(20 130) rotate(-90)">Y increases down (px)</text>
+{"".join(marks)}
+</svg>
+<figcaption>Filled circles belong to the selected group. Outlined squares are outside it.
+Each camera supplies its own image coordinates. The shared scale lets you compare membership.</figcaption>
+</figure>"""
+
+
 def render_case(index, case, answer):
     result = case["result"]
     consensus = result["consensus"]
@@ -47,8 +83,10 @@ def render_case(index, case, answer):
         else:
             control = ""
         rows = observation_rows(result["observations"], frames)
+        plot = plot_observations(result["observations"], frames)
         panels.append(f"""<div class="group">{control}
 <div class="observations" tabindex="0">
+{plot}
 <table>
 <caption>Source observations</caption>
 <thead><tr><th>Membership</th><th>Camera</th><th>Frame ID</th><th>Time (s)</th>
@@ -91,6 +129,13 @@ table {{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}}
 caption {{text-align:left;margin:.2rem 0}}
 th,td {{padding:.45rem .6rem;text-align:left;white-space:nowrap;border-bottom:1px solid #3b4a5c}}
 .selected {{background:#153c43}} .selected td:first-child {{font-weight:700;color:#9ff8ef}}
+.camera-plot {{margin:.7rem 0 1rem}} .camera-plot svg {{display:block;width:100%;height:auto}}
+.camera-plot figcaption {{color:#acbfd5;font-size:.9rem}}
+.plot-area {{fill:#0b1527;stroke:#43546b}}
+.camera-plot text {{text-anchor:middle;fill:#e5edf8;font:600 16px system-ui}}
+.camera-plot .axis-label {{fill:#acbfd5;font-size:14px}}
+.included circle {{fill:#8df6ed;stroke:#1c7779;stroke-width:2}}
+.excluded rect {{fill:none;stroke:#acbfd5;stroke-width:2}}
 </style></head><body><main><h1>ReplayAxis evidence review</h1>
 <p>Select a camera group to highlight its synthetic source observations.</p>
 {sections}</main></body></html>
