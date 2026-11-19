@@ -26,6 +26,8 @@ th,td {padding:.45rem .6rem;text-align:left;white-space:nowrap;border-bottom:1px
 .timeline output {display:block;font-weight:600;margin:.4rem 0 .75rem}
 .transition {margin:1.5rem 0 2rem}
 .comparison-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+.comparison-summary {overflow:auto;margin:0 0 1rem}
+.comparison-summary .changed {background:#213849;color:#a8f5ee}
 .comparison-pane {min-width:0}
 .comparison-pane select {font:inherit;margin-bottom:.55rem;max-width:100%}
 .comparison-card {min-width:0;border:1px solid #324459;border-radius:12px;padding:.8rem}
@@ -291,10 +293,23 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <h3 id="transition-heading">Compare frames</h3>
 <p>Both panes use the same camera-plane scale. Camera groups are ranked by inlier count
 under the 2 px reprojection rule.</p>
+<div class="comparison-summary">
+<table>
+<caption>What changed</caption>
+<thead><tr><th scope="col">Evidence</th><th scope="col" id="summary-left">Left frame</th>
+<th scope="col" id="summary-right">Right frame</th></tr></thead>
+<tbody>
+<tr><th scope="row">Decision</th><td data-summary="left-status"></td><td data-summary="right-status"></td></tr>
+<tr><th scope="row">Score margin (inliers)</th><td data-summary="left-margin"></td><td data-summary="right-margin"></td></tr>
+<tr><th scope="row">Accepted cameras</th><td data-summary="left-accepted"></td><td data-summary="right-accepted"></td></tr>
+<tr><th scope="row">Rejected cameras</th><td data-summary="left-rejected"></td><td data-summary="right-rejected"></td></tr>
+</tbody></table></div>
 <div class="comparison-grid"><div class="comparison-pane">
 <label for="compare-left">Left frame</label>
 <select id="compare-left" aria-controls="compare-left-cards"><option value="0">Frame 1 · 0.00 ms</option><option value="1">Frame 2 · 4.17 ms</option><option value="2">Frame 3 · 8.33 ms</option><option value="3" selected>Frame 4 · 12.50 ms</option><option value="4">Frame 5 · 16.67 ms</option><option value="5">Frame 6 · 20.83 ms</option><option value="6">Frame 7 · 25.00 ms</option></select>
-<div id="compare-left-cards"><div class="comparison-card" data-compare-frame="1" hidden>
+<div id="compare-left-cards"><div class="comparison-card" data-compare-frame="1" data-status="Recovered" data-margin="Unavailable"
+data-accepted="A, B, C, D"
+data-rejected="None recorded" hidden>
 <section aria-labelledby="heading-compare-left-0">
 <h2 id="heading-compare-left-0">Frame 1 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -323,7 +338,9 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <tr class="selected"><td>In this group</td><td>D</td><td>D:0</td><td>0.000</td><td>-851.06</td><td>170.21</td><td>0.000</td><td>accepted</td></tr></tbody></table></div></div></fieldset></section>
 <dl><div><dt>Simulated camera D offset</dt><dd>0 ms</dd></div>
 <div><dt>Rejected source frames</dt><dd>No view-level rejection recorded</dd></div></dl>
-<h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li></ol></div><div class="comparison-card" data-compare-frame="2" hidden>
+<h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li></ol></div><div class="comparison-card" data-compare-frame="2" data-status="Recovered" data-margin="1"
+data-accepted="A, B, C, D"
+data-rejected="None recorded" hidden>
 <section aria-labelledby="heading-compare-left-1">
 <h2 id="heading-compare-left-1">Frame 2 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -352,7 +369,9 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <tr class="selected"><td>In this group</td><td>D</td><td>D:1</td><td>0.004</td><td>-814.75</td><td>172.01</td><td>0.300</td><td>accepted</td></tr></tbody></table></div></div></fieldset></section>
 <dl><div><dt>Simulated camera D offset</dt><dd>0.1 ms</dd></div>
 <div><dt>Rejected source frames</dt><dd>No view-level rejection recorded</dd></div></dl>
-<h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li><li>B–C–D · 3 inliers</li></ol></div><div class="comparison-card" data-compare-frame="3" hidden>
+<h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li><li>B–C–D · 3 inliers</li></ol></div><div class="comparison-card" data-compare-frame="3" data-status="Withheld" data-margin="0"
+data-accepted="None recorded"
+data-rejected="None recorded" hidden>
 <section aria-labelledby="heading-compare-left-2">
 <h2 id="heading-compare-left-2">Frame 3 · Withheld</h2>
 <p>Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule.</p>
@@ -401,7 +420,9 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <tr class="selected"><td>In this group</td><td>D</td><td>D:2</td><td>0.008</td><td>-775.89</td><td>173.89</td><td>Unavailable</td><td>Unavailable</td></tr></tbody></table></div></div></fieldset></section>
 <dl><div><dt>Simulated camera D offset</dt><dd>0.5 ms</dd></div>
 <div><dt>Rejected source frames</dt><dd>No view-level rejection recorded</dd></div></dl>
-<h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–B–D · 3 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="4">
+<h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–B–D · 3 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="4" data-status="Withheld" data-margin="0"
+data-accepted="None recorded"
+data-rejected="None recorded">
 <section aria-labelledby="heading-compare-left-3">
 <h2 id="heading-compare-left-3">Frame 4 · Withheld</h2>
 <p>Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule.</p>
@@ -450,7 +471,9 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <tr class="selected"><td>In this group</td><td>D</td><td>D:3</td><td>0.013</td><td>-740.43</td><td>175.57</td><td>Unavailable</td><td>Unavailable</td></tr></tbody></table></div></div></fieldset></section>
 <dl><div><dt>Simulated camera D offset</dt><dd>0.5 ms</dd></div>
 <div><dt>Rejected source frames</dt><dd>No view-level rejection recorded</dd></div></dl>
-<h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–B–D · 3 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="5" hidden>
+<h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–B–D · 3 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="5" data-status="Recovered" data-margin="1"
+data-accepted="A, B, C"
+data-rejected="D" hidden>
 <section aria-labelledby="heading-compare-left-4">
 <h2 id="heading-compare-left-4">Frame 5 · Recovered</h2>
 <p>Position reconstructed from A–B–C under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -479,7 +502,9 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <tr><td>Outside this group</td><td>D</td><td>D:4</td><td>0.017</td><td>-700.71</td><td>177.40</td><td>8.520</td><td>rejected</td></tr></tbody></table></div></div></fieldset></section>
 <dl><div><dt>Simulated camera D offset</dt><dd>1 ms</dd></div>
 <div><dt>Rejected source frames</dt><dd>D:4</dd></div></dl>
-<h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–D · 2 inliers</li><li>B–D · 2 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="6" hidden>
+<h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–D · 2 inliers</li><li>B–D · 2 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="6" data-status="Recovered" data-margin="1"
+data-accepted="A, B, C, D"
+data-rejected="None recorded" hidden>
 <section aria-labelledby="heading-compare-left-5">
 <h2 id="heading-compare-left-5">Frame 6 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -508,7 +533,9 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <tr class="selected"><td>In this group</td><td>D</td><td>D:5</td><td>0.021</td><td>-672.91</td><td>178.66</td><td>0.299</td><td>accepted</td></tr></tbody></table></div></div></fieldset></section>
 <dl><div><dt>Simulated camera D offset</dt><dd>0.1 ms</dd></div>
 <div><dt>Rejected source frames</dt><dd>No view-level rejection recorded</dd></div></dl>
-<h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li><li>B–C–D · 3 inliers</li></ol></div><div class="comparison-card" data-compare-frame="7" hidden>
+<h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li><li>B–C–D · 3 inliers</li></ol></div><div class="comparison-card" data-compare-frame="7" data-status="Recovered" data-margin="Unavailable"
+data-accepted="A, B, C, D"
+data-rejected="None recorded" hidden>
 <section aria-labelledby="heading-compare-left-6">
 <h2 id="heading-compare-left-6">Frame 7 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -540,7 +567,9 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li></ol></div></div></div><div class="comparison-pane">
 <label for="compare-right">Right frame</label>
 <select id="compare-right" aria-controls="compare-right-cards"><option value="0">Frame 1 · 0.00 ms</option><option value="1">Frame 2 · 4.17 ms</option><option value="2">Frame 3 · 8.33 ms</option><option value="3">Frame 4 · 12.50 ms</option><option value="4" selected>Frame 5 · 16.67 ms</option><option value="5">Frame 6 · 20.83 ms</option><option value="6">Frame 7 · 25.00 ms</option></select>
-<div id="compare-right-cards"><div class="comparison-card" data-compare-frame="1" hidden>
+<div id="compare-right-cards"><div class="comparison-card" data-compare-frame="1" data-status="Recovered" data-margin="Unavailable"
+data-accepted="A, B, C, D"
+data-rejected="None recorded" hidden>
 <section aria-labelledby="heading-compare-right-0">
 <h2 id="heading-compare-right-0">Frame 1 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -569,7 +598,9 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <tr class="selected"><td>In this group</td><td>D</td><td>D:0</td><td>0.000</td><td>-851.06</td><td>170.21</td><td>0.000</td><td>accepted</td></tr></tbody></table></div></div></fieldset></section>
 <dl><div><dt>Simulated camera D offset</dt><dd>0 ms</dd></div>
 <div><dt>Rejected source frames</dt><dd>No view-level rejection recorded</dd></div></dl>
-<h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li></ol></div><div class="comparison-card" data-compare-frame="2" hidden>
+<h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li></ol></div><div class="comparison-card" data-compare-frame="2" data-status="Recovered" data-margin="1"
+data-accepted="A, B, C, D"
+data-rejected="None recorded" hidden>
 <section aria-labelledby="heading-compare-right-1">
 <h2 id="heading-compare-right-1">Frame 2 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -598,7 +629,9 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <tr class="selected"><td>In this group</td><td>D</td><td>D:1</td><td>0.004</td><td>-814.75</td><td>172.01</td><td>0.300</td><td>accepted</td></tr></tbody></table></div></div></fieldset></section>
 <dl><div><dt>Simulated camera D offset</dt><dd>0.1 ms</dd></div>
 <div><dt>Rejected source frames</dt><dd>No view-level rejection recorded</dd></div></dl>
-<h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li><li>B–C–D · 3 inliers</li></ol></div><div class="comparison-card" data-compare-frame="3" hidden>
+<h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li><li>B–C–D · 3 inliers</li></ol></div><div class="comparison-card" data-compare-frame="3" data-status="Withheld" data-margin="0"
+data-accepted="None recorded"
+data-rejected="None recorded" hidden>
 <section aria-labelledby="heading-compare-right-2">
 <h2 id="heading-compare-right-2">Frame 3 · Withheld</h2>
 <p>Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule.</p>
@@ -647,7 +680,9 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <tr class="selected"><td>In this group</td><td>D</td><td>D:2</td><td>0.008</td><td>-775.89</td><td>173.89</td><td>Unavailable</td><td>Unavailable</td></tr></tbody></table></div></div></fieldset></section>
 <dl><div><dt>Simulated camera D offset</dt><dd>0.5 ms</dd></div>
 <div><dt>Rejected source frames</dt><dd>No view-level rejection recorded</dd></div></dl>
-<h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–B–D · 3 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="4" hidden>
+<h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–B–D · 3 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="4" data-status="Withheld" data-margin="0"
+data-accepted="None recorded"
+data-rejected="None recorded" hidden>
 <section aria-labelledby="heading-compare-right-3">
 <h2 id="heading-compare-right-3">Frame 4 · Withheld</h2>
 <p>Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule.</p>
@@ -696,7 +731,9 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <tr class="selected"><td>In this group</td><td>D</td><td>D:3</td><td>0.013</td><td>-740.43</td><td>175.57</td><td>Unavailable</td><td>Unavailable</td></tr></tbody></table></div></div></fieldset></section>
 <dl><div><dt>Simulated camera D offset</dt><dd>0.5 ms</dd></div>
 <div><dt>Rejected source frames</dt><dd>No view-level rejection recorded</dd></div></dl>
-<h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–B–D · 3 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="5">
+<h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–B–D · 3 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="5" data-status="Recovered" data-margin="1"
+data-accepted="A, B, C"
+data-rejected="D">
 <section aria-labelledby="heading-compare-right-4">
 <h2 id="heading-compare-right-4">Frame 5 · Recovered</h2>
 <p>Position reconstructed from A–B–C under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -725,7 +762,9 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <tr><td>Outside this group</td><td>D</td><td>D:4</td><td>0.017</td><td>-700.71</td><td>177.40</td><td>8.520</td><td>rejected</td></tr></tbody></table></div></div></fieldset></section>
 <dl><div><dt>Simulated camera D offset</dt><dd>1 ms</dd></div>
 <div><dt>Rejected source frames</dt><dd>D:4</dd></div></dl>
-<h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–D · 2 inliers</li><li>B–D · 2 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="6" hidden>
+<h4>Ranked camera groups</h4><ol><li>A–B–C · 3 inliers</li><li>A–D · 2 inliers</li><li>B–D · 2 inliers</li><li>C–D · 2 inliers</li></ol></div><div class="comparison-card" data-compare-frame="6" data-status="Recovered" data-margin="1"
+data-accepted="A, B, C, D"
+data-rejected="None recorded" hidden>
 <section aria-labelledby="heading-compare-right-5">
 <h2 id="heading-compare-right-5">Frame 6 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -754,7 +793,9 @@ Each camera supplies its own image coordinates. The shared scale lets you compar
 <tr class="selected"><td>In this group</td><td>D</td><td>D:5</td><td>0.021</td><td>-672.91</td><td>178.66</td><td>0.299</td><td>accepted</td></tr></tbody></table></div></div></fieldset></section>
 <dl><div><dt>Simulated camera D offset</dt><dd>0.1 ms</dd></div>
 <div><dt>Rejected source frames</dt><dd>No view-level rejection recorded</dd></div></dl>
-<h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li><li>B–C–D · 3 inliers</li></ol></div><div class="comparison-card" data-compare-frame="7" hidden>
+<h4>Ranked camera groups</h4><ol><li>A–B–C–D · 4 inliers</li><li>B–C–D · 3 inliers</li></ol></div><div class="comparison-card" data-compare-frame="7" data-status="Recovered" data-margin="Unavailable"
+data-accepted="A, B, C, D"
+data-rejected="None recorded" hidden>
 <section aria-labelledby="heading-compare-right-6">
 <h2 id="heading-compare-right-6">Frame 7 · Recovered</h2>
 <p>Position reconstructed from A–B–C–D under the reprojection rule. Camera agreement does not establish position accuracy.</p>
@@ -885,12 +926,32 @@ for (const mark of trajectoryFrames) {
         }
     });
 }
-for (const side of ["left", "right"]) {
+const comparisonSides = ["left", "right"];
+const displayedEvidence = {};
+function updateComparisonSummary() {
+    const left = displayedEvidence.left;
+    const right = displayedEvidence.right;
+    if (!left || !right) return;
+    for (const side of comparisonSides) {
+        document.getElementById(`summary-${side}`).textContent =
+            `Frame ${displayedEvidence[side].compareFrame}`;
+    }
+    for (const field of ["status", "margin", "accepted", "rejected"]) {
+        for (const side of comparisonSides) {
+            const cell = document.querySelector(`[data-summary="${side}-${field}"]`);
+            cell.textContent = displayedEvidence[side][field];
+            cell.classList.toggle("changed", left[field] !== right[field]);
+        }
+    }
+}
+for (const side of comparisonSides) {
     const picker = document.getElementById(`compare-${side}`);
     const cards = [...document.getElementById(`compare-${side}-cards`).children];
     function showComparisonFrame() {
         const frameIndex = Number(picker.value);
         cards.forEach((card, index) => { card.hidden = index !== frameIndex; });
+        displayedEvidence[side] = cards[frameIndex].dataset;
+        updateComparisonSummary();
     }
     picker.addEventListener("change", showComparisonFrame);
     showComparisonFrame();
