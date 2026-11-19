@@ -1,0 +1,223 @@
+{
+  "schema_version": 1,
+  "dataset": "synthetic",
+  "left": {
+    "frame_number": 4,
+    "timestamp_s": 0.0125,
+    "simulated_camera_d_offset_ms": 0.5,
+    "reconstruction": {
+      "status": "ambiguous",
+      "point_m": null,
+      "observations": [
+        {
+          "camera_id": "A",
+          "camera_x_m": -2,
+          "frame_id": "A:3",
+          "time_s": 0.0125,
+          "pixel": [
+            106.38297872340425,
+            175.36884973404256
+          ]
+        },
+        {
+          "camera_id": "B",
+          "camera_x_m": -1,
+          "frame_id": "B:3",
+          "time_s": 0.0125,
+          "pixel": [
+            -106.38297872340425,
+            175.36884973404256
+          ]
+        },
+        {
+          "camera_id": "C",
+          "camera_x_m": 1,
+          "frame_id": "C:3",
+          "time_s": 0.0125,
+          "pixel": [
+            -531.9148936170212,
+            175.36884973404256
+          ]
+        },
+        {
+          "camera_id": "D",
+          "camera_x_m": 2,
+          "frame_id": "D:3",
+          "time_s": 0.0125,
+          "pixel": [
+            -740.4255319148936,
+            175.56830957446812
+          ]
+        }
+      ],
+      "consensus": {
+        "score_metric": "inlier_count",
+        "inlier_threshold_px": 2,
+        "reason": "tied_top_groups",
+        "score_margin": 0,
+        "candidates": [
+          {
+            "camera_ids": [
+              "A",
+              "B",
+              "C"
+            ],
+            "frame_ids": [
+              "A:3",
+              "B:3",
+              "C:3"
+            ],
+            "score": 3
+          },
+          {
+            "camera_ids": [
+              "A",
+              "B",
+              "D"
+            ],
+            "frame_ids": [
+              "A:3",
+              "B:3",
+              "D:3"
+            ],
+            "score": 3
+          },
+          {
+            "camera_ids": [
+              "C",
+              "D"
+            ],
+            "frame_ids": [
+              "C:3",
+              "D:3"
+            ],
+            "score": 2
+          }
+        ]
+      }
+    },
+    "explanation": "Position withheld: A–B–C, A–B–D tied at 3 inlier cameras under the 2 px reprojection rule."
+  },
+  "right": {
+    "frame_number": 5,
+    "timestamp_s": 0.016666666666666666,
+    "simulated_camera_d_offset_ms": 1,
+    "reconstruction": {
+      "status": "reconstructed",
+      "point_m": [
+        -1.3333333333333335,
+        0.8319708333333332,
+        4.7
+      ],
+      "observations": [
+        {
+          "camera_id": "A",
+          "camera_x_m": -2,
+          "frame_id": "A:4",
+          "time_s": 0.016666666666666666,
+          "pixel": [
+            141.84397163120565,
+            177.0150709219858
+          ],
+          "residual_px": 2.842170943040401e-14,
+          "decision": "accepted",
+          "reason": "selected_consensus"
+        },
+        {
+          "camera_id": "B",
+          "camera_x_m": -1,
+          "frame_id": "B:4",
+          "time_s": 0.016666666666666666,
+          "pixel": [
+            -70.92198581560287,
+            177.0150709219858
+          ],
+          "residual_px": 2.842170943040401e-14,
+          "decision": "accepted",
+          "reason": "selected_consensus"
+        },
+        {
+          "camera_id": "C",
+          "camera_x_m": 1,
+          "frame_id": "C:4",
+          "time_s": 0.016666666666666666,
+          "pixel": [
+            -496.45390070921985,
+            177.0150709219858
+          ],
+          "residual_px": 2.842170943040401e-14,
+          "decision": "accepted",
+          "reason": "selected_consensus"
+        },
+        {
+          "camera_id": "D",
+          "camera_x_m": 2,
+          "frame_id": "D:4",
+          "time_s": 0.016666666666666666,
+          "pixel": [
+            -700.7092198581561,
+            177.40477198581561
+          ],
+          "residual_px": 8.519555807456243,
+          "decision": "rejected",
+          "reason": "outside_consensus"
+        }
+      ],
+      "consensus": {
+        "score_metric": "inlier_count",
+        "inlier_threshold_px": 2,
+        "reason": "unique_top_group",
+        "score_margin": 1,
+        "candidates": [
+          {
+            "camera_ids": [
+              "A",
+              "B",
+              "C"
+            ],
+            "frame_ids": [
+              "A:4",
+              "B:4",
+              "C:4"
+            ],
+            "score": 3
+          },
+          {
+            "camera_ids": [
+              "A",
+              "D"
+            ],
+            "frame_ids": [
+              "A:4",
+              "D:4"
+            ],
+            "score": 2
+          },
+          {
+            "camera_ids": [
+              "B",
+              "D"
+            ],
+            "frame_ids": [
+              "B:4",
+              "D:4"
+            ],
+            "score": 2
+          },
+          {
+            "camera_ids": [
+              "C",
+              "D"
+            ],
+            "frame_ids": [
+              "C:4",
+              "D:4"
+            ],
+            "score": 2
+          }
+        ]
+      }
+    },
+    "explanation": "Position reconstructed from A–B–C under the reprojection rule. Camera agreement does not establish position accuracy."
+  }
+}
