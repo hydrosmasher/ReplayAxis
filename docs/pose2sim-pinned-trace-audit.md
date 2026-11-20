@@ -29,3 +29,14 @@
 Capture the wheel digest and manifest, and record permitted use of demo media. For the chosen trial, retain the effective configuration and versions, post-processing TRC actually supplied to inverse kinematics, scaled OpenSim model, inverse-kinematics task weights and time range, and reported MOT. Match one sagittal knee coordinate by name, units and timestamp. Rerun from those processed inputs, compare to a tolerance declared beforehand, and separately inventory how the underlying camera decisions and synchronization mapping can be recovered. Record this as traceability on a sample, with thesis-endpoint validity reserved for a qualified force-defined running reference.
 
 **Outcome.** Artifact identity and the limits of the publication-only route are documented. Exact demo manifest, media permissions, and numeric reproduction are still pending.
+
+## Pinned inverse-kinematics reproduction procedure
+
+A further download check could not resolve PyPI, the wheel delivery host, Zenodo, or the GitHub API from the local shell. The tagged source was accessible separately and provides a concrete run configuration.
+
+1. Before running the demo, copy the working trial and record the effective configuration. Set `[kinematics].remove_individual_ik_setup = false` to retain the generated XML. If scaling itself is in scope, retain its setup as well with `remove_individual_scaling_setup = false`.
+2. Read the generated `<stem>_ik_setup.xml` for the exact marker file, model file, time range and marker task weights. The pinned implementation resolves the model input as `<stem>.osim`, even though a surrounding log message describes a `_scaled.osim` filename. Use the XML as the run record. Hash the actual TRC and model after preparation. The code may add missing shoulder markers and overwrite the selected TRC before scaling and IK.
+3. Reproduce the raw `<stem>.mot` using the recorded XML, inputs and OpenSim version in a separate directory. Relocate input paths if needed and assign a new output path. If the reported value came from optional IK filtering, retain the raw and filtered files and reproduce that filtering separately. Select the model's named knee coordinate, confirm units and use a common MOT timestamp before comparing.
+4. Continue the trace upstream by matching the actual IK input TRC to the augmented, filtered or unfiltered trajectory selected by Pose2Sim. Use source frame mapping and per-camera observations and decisions to check observability. The IK XML supports downstream reproduction and carries no per-view provenance by itself.
+
+Source checked: [Pose2Sim v0.10.49 kinematics implementation](https://github.com/perfanalytics/pose2sim/blob/v0.10.49/Pose2Sim/kinematics.py). These instructions are derived from static code. Wheel verification, demo-media permission, and a numerical rerun remain pending.
