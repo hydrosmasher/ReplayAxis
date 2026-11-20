@@ -71,7 +71,7 @@ Report position or joint error by horizon, prediction coverage, interval calibra
 
 ## 5. Financial feasibility
 
-The model compares budgets for an existing desktop research setup, an offline multiview pilot, and an offline venue-scale study. It assumes reuse of installed cameras where suitable and separates capture access from compute. Given N feeds at R Mb/s for T hours, decimal ingest is about 0.45 × N × R × T GB. Divide total camera-feed hours from scene hours when profiling the actual pipeline. The GPU multiplier below is defined per scene-hour, with all input views included.
+The model compares budgets for an existing desktop research setup, an offline multiview pilot, and an offline venue-scale study. It assumes reuse of installed cameras where suitable and separates capture access from compute. Given N feeds at R Mb/s for T hours, decimal ingest is about 0.45 × N × R × T GB. Distinguish total camera-feed hours from elapsed scene hours when profiling the pipeline. The GPU multiplier below is defined per scene-hour, with all input views included.
 
 | Scenario | Feeds × Mb/s × scene hours | Ingest | Assumed GPU-hours per scene-hour | GPU-hours | Illustrative compute + one month of input storage |
 |---|---:|---:|---:|---:|---:|
