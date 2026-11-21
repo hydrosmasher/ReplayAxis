@@ -10,7 +10,7 @@ Research and software for gesture-controlled 3D sports motion analysis. ReplayAx
 
 ## Visual target
 
-The final viewer should show an articulated cyan body wireframe on a dark background across supported sports. Automatic markerless tracking runs by default. A click starts or ends a review highlight at the current frame. The prototype supports marks on reconstructed joints. Surface-point marks will require a fitted, temporally tracked body mesh.
+The final viewer should show an articulated cyan body wireframe on a dark background across supported sports. Automatic markerless tracking runs by default. A click starts or ends a review highlight at the current frame. The prototype draws a procedural body wireframe from the tracked joints and offers a skeleton view. Wireframe proportions are illustrative. Review marks currently attach to reconstructed joints. Surface-point marks will require a fitted, temporally tracked body mesh.
 
 ## Project folders
 
