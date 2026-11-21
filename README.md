@@ -8,6 +8,10 @@ Research and software for gesture-controlled 3D sports motion analysis. ReplayAx
 - [Working Jupyter notebook](ReplayAxis_Markerless_TwoView.ipynb)
 - Research paper in [PDF](ReplayAxis_Feasibility_Assesment_First_Draft.pdf) and [editable Word](ReplayAxis_Feasibility_Assesment_First_Draft.docx)
 
+## Visual target
+
+The final viewer should show an articulated cyan body wireframe on a dark background across supported sports. Automatic markerless tracking runs by default. A click starts or ends a review highlight at the current frame. The prototype supports marks on reconstructed joints. Surface-point marks will require a fitted, temporally tracked body mesh.
+
 ## Project folders
 
 | Folder | Contents |
