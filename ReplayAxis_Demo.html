@@ -92,11 +92,11 @@ function bodyWireframe(p, bodyScale, faces) {
   const shoulderRadius=Math.hypot(...lateral)*.52;
   const hipRadius=Math.hypot(...sub3(p[24],p[23]))*.62;
   if(trunk>1e-7)appendRingSurface('Torso',hips,shoulder,lateral,[
-   [-.19,hipRadius*.75,.075*s],[-.04,hipRadius,.104*s],
+   [-.25,hipRadius*.12,.025*s],[-.17,hipRadius*.69,.074*s],[-.04,hipRadius,.104*s],
    [.16,hipRadius*.92,.093*s],[.34,Math.min(hipRadius,shoulderRadius)*.95,.086*s],
    [.55,shoulderRadius*.75,.103*s],[.74,shoulderRadius*.93,.119*s],
    [.92,shoulderRadius,.097*s],[1.02,shoulderRadius*.78,.071*s],
-   [1.11,shoulderRadius*.32,.051*s]
+   [1.08,shoulderRadius*.46,.061*s],[1.14,shoulderRadius*.19,.041*s]
   ],20);
  }
  if(p[0]&&shoulder){
@@ -107,11 +107,12 @@ function bodyWireframe(p, bodyScale, faces) {
    const headCenter=sub3(p[0],mul3(forward,.041*s));
    const bottom=sub3(headCenter,mul3(up,.11*s)),top=add3(headCenter,mul3(up,.12*s));
    appendRingSurface('Neck',shoulder,bottom,lateral,[[0,.054*s,.052*s],[.5,.044*s,.048*s],[1,.043*s,.047*s]]);
-   const head=Array.from({length:9},(_,i)=>{
-    const t=i/8, radius=Math.sqrt(Math.max(.003,1-(2*t-1)**2));
-    return [t,.083*s*radius,.095*s*radius];
+   const head=Array.from({length:15},(_,i)=>{
+    const t=i/14,radius=Math.sqrt(Math.max(.002,1-(2*t-1)**2));
+    const jaw=.77+.23*Math.min(1,t*2.6);
+    return [t,.083*s*radius*jaw,.095*s*radius];
    });
-   appendRingSurface('Head',bottom,top,lateral,head,16);
+   appendRingSurface('Head',bottom,top,lateral,head,28);
   }
  }
  const limbs=[['Left upper arm',11,13,.068,.048],['Right upper arm',12,14,.068,.048],
@@ -120,28 +121,67 @@ function bodyWireframe(p, bodyScale, faces) {
               ['Left shin',25,27,.059,.032],['Right shin',26,28,.059,.032]];
  for(const [part,start,end,r1,r2] of limbs){
   if(!p[start]||!p[end])continue;
-  const rings=[-.04,0,.16,.32,.5,.68,.84,1,1.04].map(t=>{
-   const radius=s*(r1+(r2-r1)*t)*(1+.11*Math.sin(Math.PI*t));
+  const rings=Array.from({length:13},(_,i)=>-.04+i*1.08/12).map(t=>{
+   const muscle=1+.16*Math.exp(-((t-.33)**2)/.056)*Math.sin(Math.PI*Math.max(0,Math.min(1,t)));
+   const radius=s*(r1+(r2-r1)*t)*muscle;
    return [t,radius,radius*.86];
   });
   appendRingSurface(part,p[start],p[end],lateral,rings);
  }
- // Rounded joints bridge the overlapping limb sections.
- const cuffs=[[11,.065],[12,.065],[13,.052],[14,.052],[15,.031],[16,.031],
-              [23,.087],[24,.087],[25,.06],[26,.06],[27,.034],[28,.034]];
- for(const [id,radius] of cuffs){
-  if(!p[id])continue;
+ // Compact overlaps connect the upper and lower limb sections.
+ const cuffs=[[11,13,.057],[12,14,.057],[13,15,.047],[14,16,.047],
+              [23,25,.071],[24,26,.071],[25,27,.054],[26,28,.054]];
+ for(const [id,adjacent,radius] of cuffs){
+  if(!p[id]||!p[adjacent])continue;
+  const axis=unit3(sub3(p[adjacent],p[id]));
+  if(!axis)continue;
   const r=radius*s;
-  const up=shoulder&&hips?unit3(sub3(shoulder,hips)):[0,-1,0];
-  if(!up)continue;
-  const bottom=sub3(p[id],mul3(up,r)),top=add3(p[id],mul3(up,r));
   const profile=Array.from({length:9},(_,i)=>{
-   const t=i/8,width=r*Math.sqrt(Math.max(.003,1-(2*t-1)**2));
-   return [t,width,width*.87];
+   const t=i/8,width=r*Math.sqrt(Math.max(.002,1-(2*t-1)**2));
+   return [t,width,width*.86];
   });
-  appendRingSurface('Joint '+id,bottom,top,lateral,profile,20);
+  appendRingSurface('Joint '+id,sub3(p[id],mul3(axis,r)),add3(p[id],mul3(axis,r)),lateral,profile);
+ }
+ for(const [part,wrist,elbow] of [['Left hand',15,13],['Right hand',16,14]]){
+  if(!p[wrist]||!p[elbow])continue;
+  const axis=unit3(sub3(p[wrist],p[elbow]));
+  if(!axis)continue;
+  appendRingSurface(part,sub3(p[wrist],mul3(axis,.016*s)),add3(p[wrist],mul3(axis,.136*s)),lateral,
+   [[0,.015*s,.012*s],[.15,.027*s,.020*s],[.31,.04*s,.023*s],[.52,.041*s,.021*s],
+    [.7,.035*s,.018*s],[.87,.027*s,.013*s],[1,.008*s,.006*s]]);
+ }
+ const up=shoulder&&hips?unit3(sub3(shoulder,hips)):null;
+ const forward=up?unit3(cross3(lateral,up)):null;
+ if(forward)for(const [part,ankle,knee] of [['Left foot',27,25],['Right foot',28,26]]){
+  if(!p[ankle]||!p[knee])continue;
+  const sole=sub3(p[ankle],mul3(up,.045*s));
+  appendRingSurface(part,sub3(sole,mul3(forward,.061*s)),add3(sole,mul3(forward,.153*s)),lateral,
+   [[0,.016*s,.021*s],[.19,.036*s,.053*s],[.36,.042*s,.047*s],[.6,.049*s,.034*s],
+    [.8,.045*s,.025*s],[.93,.031*s,.018*s],[1,.012*s,.011*s]]);
  }
  return segments;
+}
+
+function shadedTriangle(ctx,triangle,levels){
+ const [a,b,c]=triangle;
+ const ab=sub3(b,a),ac=sub3(c,a);
+ const area=ab[0]*ac[1]-ab[1]*ac[0];
+ if(Math.abs(area)<1e-6)return;
+ const db=levels[1]-levels[0],dc=levels[2]-levels[0];
+ const gx=(db*ac[1]-dc*ab[1])/area, gy=(ab[0]*dc-ac[0]*db)/area;
+ const range=Math.max(...levels)-Math.min(...levels);
+ const g2=gx*gx+gy*gy;
+ const color=light=>'rgb('+Math.round(8+71*light)+','+Math.round(39+171*light)+','+Math.round(57+181*light)+')';
+ let fill=color(levels[0]);
+ if(range>.025&&g2>1e-10){
+  const lo=levels.indexOf(Math.min(...levels)),hi=levels.indexOf(Math.max(...levels));
+  const start=triangle[lo],step=range/g2;
+  fill=ctx.createLinearGradient(start[0],start[1],start[0]+gx*step,start[1]+gy*step);
+  fill.addColorStop(0,color(levels[lo]));fill.addColorStop(1,color(levels[hi]));
+ }
+ ctx.fillStyle=fill;
+ ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.lineTo(c[0],c[1]);ctx.closePath();ctx.fill();
+ ctx.strokeStyle=fill;ctx.lineWidth=.52;ctx.stroke();
 }
 
 function barycentric2(x,y,[a,b,c]){
@@ -204,19 +244,25 @@ function render(){
  ctx.lineCap='round';
  if(el('render-mode').value!=='skeleton'){
   const faces=new Map();
-  const wires=bodyWireframe(f.points,bodyScale,faces).map(([a,b])=>[screen(a),screen(b)]);
-  surfaceFaces=new Map([...faces].map(([id,triangle])=>[id,triangle.map(screen)]));
+  const wires=bodyWireframe(f.points,bodyScale,faces);
+  const screenVertices=new Map();
+  const projectVertex=point=>{
+   if(!screenVertices.has(point))screenVertices.set(point,screen(point));
+   return screenVertices.get(point);
+  };
+  surfaceFaces=new Map([...faces].map(([id,triangle])=>[id,triangle.map(projectVertex)]));
   for(const [id,anchor] of anchors){
    const triangle=surfaceFaces.get(anchor.face);
    if(markedAt(id,i)&&triangle)surfacePixels.set(id,interpolateTriangle(triangle,anchor.weights));
   }
   if(el('render-mode').value==='wireframe'){
+   const projectedWires=wires.map(([a,b])=>[projectVertex(a),projectVertex(b)]);
    const depthRange=Math.max(extent,.01);
    for(let pass=0;pass<4;pass++){
     ctx.strokeStyle='rgba(40,215,250,'+(0.2+pass*.19)+')';
     ctx.lineWidth=.72;
     ctx.beginPath();
-    for(const [a,b] of wires){
+    for(const [a,b] of projectedWires){
      const depth=(a[2]+b[2])/2;
      const bucket=Math.max(0,Math.min(3,Math.floor(2-4*depth/depthRange)));
      if(bucket!==pass)continue;
@@ -225,21 +271,23 @@ function render(){
     ctx.stroke();
    }
   }else{
-   const facesByDepth=[...surfaceFaces.values()].map(triangle=>({
-    triangle,depth:triangle.reduce((sum,point)=>sum+point[2],0)/3
-   })).sort((a,b)=>b.depth-a.depth);
-   for(const {triangle:[a,b,c]} of facesByDepth){
-    const ab=sub3(b,a),ac=sub3(c,a);
-    // Screen x and y are pixels while depth is in model units.
+   const accumulated=new Map(),ordered=[];
+   for(const triangle of surfaceFaces.values()){
+    const [a,b,c]=triangle,ab=sub3(b,a),ac=sub3(c,a);
     ab[2]*=scale;ac[2]*=scale;
-    const normal=unit3(cross3(ab,ac));
-    if(!normal)continue;
-    const light=.28+.72*Math.abs(dot3(normal,[-.32,-.48,-.816]));
-    ctx.fillStyle='rgb('+Math.round(10+20*light)+','+Math.round(55+150*light)+','+Math.round(78+167*light)+')';
-    ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.lineTo(c[0],c[1]);ctx.closePath();ctx.fill();
-    // A same-color edge closes anti-aliased seams between neighbouring triangles.
-    ctx.strokeStyle=ctx.fillStyle;ctx.lineWidth=.65;ctx.stroke();
+    const normal=cross3(ab,ac);
+    for(const point of triangle)accumulated.set(point,add3(accumulated.get(point)??[0,0,0],normal));
+    if(normal[2]<0)ordered.push({triangle,depth:(a[2]+b[2]+c[2])/3});
    }
+   const brightness=new Map([...accumulated].map(([point,sum])=>{
+    const normal=unit3(sum);
+    const diffuse=normal?Math.max(0,dot3(normal,[-.36,-.49,-.792])):0;
+    const rim=normal?(1-Math.abs(normal[2]))*.14:0;
+    return [point,Math.min(1,.24+.64*diffuse+rim)];
+   }));
+   ordered.sort((a,b)=>b.depth-a.depth);
+   for(const {triangle} of ordered)shadedTriangle(ctx,triangle,triangle.map(p=>brightness.get(p)));
+
   }
  }else{
   ctx.strokeStyle='#39d7f4';ctx.lineWidth=3;
