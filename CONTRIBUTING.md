@@ -1,15 +1,5 @@
-# Branching workflow
+# Contributing to ReplayAxis
 
-Keep `main` as the reviewed project baseline. Create short-lived branches from current `main` when work begins, open a pull request for each focused change, and merge it after review. Start new branches from the updated `main`.
+Use `main` for ongoing project work. Group related changes in one commit and use a message that explains what changed. Keep [project documentation](docs/README.md) and the [research folders](README.md#project-folders) easy to navigate. Verify notebooks and generated artifacts before committing them.
 
-| Branch | Scope | Start when |
-|---|---|---|
-| `research/prior-art` | Literature, competitor and patent evidence | First research pass |
-| `research/capture-and-display` | Camera feasibility and rendering comparisons | Requirements are ready to compare |
-| `feat/synthetic-benchmark` | Known-motion fixtures and numerical evaluation | Benchmark outputs and tolerances are defined |
-| `feat/reconstruction` | Multiview pose and object tracks | Session contracts and baseline fixtures are ready |
-| `feat/spatial-replay` | Playback and interaction | A usable replay bundle exists |
-| `research/motion-forecasting` | Prediction baselines and evaluation protocols | Reconstruction baseline and ground truth are available |
-| `build/distribution` | Release packaging and dependency inventory | The supported release targets are defined |
-
-This repository is public. Use synthetic or appropriately licensed examples and keep athlete recordings, credentials and confidential research material out of the repository.
+This repository is public. Use synthetic or appropriately licensed examples. Keep athlete recordings, credentials and confidential research material out of the repository.

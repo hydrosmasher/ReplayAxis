@@ -2,6 +2,16 @@
 
 Research and software for gesture-controlled 3D sports motion analysis. ReplayAxis will link measurements to synchronized camera evidence and support reproducible analysis across sports.
 
+## Project folders
+
+| Folder | Contents |
+|---|---|
+| [docs](docs/) | Project handoff, feasibility evidence, and validation protocols |
+| [docs/manuscripts](docs/manuscripts/) | First-draft paper in PDF and Word |
+| [research/markerless](research/markerless/) | Two-view Jupyter prototype and setup notes |
+| [research/benchmark](research/benchmark/) | Synthetic tests, replay evidence, and benchmark outputs |
+| [research/papers](research/papers/) | Literature catalog and download tooling |
+
 ## Project handoff
 
 - [Work done to date](docs/work-done.md) summarizes the research, feasibility studies and synthetic benchmark.
@@ -18,4 +28,4 @@ Start with the [thesis feasibility brief](docs/thesis-feasibility-brief.md) for 
 
 Hardware procurement, installation, and athlete capture are deferred pending the research and software feasibility review. Athlete studies and commercial release require separate validation and applicable permissions.
 
-See [the research agenda](docs/research-agenda.md) and [branching workflow](CONTRIBUTING.md).
+See [the research agenda](docs/research-agenda.md) and [contribution notes](CONTRIBUTING.md).
