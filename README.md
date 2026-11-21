@@ -2,13 +2,18 @@
 
 Research and software for gesture-controlled 3D sports motion analysis. ReplayAxis will link measurements to synchronized camera evidence and support reproducible analysis across sports.
 
+## Open ReplayAxis
+
+- [Interactive 3D demo](ReplayAxis_Demo.html). Download the HTML file and open it in a browser.
+- [Working Jupyter notebook](ReplayAxis_Markerless_TwoView.ipynb)
+- Research paper in [PDF](ReplayAxis_Feasibility_Assesment_First_Draft.pdf) and [editable Word](ReplayAxis_Feasibility_Assesment_First_Draft.docx)
+
 ## Project folders
 
 | Folder | Contents |
 |---|---|
 | [docs](docs/) | Project handoff, feasibility evidence, and validation protocols |
-| [docs/manuscripts](docs/manuscripts/) | First-draft paper in PDF and Word |
-| [research/markerless](research/markerless/) | Two-view Jupyter prototype and setup notes |
+| [research/markerless](research/markerless/) | Two-view setup notes and validation results |
 | [research/benchmark](research/benchmark/) | Synthetic tests, replay evidence, and benchmark outputs |
 | [research/papers](research/papers/) | Literature catalog and download tooling |
 

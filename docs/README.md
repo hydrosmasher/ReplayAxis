@@ -4,7 +4,7 @@
 |---|---|
 | Project status | [Work completed](work-done.md) · [Milestones](next-milestones.md) · [Final goals](final-goals.md) |
 | Thesis scope | [Feasibility brief](thesis-feasibility-brief.md) · [Supervisor decisions](supervisor-scope-decision.md) · [Research agenda](research-agenda.md) |
-| Manuscript | [Review PDF](manuscripts/ReplayAxis_Feasibility_Assesment_First_Draft.pdf) · [Editable Word draft](manuscripts/ReplayAxis_Feasibility_Assesment_First_Draft.docx) · [Markdown manuscript](replayaxis-feasibility-manuscript.md) |
+| Manuscript | [Review PDF](../ReplayAxis_Feasibility_Assesment_First_Draft.pdf) · [Editable Word draft](../ReplayAxis_Feasibility_Assesment_First_Draft.docx) · [Markdown manuscript](replayaxis-feasibility-manuscript.md) |
 
 ## Prior work and feasibility
 
