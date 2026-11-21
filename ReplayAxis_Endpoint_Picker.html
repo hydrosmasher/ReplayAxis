@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ReplayAxis · Stereo endpoint picker</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#10171c;color:#ebf3f1;font:16px system-ui}main{max-width:1100px;margin:auto;padding:24px}header{border-top:3px solid #82e6be;padding:16px 0}h1,h2,p{margin:0 0 8px}h1{font-size:26px}h2{font-size:18px}p,small{color:#afc2c5}.views{display:grid;grid-template-columns:1fr 1fr;gap:12px}.view{min-width:0;background:#182329;border:1px solid #354750;padding:14px;border-radius:8px}.view input{width:100%;margin:5px 0 12px}canvas{display:none;width:auto;max-width:100%;max-height:460px;object-fit:contain;margin:auto;background:#0d1419;cursor:crosshair}.bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:16px 0}button,input[type=text]{font:inherit;border:1px solid #45616a;border-radius:6px;padding:6px 10px;background:#23343d;color:#eef8f4}button:disabled{opacity:.55}button:not(:disabled){cursor:pointer}button:focus-visible,input:focus-visible{outline:2px solid #82e6be}li{margin-block:5px}li button{margin-left:10px}@media(max-width:650px){.views{grid-template-columns:1fr}}
+</style>
+<main>
+<header><h1>ReplayAxis · Stereo endpoint picker</h1><p>Open matching stills from a calibrated camera pair. Click endpoint 1, then endpoint 2, in the same order in both views.</p></header>
+<div id="views" class="views"></div>
+<div class="bar"><label for="label">Sample label</label><input id="label" type="text" placeholder="e.g. centre-01">
+<button id="add" disabled>Add sample</button><button id="save" disabled>Download validation_points.json</button></div>
+<p id="status" role="status">Images stay in this browser.</p><ol id="samples"></ol>
+</main>
+<script>
+function pixelCoordinate(clientX, clientY, rect, width, height) {
+ const x=(clientX-rect.left)*width/rect.width, y=(clientY-rect.top)*height/rect.height;
+ return [Math.max(0,Math.min(width-1,Math.floor(x))),Math.max(0,Math.min(height-1,Math.floor(y)))];
+}
+function buildSample(label, left, right) {
+ return {sample:label,first:[left[0],right[0]],second:[left[1],right[1]]};
+}
+const samples=[];
+const el=id=>document.getElementById(id);
+const status=el('status'), add=el('add'), save=el('save');
+const views=['A','B'].map(camera=>{
+ const container=document.createElement('section');
+ container.className='view';
+ container.innerHTML='<h2>Camera '+camera+'</h2><label for="file-'+camera+'">Source still</label><input id="file-'+camera+'" type="file" accept="image/*"><canvas></canvas><p></p><button type="button">Clear points</button>';
+ el('views').append(container);
+ const [file,canvas,description,clear]=['input','canvas','p','button'].map(sel=>container.querySelector(sel));
+ return {camera,file,canvas,description,clear,points:[],image:null,revision:0};
+});
+function redraw(view) {
+ const {canvas,image,points,description,clear}=view;
+ canvas.style.display=image?'block':'none';
+ clear.disabled=!points.length;
+ description.textContent=image ? image.naturalWidth+' × '+image.naturalHeight+' px · '+(points.length<2?'Click endpoint '+(points.length+1):'Endpoints marked') : 'Choose an image';
+ if(!image)return;
+ const ctx=canvas.getContext('2d');
+ ctx.drawImage(image,0,0);
+ const size=Math.max(8,canvas.width/74);
+ for(const [i,[x,y]] of points.entries()){
+  ctx.beginPath();ctx.arc(x,y,size/2,0,2*Math.PI);
+  ctx.fillStyle=i===0?'#82e6be':'#ffd38a';ctx.fill();
+  ctx.fillStyle='#10171c';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='bold '+Math.max(8,size*.67)+'px system-ui';
+  ctx.fillText(String(i+1),x,y);
+ }
+}
+function refresh() {
+ for(const view of views)redraw(view);
+ add.disabled=!views.every(v=>v.points.length===2);
+ save.disabled=!samples.length;
+ el('samples').replaceChildren(...samples.map((sample,i)=>{
+  const li=document.createElement('li');li.textContent=sample.sample;
+  const remove=document.createElement('button');remove.textContent='Remove';remove.setAttribute('aria-label','Remove '+sample.sample);
+  remove.onclick=()=>{samples.splice(i,1);refresh()};
+  li.append(remove);return li;
+ }));
+}
+for(const view of views) {
+ view.file.onchange=async ()=>{
+  const revision=++view.revision;
+  const file=view.file.files[0];
+  view.image=null;view.points=[];refresh();
+  if(!file)return;
+  const uri=URL.createObjectURL(file), image=new Image();
+  try{
+   image.src=uri;await image.decode();
+   if(view.revision!==revision)return;
+   view.image=image;
+   view.canvas.width=image.naturalWidth;view.canvas.height=image.naturalHeight;
+   status.textContent='Camera '+view.camera+' still loaded.';
+  }catch{
+   if(view.revision===revision)status.textContent='Could not open the Camera '+view.camera+' image.';
+  }finally{URL.revokeObjectURL(uri);refresh()}
+ };
+ view.canvas.onclick=event=>{
+  if(!view.image||view.points.length===2)return;
+  const canvas=view.canvas;
+  view.points.push(pixelCoordinate(event.clientX,event.clientY,canvas.getBoundingClientRect(),canvas.width,canvas.height));
+  refresh();
+ };
+ view.clear.onclick=()=>{view.points=[];refresh()};
+}
+el('label').oninput=()=>el('label').setCustomValidity('');
+add.onclick=()=>{
+ const input=el('label');
+ const label=input.value.trim()||'sample-'+(samples.length+1);
+ if(samples.some(s=>s.sample===label)){
+  input.setCustomValidity('Choose a unique sample label.');input.reportValidity();return;
+ }
+ samples.push(buildSample(label,...views.map(v=>v.points)));
+ input.value='';input.setCustomValidity('');
+ for(const view of views){view.file.value='';view.image=null;view.points=[];view.revision++;}
+ status.textContent='Saved '+label+'. Load the next pair of stills or download the JSON.';
+ refresh();
+};
+save.onclick=()=>{
+ const a=document.createElement('a');
+ const uri=URL.createObjectURL(new Blob([JSON.stringify(samples,null,2)+'\n'],{type:'application/json'}));
+ a.href=uri;a.download='validation_points.json';document.body.append(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(uri),1000);
+ status.textContent='Downloaded '+samples.length+' sample'+(samples.length===1?'':'s')+'.';
+};
+refresh();
+</script></html>
