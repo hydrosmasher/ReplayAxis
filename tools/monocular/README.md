@@ -146,3 +146,21 @@ fixed camera shot and check them on withheld landmarks. An above-water
 homography applies to its landmark plane. Underwater validation needs
 separate reference observations and a model of refraction if the rays
 cross the air–water interface.
+
+## Acceptance thresholds
+
+Run `python tools/monocular/benchmark_acceptance.py reference.qca yolov8n-pose.onnx cam02.mp4 cam01.mp4` from the repository root. Swap the camera order to reproduce the second case in `acceptance_results.json`.
+
+The scorer reports nearest-rank 90% and 95% error thresholds on scored joints.
+Fixed-tolerance pass rates count missing predictions as failures among eligible
+reference joints. Coverage uses that same reference denominator. The two
+directions share one motion and one two-view triangulation reference, with
+26 eligible samples each across 12 frame pairs. Input pixels are undistorted
+using known intrinsics and metric scale comes from the reference torso,
+so this is a depth baseline with reference assistance. Scores are hip-relative.
+
+For the learned comparison, use dense matched source frames and identical
+2D detector tracks for both methods. Follow the official MotionBERT
+[inference guide](https://github.com/Walter0807/MotionBERT/blob/main/docs/inference.md)
+and verify the joint mapping, depth axis and scale before feeding predictions
+to the same scorer. MotionBERT inference was not run for this result.
