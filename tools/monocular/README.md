@@ -217,3 +217,20 @@ Where all methods had overlapping joints, stereo achieved 65.3–73.1%
 within 10 cm and 3.8–15.3% within 5 cm. Counting missing estimates, its best
 hip-relative pass rates were 37.9% and 8.9%, respectively. Its best venue
 pass rates were 26.9% and 5.0%.
+
+## Stereo rejection and timing audit
+
+Run `python tools/monocular/benchmark_stereo_audit.py reference.qca yolov8n-pose.onnx cam01.mp4 cam02.mp4 cam03.mp4 cam04.mp4`.
+The reference pair stays fixed at source frames 1–58. Each input camera is
+shifted individually by one source frame in either direction, with the same
+reference denominator for every trial. Scores are in venue coordinates.
+
+The equal-index baseline rejected 790 reference-eligible joint comparisons
+across the six directed splits. Of these, 749 failed the reprojection gate
+and 41 failed the visibility gate. Counts are comparisons, with joints
+repeated across splits. The largest pair disagreement was 98.6 cm despite
+subpixel residuals in one pair. The best 10 cm pass rate was 39.5% after a
+one-frame shift, versus 26.3% at equal indices for that split. Best offsets
+varied across splits, so the sweep is a sensitivity check and does not
+establish a timing correction. See `stereo_audit_results.json` for per-camera
+visibility, per-joint rejections and frame-level outliers.

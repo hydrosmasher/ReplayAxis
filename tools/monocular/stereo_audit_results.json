@@ -1,0 +1,1543 @@
+{
+  "frame_indices": [
+    1,
+    58
+  ],
+  "opencv_version": "4.11.0",
+  "confidence_threshold": 0.55,
+  "cases": [
+    {
+      "input_pair": [
+        "cam01",
+        "cam02"
+      ],
+      "reference_pair": [
+        "cam03",
+        "cam04"
+      ],
+      "rejections": {
+        "reprojection error": 52
+      },
+      "low_visibility_by_camera": {},
+      "rejections_by_joint": {
+        "15": 12,
+        "13": 25,
+        "16": 8,
+        "14": 3,
+        "27": 4
+      },
+      "largest_errors": [
+        {
+          "frame": 10,
+          "joint": 15,
+          "error_m": 0.9861715668647963,
+          "ray_angle_deg": 54.92517732966447,
+          "reprojection_px": [
+            0.2977460665904202,
+            0.24570992349987963
+          ],
+          "confidence": [
+            0.957072913646698,
+            0.9456761479377747
+          ]
+        },
+        {
+          "frame": 9,
+          "joint": 15,
+          "error_m": 0.9602249238027399,
+          "ray_angle_deg": 54.59599607784496,
+          "reprojection_px": [
+            8.137660252819835,
+            6.7397167666850235
+          ],
+          "confidence": [
+            0.9302717447280884,
+            0.9440925717353821
+          ]
+        },
+        {
+          "frame": 8,
+          "joint": 15,
+          "error_m": 0.9447222754532831,
+          "ray_angle_deg": 54.16459830480632,
+          "reprojection_px": [
+            7.233974664998351,
+            5.990322073371591
+          ],
+          "confidence": [
+            0.9395331144332886,
+            0.9201684594154358
+          ]
+        },
+        {
+          "frame": 12,
+          "joint": 15,
+          "error_m": 0.6269001528775333,
+          "ray_angle_deg": 50.418244001913436,
+          "reprojection_px": [
+            9.788054686816453,
+            8.563969796283542
+          ],
+          "confidence": [
+            0.9536224007606506,
+            0.9217369556427002
+          ]
+        },
+        {
+          "frame": 7,
+          "joint": 15,
+          "error_m": 0.4471952745053964,
+          "ray_angle_deg": 47.79879657905921,
+          "reprojection_px": [
+            3.8521348272816036,
+            3.4360322661744194
+          ],
+          "confidence": [
+            0.9107743501663208,
+            0.9002906680107117
+          ]
+        }
+      ],
+      "offset_sweep": [
+        {
+          "offset_frames": [
+            0,
+            0
+          ],
+          "reference_samples": 148,
+          "scored_samples": 96,
+          "coverage": 0.6486486486486487,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.2436050422032453,
+              "95": 0.4471952745053964
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.02027027027027027,
+              "0.1": 0.14864864864864866,
+              "0.2": 0.5202702702702703
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.14479645341993685,
+              "95": 0.17520439557885092
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.21621621621621623,
+              "0.1": 0.4391891891891892,
+              "0.2": 0.6216216216216216
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            -1,
+            0
+          ],
+          "reference_samples": 148,
+          "scored_samples": 100,
+          "coverage": 0.6756756756756757,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.23122433619277505,
+              "95": 0.6239607822969847
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.02702702702702703,
+              "0.1": 0.17567567567567569,
+              "0.2": 0.5675675675675675
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.14662452118905056,
+              "95": 0.2282777884320195
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.22972972972972974,
+              "0.1": 0.49324324324324326,
+              "0.2": 0.6351351351351351
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            1,
+            0
+          ],
+          "reference_samples": 148,
+          "scored_samples": 93,
+          "coverage": 0.6283783783783784,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.2110917818934636,
+              "95": 0.2943690661321849
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.013513513513513514,
+              "0.1": 0.14864864864864866,
+              "0.2": 0.527027027027027
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.13703091391242128,
+              "95": 0.16299754019162482
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.20270270270270271,
+              "0.1": 0.46621621621621623,
+              "0.2": 0.6081081081081081
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            0,
+            -1
+          ],
+          "reference_samples": 148,
+          "scored_samples": 88,
+          "coverage": 0.5945945945945946,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.229657434895076,
+              "95": 0.44014849357451113
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.013513513513513514,
+              "0.1": 0.14864864864864866,
+              "0.2": 0.5135135135135135
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.13561608910559453,
+              "95": 0.18749821058699356
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.16216216216216217,
+              "0.1": 0.40540540540540543,
+              "0.2": 0.5675675675675675
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            0,
+            1
+          ],
+          "reference_samples": 148,
+          "scored_samples": 104,
+          "coverage": 0.7027027027027027,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.2572970355045231,
+              "95": 0.5317287888580325
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.02702702702702703,
+              "0.1": 0.17567567567567569,
+              "0.2": 0.581081081081081
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.15058088255824054,
+              "95": 0.173854929110127
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.22972972972972974,
+              "0.1": 0.5135135135135135,
+              "0.2": 0.668918918918919
+            }
+          }
+        }
+      ]
+    },
+    {
+      "input_pair": [
+        "cam01",
+        "cam03"
+      ],
+      "reference_pair": [
+        "cam02",
+        "cam04"
+      ],
+      "rejections": {
+        "reprojection error": 107,
+        "low visibility": 7
+      },
+      "low_visibility_by_camera": {
+        "cam03": 7
+      },
+      "rejections_by_joint": {
+        "13": 22,
+        "14": 5,
+        "16": 23,
+        "0": 7,
+        "28": 17,
+        "25": 20,
+        "27": 3,
+        "15": 4,
+        "26": 13
+      },
+      "largest_errors": [
+        {
+          "frame": 20,
+          "joint": 16,
+          "error_m": 0.4976126349652266,
+          "ray_angle_deg": 28.15509248979922,
+          "reprojection_px": [
+            1.7572872219706888,
+            1.848441616495049
+          ],
+          "confidence": [
+            0.9623426198959351,
+            0.8132380247116089
+          ]
+        },
+        {
+          "frame": 21,
+          "joint": 16,
+          "error_m": 0.4023636982528207,
+          "ray_angle_deg": 27.077697878150772,
+          "reprojection_px": [
+            2.2905910328005437,
+            2.1968119454547868
+          ],
+          "confidence": [
+            0.9703202843666077,
+            0.8677059412002563
+          ]
+        },
+        {
+          "frame": 18,
+          "joint": 14,
+          "error_m": 0.3544668623198846,
+          "ray_angle_deg": 31.319336650012588,
+          "reprojection_px": [
+            7.031931310779478,
+            7.8903512480552935
+          ],
+          "confidence": [
+            0.9792846441268921,
+            0.9109289646148682
+          ]
+        },
+        {
+          "frame": 21,
+          "joint": 14,
+          "error_m": 0.34716258399613503,
+          "ray_angle_deg": 29.67798579095824,
+          "reprojection_px": [
+            2.036662784430854,
+            2.1630704319529492
+          ],
+          "confidence": [
+            0.98729008436203,
+            0.9291151165962219
+          ]
+        },
+        {
+          "frame": 34,
+          "joint": 14,
+          "error_m": 0.34697756606946156,
+          "ray_angle_deg": 26.02002651032378,
+          "reprojection_px": [
+            5.345481215352658,
+            5.448528051605977
+          ],
+          "confidence": [
+            0.9838104248046875,
+            0.9436872601509094
+          ]
+        }
+      ],
+      "offset_sweep": [
+        {
+          "offset_frames": [
+            0,
+            0
+          ],
+          "reference_samples": 212,
+          "scored_samples": 98,
+          "coverage": 0.46226415094339623,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.30714036699202524,
+              "95": 0.34697756606946156
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.009433962264150943,
+              "0.1": 0.16037735849056603,
+              "0.2": 0.33962264150943394
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.06047577217519928,
+              "95": 0.06971982992962422
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.3584905660377358,
+              "0.1": 0.46226415094339623,
+              "0.2": 0.46226415094339623
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            -1,
+            0
+          ],
+          "reference_samples": 212,
+          "scored_samples": 108,
+          "coverage": 0.5094339622641509,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.2765873456090533,
+              "95": 0.3189479615965149
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.014150943396226415,
+              "0.1": 0.16981132075471697,
+              "0.2": 0.37735849056603776
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.058009027050458295,
+              "95": 0.06229515925622642
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.41509433962264153,
+              "0.1": 0.5094339622641509,
+              "0.2": 0.5094339622641509
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            1,
+            0
+          ],
+          "reference_samples": 212,
+          "scored_samples": 90,
+          "coverage": 0.42452830188679247,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.341620487239151,
+              "95": 0.3861709897737206
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.009433962264150943,
+              "0.1": 0.14150943396226415,
+              "0.2": 0.29245283018867924
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.06435705122378066,
+              "95": 0.07354638186054263
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.32075471698113206,
+              "0.1": 0.419811320754717,
+              "0.2": 0.42452830188679247
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            0,
+            -1
+          ],
+          "reference_samples": 212,
+          "scored_samples": 87,
+          "coverage": 0.41037735849056606,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.3319328853340961,
+              "95": 0.36986443564361987
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.0047169811320754715,
+              "0.1": 0.12735849056603774,
+              "0.2": 0.2688679245283019
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.06784156887267978,
+              "95": 0.07164446362607257
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.32075471698113206,
+              "0.1": 0.41037735849056606,
+              "0.2": 0.41037735849056606
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            0,
+            1
+          ],
+          "reference_samples": 212,
+          "scored_samples": 104,
+          "coverage": 0.49056603773584906,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.2800567380191052,
+              "95": 0.31112294767465015
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.014150943396226415,
+              "0.1": 0.1650943396226415,
+              "0.2": 0.3867924528301887
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.057479950363264254,
+              "95": 0.06471155213213253
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.3915094339622642,
+              "0.1": 0.49056603773584906,
+              "0.2": 0.49056603773584906
+            }
+          }
+        }
+      ]
+    },
+    {
+      "input_pair": [
+        "cam01",
+        "cam04"
+      ],
+      "reference_pair": [
+        "cam02",
+        "cam03"
+      ],
+      "rejections": {
+        "reprojection error": 48
+      },
+      "low_visibility_by_camera": {},
+      "rejections_by_joint": {
+        "13": 6,
+        "26": 4,
+        "28": 13,
+        "16": 11,
+        "14": 6,
+        "27": 5,
+        "15": 3
+      },
+      "largest_errors": [
+        {
+          "frame": 2,
+          "joint": 28,
+          "error_m": 0.18960650625087908,
+          "ray_angle_deg": 84.52834278071599,
+          "reprojection_px": [
+            4.035944787635488,
+            4.856779859090407
+          ],
+          "confidence": [
+            0.9907965660095215,
+            0.9841457009315491
+          ]
+        },
+        {
+          "frame": 27,
+          "joint": 16,
+          "error_m": 0.18901840393135474,
+          "ray_angle_deg": 57.854698842701616,
+          "reprojection_px": [
+            2.1362384218671795,
+            1.9941959437561663
+          ],
+          "confidence": [
+            0.9742158055305481,
+            0.9649004340171814
+          ]
+        },
+        {
+          "frame": 1,
+          "joint": 28,
+          "error_m": 0.18891790884961315,
+          "ray_angle_deg": 84.45963646190958,
+          "reprojection_px": [
+            4.503024310431654,
+            5.4076486349320625
+          ],
+          "confidence": [
+            0.9911682605743408,
+            0.9832179546356201
+          ]
+        },
+        {
+          "frame": 10,
+          "joint": 26,
+          "error_m": 0.18792285106445808,
+          "ray_angle_deg": 75.5201165171254,
+          "reprojection_px": [
+            0.9042124625985709,
+            1.034270959229286
+          ],
+          "confidence": [
+            0.998065173625946,
+            0.9973841309547424
+          ]
+        },
+        {
+          "frame": 5,
+          "joint": 28,
+          "error_m": 0.18107623636501885,
+          "ray_angle_deg": 84.22916885384949,
+          "reprojection_px": [
+            6.607992271796693,
+            7.991574797063024
+          ],
+          "confidence": [
+            0.9917923212051392,
+            0.9881879687309265
+          ]
+        }
+      ],
+      "offset_sweep": [
+        {
+          "offset_frames": [
+            0,
+            0
+          ],
+          "reference_samples": 114,
+          "scored_samples": 66,
+          "coverage": 0.5789473684210527,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.1671291649012071,
+              "95": 0.18792285106445808
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.05263157894736842,
+              "0.1": 0.2631578947368421,
+              "0.2": 0.5789473684210527
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.09958688191710396,
+              "95": 0.12538194298880856
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.37719298245614036,
+              "0.1": 0.5263157894736842,
+              "0.2": 0.5789473684210527
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            -1,
+            0
+          ],
+          "reference_samples": 114,
+          "scored_samples": 63,
+          "coverage": 0.5526315789473685,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.1673986638821229,
+              "95": 0.18891609436967133
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.05263157894736842,
+              "0.1": 0.2807017543859649,
+              "0.2": 0.543859649122807
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.10341156775553795,
+              "95": 0.12371187803545891
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.34210526315789475,
+              "0.1": 0.49122807017543857,
+              "0.2": 0.5526315789473685
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            1,
+            0
+          ],
+          "reference_samples": 114,
+          "scored_samples": 68,
+          "coverage": 0.5964912280701754,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.16762259476657643,
+              "95": 0.18875618787377202
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.03508771929824561,
+              "0.1": 0.2631578947368421,
+              "0.2": 0.5877192982456141
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.10016128109112532,
+              "95": 0.12668880272658278
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.40350877192982454,
+              "0.1": 0.5350877192982456,
+              "0.2": 0.5964912280701754
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            0,
+            -1
+          ],
+          "reference_samples": 114,
+          "scored_samples": 73,
+          "coverage": 0.6403508771929824,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.1558585312769325,
+              "95": 0.1782056099132471
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.07894736842105263,
+              "0.1": 0.39473684210526316,
+              "0.2": 0.6403508771929824
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.09327567655303615,
+              "95": 0.12067128563007146
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.4824561403508772,
+              "0.1": 0.5789473684210527,
+              "0.2": 0.6403508771929824
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            0,
+            1
+          ],
+          "reference_samples": 114,
+          "scored_samples": 59,
+          "coverage": 0.5175438596491229,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.18121727414380195,
+              "95": 0.18918665992955955
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.03508771929824561,
+              "0.1": 0.20175438596491227,
+              "0.2": 0.5087719298245614
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.10699115757241595,
+              "95": 0.1368704536649672
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.2719298245614035,
+              "0.1": 0.45614035087719296,
+              "0.2": 0.5175438596491229
+            }
+          }
+        }
+      ]
+    },
+    {
+      "input_pair": [
+        "cam02",
+        "cam03"
+      ],
+      "reference_pair": [
+        "cam01",
+        "cam04"
+      ],
+      "rejections": {
+        "reprojection error": 182,
+        "low visibility": 9
+      },
+      "low_visibility_by_camera": {
+        "cam03": 9,
+        "cam02": 1
+      },
+      "rejections_by_joint": {
+        "13": 35,
+        "15": 20,
+        "16": 18,
+        "26": 32,
+        "28": 13,
+        "0": 9,
+        "14": 11,
+        "25": 23,
+        "27": 30
+      },
+      "largest_errors": [
+        {
+          "frame": 2,
+          "joint": 28,
+          "error_m": 0.18960650625087908,
+          "ray_angle_deg": 83.59582420769044,
+          "reprojection_px": [
+            6.833701587129677,
+            9.008509490476563
+          ],
+          "confidence": [
+            0.9478923082351685,
+            0.9883986115455627
+          ]
+        },
+        {
+          "frame": 27,
+          "joint": 16,
+          "error_m": 0.18901840393135474,
+          "ray_angle_deg": 67.73909050876539,
+          "reprojection_px": [
+            4.131307154804135,
+            4.625776035263871
+          ],
+          "confidence": [
+            0.9484683871269226,
+            0.8379037380218506
+          ]
+        },
+        {
+          "frame": 1,
+          "joint": 28,
+          "error_m": 0.18891790884961315,
+          "ray_angle_deg": 83.45163622569017,
+          "reprojection_px": [
+            4.15538297382098,
+            5.494590374383214
+          ],
+          "confidence": [
+            0.9549081921577454,
+            0.9878608584403992
+          ]
+        },
+        {
+          "frame": 10,
+          "joint": 26,
+          "error_m": 0.18792285106445808,
+          "ray_angle_deg": 75.72877552301816,
+          "reprojection_px": [
+            2.3315465157837822,
+            3.042488628567853
+          ],
+          "confidence": [
+            0.9965242743492126,
+            0.995762825012207
+          ]
+        },
+        {
+          "frame": 5,
+          "joint": 28,
+          "error_m": 0.18107623636501885,
+          "ray_angle_deg": 82.87649939988184,
+          "reprojection_px": [
+            2.162267288038335,
+            2.9069224920503816
+          ],
+          "confidence": [
+            0.9837861657142639,
+            0.987655758857727
+          ]
+        }
+      ],
+      "offset_sweep": [
+        {
+          "offset_frames": [
+            0,
+            0
+          ],
+          "reference_samples": 257,
+          "scored_samples": 66,
+          "coverage": 0.25680933852140075,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.1671291649012071,
+              "95": 0.18792285106445808
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.023346303501945526,
+              "0.1": 0.11673151750972763,
+              "0.2": 0.25680933852140075
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.09958688191710396,
+              "95": 0.12538194298880856
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.16731517509727625,
+              "0.1": 0.23346303501945526,
+              "0.2": 0.25680933852140075
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            -1,
+            0
+          ],
+          "reference_samples": 257,
+          "scored_samples": 71,
+          "coverage": 0.27626459143968873,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.1561409501073668,
+              "95": 0.18855007468604668
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.019455252918287938,
+              "0.1": 0.11673151750972763,
+              "0.2": 0.2723735408560311
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.09298212899981162,
+              "95": 0.13937505931079486
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.16342412451361868,
+              "0.1": 0.2529182879377432,
+              "0.2": 0.27626459143968873
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            1,
+            0
+          ],
+          "reference_samples": 257,
+          "scored_samples": 67,
+          "coverage": 0.2607003891050584,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.16084906295355414,
+              "95": 0.18105949427964071
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.027237354085603113,
+              "0.1": 0.14007782101167315,
+              "0.2": 0.2607003891050584
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.10596671645043165,
+              "95": 0.12635773179261112
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.17898832684824903,
+              "0.1": 0.22957198443579765,
+              "0.2": 0.2607003891050584
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            0,
+            -1
+          ],
+          "reference_samples": 257,
+          "scored_samples": 63,
+          "coverage": 0.245136186770428,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.1675066594996695,
+              "95": 0.18830235172455162
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.011673151750972763,
+              "0.1": 0.09727626459143969,
+              "0.2": 0.245136186770428
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.11264560284433245,
+              "95": 0.12527818253043577
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.14396887159533073,
+              "0.1": 0.2178988326848249,
+              "0.2": 0.245136186770428
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            0,
+            1
+          ],
+          "reference_samples": 257,
+          "scored_samples": 71,
+          "coverage": 0.27626459143968873,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.1466813893054739,
+              "95": 0.1808720057166911
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.0311284046692607,
+              "0.1": 0.16342412451361868,
+              "0.2": 0.27626459143968873
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.09018722543111546,
+              "95": 0.1251039174030424
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.19066147859922178,
+              "0.1": 0.2529182879377432,
+              "0.2": 0.27626459143968873
+            }
+          }
+        }
+      ]
+    },
+    {
+      "input_pair": [
+        "cam02",
+        "cam04"
+      ],
+      "reference_pair": [
+        "cam01",
+        "cam03"
+      ],
+      "rejections": {
+        "low visibility": 3,
+        "reprojection error": 164
+      },
+      "low_visibility_by_camera": {
+        "cam02": 2,
+        "cam04": 3
+      },
+      "rejections_by_joint": {
+        "0": 3,
+        "14": 32,
+        "16": 9,
+        "25": 19,
+        "27": 38,
+        "26": 11,
+        "15": 26,
+        "13": 12,
+        "28": 17
+      },
+      "largest_errors": [
+        {
+          "frame": 20,
+          "joint": 16,
+          "error_m": 0.4976126349652266,
+          "ray_angle_deg": 15.203312332446592,
+          "reprojection_px": [
+            2.0488485574913673,
+            2.4112706211483683
+          ],
+          "confidence": [
+            0.9439546465873718,
+            0.9779219031333923
+          ]
+        },
+        {
+          "frame": 21,
+          "joint": 16,
+          "error_m": 0.4023636982528207,
+          "ray_angle_deg": 14.213544880732346,
+          "reprojection_px": [
+            0.6741928311538592,
+            0.7631388392429639
+          ],
+          "confidence": [
+            0.951434314250946,
+            0.9704551100730896
+          ]
+        },
+        {
+          "frame": 18,
+          "joint": 14,
+          "error_m": 0.3544668623198846,
+          "ray_angle_deg": 18.864097531094004,
+          "reprojection_px": [
+            1.2224725262318707,
+            1.5990210353149046
+          ],
+          "confidence": [
+            0.968940258026123,
+            0.9862326383590698
+          ]
+        },
+        {
+          "frame": 21,
+          "joint": 14,
+          "error_m": 0.34716258399613503,
+          "ray_angle_deg": 18.21048531871498,
+          "reprojection_px": [
+            5.281228491503548,
+            6.474719497873568
+          ],
+          "confidence": [
+            0.9771549105644226,
+            0.9819759130477905
+          ]
+        },
+        {
+          "frame": 34,
+          "joint": 14,
+          "error_m": 0.34697756606946156,
+          "ray_angle_deg": 16.874644510850292,
+          "reprojection_px": [
+            7.712980661080589,
+            8.677593555306464
+          ],
+          "confidence": [
+            0.9729413390159607,
+            0.9805155992507935
+          ]
+        }
+      ],
+      "offset_sweep": [
+        {
+          "offset_frames": [
+            0,
+            0
+          ],
+          "reference_samples": 265,
+          "scored_samples": 98,
+          "coverage": 0.36981132075471695,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.30714036699202524,
+              "95": 0.34697756606946156
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.007547169811320755,
+              "0.1": 0.12830188679245283,
+              "0.2": 0.27169811320754716
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.06047577217519928,
+              "95": 0.06971982992962422
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.28679245283018867,
+              "0.1": 0.36981132075471695,
+              "0.2": 0.36981132075471695
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            -1,
+            0
+          ],
+          "reference_samples": 265,
+          "scored_samples": 87,
+          "coverage": 0.3283018867924528,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.3446632333313373,
+              "95": 0.3997583247396978
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.011320754716981131,
+              "0.1": 0.10943396226415095,
+              "0.2": 0.22264150943396227
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.059883353025797725,
+              "95": 0.07059113718835253
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.2528301886792453,
+              "0.1": 0.32452830188679244,
+              "0.2": 0.3283018867924528
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            1,
+            0
+          ],
+          "reference_samples": 265,
+          "scored_samples": 115,
+          "coverage": 0.4339622641509434,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.26843735927472745,
+              "95": 0.30239039825418346
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.007547169811320755,
+              "0.1": 0.1471698113207547,
+              "0.2": 0.3471698113207547
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.061823257166146894,
+              "95": 0.0696095742928694
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.3471698113207547,
+              "0.1": 0.4339622641509434,
+              "0.2": 0.4339622641509434
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            0,
+            -1
+          ],
+          "reference_samples": 265,
+          "scored_samples": 113,
+          "coverage": 0.42641509433962266,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.25815642887326584,
+              "95": 0.2931309364459285
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.011320754716981131,
+              "0.1": 0.16981132075471697,
+              "0.2": 0.3584905660377358
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.06374345121575509,
+              "95": 0.07012916671405722
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.33962264150943394,
+              "0.1": 0.4226415094339623,
+              "0.2": 0.42641509433962266
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            0,
+            1
+          ],
+          "reference_samples": 265,
+          "scored_samples": 93,
+          "coverage": 0.35094339622641507,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.3297755584062822,
+              "95": 0.3664566143797813
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.0037735849056603774,
+              "0.1": 0.11320754716981132,
+              "0.2": 0.2339622641509434
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.05929517106519322,
+              "95": 0.06241395846578068
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.2792452830188679,
+              "0.1": 0.3471698113207547,
+              "0.2": 0.35094339622641507
+            }
+          }
+        }
+      ]
+    },
+    {
+      "input_pair": [
+        "cam03",
+        "cam04"
+      ],
+      "reference_pair": [
+        "cam01",
+        "cam02"
+      ],
+      "rejections": {
+        "reprojection error": 196,
+        "low visibility": 22
+      },
+      "low_visibility_by_camera": {
+        "cam04": 9,
+        "cam03": 21
+      },
+      "rejections_by_joint": {
+        "14": 27,
+        "25": 37,
+        "26": 39,
+        "27": 17,
+        "0": 22,
+        "13": 12,
+        "16": 22,
+        "28": 21,
+        "15": 21
+      },
+      "largest_errors": [
+        {
+          "frame": 10,
+          "joint": 15,
+          "error_m": 0.9861715668647963,
+          "ray_angle_deg": 74.08188527360522,
+          "reprojection_px": [
+            2.302429148009688,
+            2.15165825678067
+          ],
+          "confidence": [
+            0.9422211647033691,
+            0.8784555792808533
+          ]
+        },
+        {
+          "frame": 9,
+          "joint": 15,
+          "error_m": 0.9602249238027399,
+          "ray_angle_deg": 74.31156841269012,
+          "reprojection_px": [
+            0.7861138204146596,
+            0.7385962012822953
+          ],
+          "confidence": [
+            0.9415300488471985,
+            0.842153787612915
+          ]
+        },
+        {
+          "frame": 8,
+          "joint": 15,
+          "error_m": 0.9447222754532831,
+          "ray_angle_deg": 74.53625206797837,
+          "reprojection_px": [
+            0.7463915976825631,
+            0.7019502680431413
+          ],
+          "confidence": [
+            0.9476935267448425,
+            0.8494135141372681
+          ]
+        },
+        {
+          "frame": 12,
+          "joint": 15,
+          "error_m": 0.6269001528775333,
+          "ray_angle_deg": 73.05172824218783,
+          "reprojection_px": [
+            4.1314567004862255,
+            3.841441799786964
+          ],
+          "confidence": [
+            0.9195885062217712,
+            0.8840836882591248
+          ]
+        },
+        {
+          "frame": 7,
+          "joint": 15,
+          "error_m": 0.4471952745053964,
+          "ray_angle_deg": 74.9529280847994,
+          "reprojection_px": [
+            1.2131851766739217,
+            1.1412636341437639
+          ],
+          "confidence": [
+            0.9521416425704956,
+            0.8486232757568359
+          ]
+        }
+      ],
+      "offset_sweep": [
+        {
+          "offset_frames": [
+            0,
+            0
+          ],
+          "reference_samples": 314,
+          "scored_samples": 96,
+          "coverage": 0.3057324840764331,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.2436050422032453,
+              "95": 0.4471952745053964
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.009554140127388535,
+              "0.1": 0.07006369426751592,
+              "0.2": 0.24522292993630573
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.14479645341993685,
+              "95": 0.17520439557885092
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.10191082802547771,
+              "0.1": 0.2070063694267516,
+              "0.2": 0.2929936305732484
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            -1,
+            0
+          ],
+          "reference_samples": 314,
+          "scored_samples": 94,
+          "coverage": 0.29936305732484075,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.23688424669749467,
+              "95": 0.4497420052377099
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.0031847133757961785,
+              "0.1": 0.05732484076433121,
+              "0.2": 0.2484076433121019
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.14201416206386341,
+              "95": 0.17573221061481292
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.09235668789808917,
+              "0.1": 0.21337579617834396,
+              "0.2": 0.28662420382165604
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            1,
+            0
+          ],
+          "reference_samples": 314,
+          "scored_samples": 108,
+          "coverage": 0.34394904458598724,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.4478114628874839,
+              "95": 0.8116625142697211
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.01910828025477707,
+              "0.1": 0.09554140127388536,
+              "0.2": 0.27070063694267515
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.1684037884279117,
+              "95": 0.27026414214079275
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.12101910828025478,
+              "0.1": 0.23885350318471338,
+              "0.2": 0.321656050955414
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            0,
+            -1
+          ],
+          "reference_samples": 314,
+          "scored_samples": 108,
+          "coverage": 0.34394904458598724,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.2837053513212988,
+              "95": 0.7908080826119515
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.01592356687898089,
+              "0.1": 0.11146496815286625,
+              "0.2": 0.2802547770700637
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.15575335840025284,
+              "95": 0.26694475964252173
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.12738853503184713,
+              "0.1": 0.2484076433121019,
+              "0.2": 0.321656050955414
+            }
+          }
+        },
+        {
+          "offset_frames": [
+            0,
+            1
+          ],
+          "reference_samples": 314,
+          "scored_samples": 94,
+          "coverage": 0.29936305732484075,
+          "position": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.23059120077631684,
+              "95": 0.443042453253935
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.006369426751592357,
+              "0.1": 0.07643312101910828,
+              "0.2": 0.2484076433121019
+            }
+          },
+          "depth": {
+            "tolerance_m_at_pass_rate_on_scored": {
+              "90": 0.14470675042664594,
+              "95": 0.18358747825237143
+            },
+            "reference_pass_rate_at_tolerance_m": {
+              "0.05": 0.08598726114649681,
+              "0.1": 0.21337579617834396,
+              "0.2": 0.28662420382165604
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
