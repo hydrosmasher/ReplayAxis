@@ -33,3 +33,33 @@ The London 2012 Phelps broadcast is the first target case. No decoded Phelps
 frames were used in this run. The next iteration should test a
 swimming-aware detector and temporal lifting on a continuous race shot,
 then score aligned pose and depth against calibrated real footage.
+
+## Experimental temporal depth
+
+Add `--temporal` to the replay command. This mode chooses signs for the
+inferred depth offsets over contiguous runs using a two-state search.
+Its cost combines changes in depth offset and a weak image-plane
+bend cue. That cue is a heuristic, does not observe depth directly,
+and can change with viewpoint. Visibility gaps are never filled.
+
+Run against the same QCA file, model and videos used by the two-view
+benchmark:
+
+```sh
+python tools/monocular/benchmark_temporal.py Calib.qca.txt yolov8n-pose.onnx cam02.mp4 cam01.mp4
+```
+
+| Single-camera input | Reference pair | Shared joint samples | Fixed depth MAE | Temporal depth MAE |
+| --- | --- | ---: | ---: | ---: |
+| cam01 | cam01 + cam02 | 26 | .565 | .552 |
+| cam02 | cam02 + cam01 | 26 | .429 | .477 |
+| cam03 | cam03 + cam04 | 16 | .432 | .477 |
+| cam04 | cam04 + cam03 | 16 | .731 | .527 |
+
+Each run used 12 sampled frame pairs from the same Pose2Sim performance.
+The benchmark undistorts both views, triangulates a reference, subtracts
+the hip midpoint, expresses depth in torso lengths, and scores shared
+head and limb joints. It also reports reflected hypotheses to expose
+sign ambiguity. Calibrated triangulation is a proxy reference and uses
+the same 2D detections. These comparisons are neither independent subjects
+nor motion-capture ground truth. The fixed estimator remains the default.

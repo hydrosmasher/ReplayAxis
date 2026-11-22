@@ -25,7 +25,41 @@ def load_notebook(path):
     return api
 
 
-def lift(observations, mirror=False, confidence=.55):
+def temporal_offsets(samples, preferred_sign, cues):
+    """Select signed offsets for each contiguous run with a two-state path search."""
+    offsets = {}
+    start = 0
+    while start < len(samples):
+        if samples[start] is None:
+            start += 1
+            continue
+        end = start + 1
+        while end < len(samples) and samples[end] is not None:
+            end += 1
+        costs = [0., 0.]
+        links = []
+        for index in range(start, end):
+            current = samples[index]
+            previous = samples[index-1] if index > start else current
+            next_costs, parents = [], []
+            for state, sign in enumerate((preferred_sign, -preferred_sign)):
+                other_sign = -sign
+                stay = costs[state] + (current-previous)**2
+                switch = costs[1-state] + (sign*current-other_sign*previous)**2
+                parent = state if stay <= switch else 1-state
+                parents.append(parent)
+                next_costs.append(min(stay, switch) + .08*current**2*(sign != cues[index]))
+            links.append(parents)
+            costs = next_costs
+        state = int(costs[1] < costs[0])
+        for index in range(end-1, start-1, -1):
+            offsets[index] = samples[index]*preferred_sign*(1-2*state)
+            state = links[index-start][state]
+        start = end
+    return offsets
+
+
+def lift(observations, mirror=False, confidence=.55, temporal=False):
     """Use weak perspective and segment priors to produce one of two depth hypotheses."""
     clean = [{j: p for j, p in obs.items()
               if len(p) == 3 and all(map(math.isfinite, p)) and p[2] >= confidence}
@@ -38,21 +72,37 @@ def lift(observations, mirror=False, confidence=.55):
     if not trunk_lengths or median(trunk_lengths) < 5:
         raise ValueError("No reliable torso scale. Use a shot with visible shoulders and hips.")
     scale = median(trunk_lengths)
-    frames = []
+    frames, planar = [], []
     for p in clean:
         points = {}
         if 23 in p and 24 in p:
             cx, cy = ((p[23][k]+p[24][k])/2 for k in (0, 1))
             points = {j: [(value[0]-cx)/scale, (value[1]-cy)/scale, 0.]
-                      for j, value in p.items() if j in (11, 12, 23, 24)}
-            for parent, child, length, sign in CHAINS:
-                if parent not in points or child not in p:
-                    continue
-                x, y = (p[child][0]-cx)/scale, (p[child][1]-cy)/scale
-                dx, dy = x-points[parent][0], y-points[parent][1]
+                      for j, value in p.items()}
+        planar.append(points)
+        frames.append({j: point.copy() for j, point in points.items()
+                       if j in (11, 12, 23, 24)})
+    bend_anchors = {15: 11, 16: 12, 27: 23, 28: 24}
+    for parent, child, length, sign in CHAINS:
+        samples, cues = [], []
+        for frame, p in zip(frames, planar):
+            depth, cue = None, sign
+            if parent in frame and child in p:
+                dx, dy = (p[child][k]-p[parent][k] for k in (0, 1))
                 depth = math.sqrt(max(0., length*length-dx*dx-dy*dy))
-                points[child] = [x, y, points[parent][2]+sign*depth*(-1 if mirror else 1)]
-        frames.append(points)
+                anchor = bend_anchors.get(child)
+                if anchor in p:
+                    ax, ay = (p[parent][k]-p[anchor][k] for k in (0, 1))
+                    area = ax*dy-ay*dx
+                    if abs(area) > .025:
+                        cue = sign * (1 if area > 0 else -1)
+            samples.append(depth)
+            cues.append(cue)
+        offsets = (temporal_offsets(samples, sign, cues) if temporal else
+                   {i: sign*depth for i, depth in enumerate(samples) if depth is not None})
+        for i, depth in offsets.items():
+            frames[i][child] = [*planar[i][child][:2],
+                                frames[i][parent][2]+depth*(-1 if mirror else 1)]
     return frames
 
 
@@ -65,6 +115,7 @@ def main():
     parser.add_argument("--start-frame", type=int, default=0)
     parser.add_argument("--frames", type=int, default=120)
     parser.add_argument("--mirror-depth", action="store_true")
+    parser.add_argument("--temporal", action="store_true", help="Use the experimental temporal depth path")
     args = parser.parse_args()
     if args.frames < 1 or args.start_frame < 0:
         parser.error("frame count must be positive and start frame must be nonnegative")
@@ -85,7 +136,7 @@ def main():
             observations.append(api["detect_onnx_pose"](net, image))
     finally:
         capture.release()
-    poses = lift(observations, mirror=args.mirror_depth)
+    poses = lift(observations, mirror=args.mirror_depth, temporal=args.temporal)
     frames = []
     for index, (pose, obs) in enumerate(zip(poses, observations), args.start_frame):
         frames.append(dict(time=index/fps, source_frames=[index, None], points=pose,
@@ -93,6 +144,7 @@ def main():
                            evidence={j: {"camera_a": obs[j]} for j in pose}))
     payload = dict(title="Estimated 3D · single camera · relative pose only",
                    units="torso", depth="mirrored hypothesis" if args.mirror_depth else "prior hypothesis",
+                   depth_method="temporal bend prior" if args.temporal else "fixed prior",
                    timeline="nominal FPS", rate=fps, frames=frames, bones=api["BONES"], joints=api["JOINTS"])
     data = json.dumps(payload, allow_nan=False)
     viewer = api["VIEWER"].replace("Landmarks reconstructed", "Landmarks estimated")
