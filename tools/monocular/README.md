@@ -234,3 +234,21 @@ one-frame shift, versus 26.3% at equal indices for that split. Best offsets
 varied across splits, so the sweep is a sensitivity check and does not
 establish a timing correction. See `stereo_audit_results.json` for per-camera
 visibility, per-joint rejections and frame-level outliers.
+
+## Manual review of the frame 10 left-wrist outlier
+
+Run from the repository root:
+
+```sh
+python tools/monocular/benchmark_wrist_labels.py tools/monocular/frame10_wrist_labels.json reference.qca yolov8n-pose.onnx cam01.mp4 cam02.mp4 cam03.mp4 cam04.mp4
+```
+
+The labels are approximate single-pass hand–forearm junction marks on source
+frame 10, in original image pixels. They differ from the detector by
+10.5–31.6 px. Manual substitution made cam01–cam02 fail the existing 10 px
+per-view gate. Removing that gate for diagnosis only, the disjoint pair
+disagreement was 1.039 m for manual marks versus 0.986 m for detections.
+This checks one frame and does not identify whether timestamps, pixel
+geometry, calibration, or visible landmark interpretation drives the
+remaining disagreement. The results JSON preserves the individual pixel
+residuals, including the failed pairs.

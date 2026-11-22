@@ -1,0 +1,11 @@
+{
+  "source_frame": 10,
+  "joint": 15,
+  "label_description": "Approximate visible hand–forearm junction, visually marked once in each original view",
+  "pixels": {
+    "cam01": [573, 763],
+    "cam02": [385, 689],
+    "cam03": [463, 967],
+    "cam04": [266, 999]
+  }
+}

@@ -1,0 +1,202 @@
+{
+  "source_frame": 10,
+  "joint": 15,
+  "views": {
+    "cam01": {
+      "manual_px": [
+        573,
+        763
+      ],
+      "detection": [
+        574.7623901367188,
+        731.4537353515625,
+        0.957072913646698
+      ],
+      "disagreement_px": 31.59545587997206
+    },
+    "cam02": {
+      "manual_px": [
+        385,
+        689
+      ],
+      "detection": [
+        395.4422607421875,
+        689.5369262695312,
+        0.9456761479377747
+      ],
+      "disagreement_px": 10.456055624696292
+    },
+    "cam03": {
+      "manual_px": [
+        463,
+        967
+      ],
+      "detection": [
+        464.5422668457031,
+        952.1643676757812,
+        0.9422211647033691
+      ],
+      "disagreement_px": 14.915581567031145
+    },
+    "cam04": {
+      "manual_px": [
+        266,
+        999
+      ],
+      "detection": [
+        277.7559509277344,
+        997.8870239257812,
+        0.8784555792808533
+      ],
+      "disagreement_px": 11.80851802543749
+    }
+  },
+  "comparisons": {
+    "detector": {
+      "pairs": {
+        "cam01+cam02": {
+          "point_m": [
+            -0.5836954580515439,
+            -0.22980206414588988,
+            1.186124450154724
+          ],
+          "rejection": null,
+          "ray_angle_deg": 54.92517732966447,
+          "reprojection_px": [
+            0.2977460665904202,
+            0.24570992349987963
+          ]
+        },
+        "cam01+cam03": {
+          "point_m": [
+            -1.393001935214047,
+            0.4265394780293884,
+            0.9079302134896022
+          ],
+          "rejection": null,
+          "ray_angle_deg": 40.05762933471736,
+          "reprojection_px": [
+            2.98193227300074,
+            3.9996312543407173
+          ]
+        },
+        "cam01+cam04": {
+          "point_m": null,
+          "rejection": "reprojection error",
+          "ray_angle_deg": 81.28765606756338,
+          "reprojection_px": [
+            16.645709259171017,
+            19.54506439235079
+          ]
+        },
+        "cam02+cam03": {
+          "point_m": null,
+          "rejection": "reprojection error",
+          "ray_angle_deg": 68.41961798222101,
+          "reprojection_px": [
+            137.06540014080957,
+            143.12465194635033
+          ]
+        },
+        "cam02+cam04": {
+          "point_m": null,
+          "rejection": "reprojection error",
+          "ray_angle_deg": 33.316213177419925,
+          "reprojection_px": [
+            85.56529055145715,
+            201.72602336995425
+          ]
+        },
+        "cam03+cam04": {
+          "point_m": [
+            -1.3176235991250747,
+            0.34353512135899344,
+            0.8618278039336166
+          ],
+          "rejection": null,
+          "ray_angle_deg": 74.08188527360522,
+          "reprojection_px": [
+            2.302429148009688,
+            2.15165825678067
+          ]
+        }
+      },
+      "disjoint_disagreement_m": {
+        "cam01+cam02 vs cam03+cam04": 0.9861715668647963
+      },
+      "primary_disagreement_without_pixel_gate_m": 0.9861715668647963
+    },
+    "manual": {
+      "pairs": {
+        "cam01+cam02": {
+          "point_m": null,
+          "rejection": "reprojection error",
+          "ray_angle_deg": 55.46381256446182,
+          "reprojection_px": [
+            14.56007534979953,
+            11.999028812807953
+          ]
+        },
+        "cam01+cam03": {
+          "point_m": [
+            -1.3448279703186476,
+            0.39417977130453485,
+            0.8529484646735003
+          ],
+          "rejection": null,
+          "ray_angle_deg": 41.55427620266154,
+          "reprojection_px": [
+            6.065915412865194,
+            7.861025471861589
+          ]
+        },
+        "cam01+cam04": {
+          "point_m": [
+            -1.302801635208995,
+            0.3770529040433931,
+            0.8641027052831803
+          ],
+          "rejection": null,
+          "ray_angle_deg": 82.13901436869256,
+          "reprojection_px": [
+            0.19333993790578835,
+            0.2259905324314513
+          ]
+        },
+        "cam02+cam03": {
+          "point_m": null,
+          "rejection": "reprojection error",
+          "ray_angle_deg": 68.80052121341167,
+          "reprojection_px": [
+            147.2358174073176,
+            153.12459486625698
+          ]
+        },
+        "cam02+cam04": {
+          "point_m": null,
+          "rejection": "reprojection error",
+          "ray_angle_deg": 33.17243470621032,
+          "reprojection_px": [
+            91.22579925228793,
+            221.4285479147101
+          ]
+        },
+        "cam03+cam04": {
+          "point_m": [
+            -1.3294217881103272,
+            0.3653789785796645,
+            0.8579077012538655
+          ],
+          "rejection": null,
+          "ray_angle_deg": 74.2763989454539,
+          "reprojection_px": [
+            9.466474901083325,
+            8.784287444957075
+          ]
+        }
+      },
+      "disjoint_disagreement_m": {},
+      "primary_disagreement_without_pixel_gate_m": 1.0392223009147636
+    }
+  }
+}
