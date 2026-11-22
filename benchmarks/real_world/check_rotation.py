@@ -8,7 +8,7 @@ import sys
 import cv2
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools/monocular"))
-from reconstruct import detect_rotated, load_notebook
+from reconstruct import detect_rotated, fuse_orientation_detections, load_notebook
 
 JOINTS = {"hip": (23, 24), "shoulder": (11, 12), "wrist": (15, 16), "cap": (0,)}
 
@@ -35,8 +35,9 @@ def main():
             frames[index] = frame
     finally:
         cap.release()
-    for name in ("none", "clockwise", "counterclockwise"):
-        output = {index: detect_rotated(api["detect_onnx_pose"], net, frame, name)
+    for name in ("none", "clockwise", "counterclockwise", "fused"):
+        output = {index: (fuse_orientation_detections(api["detect_onnx_pose"], net, frame)
+                          if name == "fused" else detect_rotated(api["detect_onnx_pose"], net, frame, name))
                   for index, frame in frames.items()}
         print(name)
         for landmark, ids in JOINTS.items():

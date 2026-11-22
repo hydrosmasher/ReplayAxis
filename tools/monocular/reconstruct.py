@@ -118,6 +118,36 @@ def detect_rotated(detect, net, frame, rotation="none"):
     return detect(net, frame)
 
 
+def fuse_orientation_detections(detect, net, frame):
+    """Combine agreeing pose detections in source pixels."""
+    original = detect_rotated(detect, net, frame)
+    rotated = detect_rotated(detect, net, frame, "counterclockwise")
+    if not original or not rotated:
+        return original or rotated
+    anchors = (11, 12, 23, 24)
+    shared = [j for j in anchors if j in original and j in rotated
+              and min(original[j][2], rotated[j][2]) >= .45]
+
+    def pose_quality(pose):
+        return sum(pose[j][2] for j in anchors if j in pose)
+
+    primary, secondary = sorted((original, rotated), key=pose_quality, reverse=True)
+    if len(shared) < 2 or not all(j in primary for j in anchors):
+        return primary
+    shoulders = [(primary[11][k]+primary[12][k])/2 for k in (0, 1)]
+    hips = [(primary[23][k]+primary[24][k])/2 for k in (0, 1)]
+    torso = math.dist(shoulders, hips)
+    if torso < 5 or median(math.dist(original[j][:2], rotated[j][:2]) for j in shared) > .40*torso:
+        return primary
+    combined = dict(primary)
+    for joint, candidate in secondary.items():
+        if joint not in combined or (candidate[2] > combined[joint][2]
+                                     and (combined[joint][2] < .55
+                                          or math.dist(candidate[:2], combined[joint][:2]) <= .35*torso)):
+            combined[joint] = candidate
+    return combined
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("video", type=Path, help="Local source file containing a single continuous shot")
@@ -128,7 +158,7 @@ def main():
     parser.add_argument("--frames", type=int, default=120)
     parser.add_argument("--mirror-depth", action="store_true")
     parser.add_argument("--temporal", action="store_true", help="Use the experimental temporal depth path")
-    parser.add_argument("--rotation", choices=("none", "clockwise", "counterclockwise"), default="none")
+    parser.add_argument("--rotation", choices=("none", "clockwise", "counterclockwise", "fused"), default="none")
     args = parser.parse_args()
     if args.frames < 1 or args.start_frame < 0:
         parser.error("frame count must be positive and start frame must be nonnegative")
@@ -146,7 +176,12 @@ def main():
             ok, image = capture.read()
             if not ok:
                 break
-            observations.append(detect_rotated(api["detect_onnx_pose"], net, image, args.rotation))
+            detector = api["detect_onnx_pose"]
+            if args.rotation == "fused":
+                pose = fuse_orientation_detections(detector, net, image)
+            else:
+                pose = detect_rotated(detector, net, image, args.rotation)
+            observations.append(pose)
     finally:
         capture.release()
     poses = lift(observations, mirror=args.mirror_depth, temporal=args.temporal)
