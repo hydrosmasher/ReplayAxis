@@ -29,3 +29,19 @@ Keep the athlete and tracked landmarks legible on both sides of the surface
 during entry and breakout. Use the same plane in 3D, side and overhead views.
 Expose a visibility toggle for inspection. If the surface height is estimated,
 label it as estimated and keep it separate from the pose prediction.
+
+
+## Broadcast review
+
+Use the player interval 3:17–3:36 for acquisition review. At 3:22 the
+swimmers are set on the blocks. At 3:26 the broadcast shows an underwater
+side view with a race clock near 3.5 s. At 3:34 it shows an overhead view
+with surfacing swimmers and a race clock near 11.4 s. These are player
+time cues, with no verified frame-accurate start or 25 m crossing.
+
+The cut from the starting blocks to underwater and then overhead changes
+viewpoint. The underwater shot shows multiple swimmers at different
+apparent depths. Lane 4 identity needs to be checked per shot before
+extracting keypoints. The opening broadcast interval can be used to
+annotate observable motion, with separate per-shot tracks. Simultaneous
+view overlap and the pool-fixed 25 m plane remain unverified.
