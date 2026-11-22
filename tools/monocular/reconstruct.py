@@ -106,6 +106,18 @@ def lift(observations, mirror=False, confidence=.55, temporal=False):
     return frames
 
 
+def detect_rotated(detect, net, frame, rotation="none"):
+    """Return detections in original source pixels after optional input rotation."""
+    height, width = frame.shape[:2]
+    if rotation == "clockwise":
+        pose = detect(net, cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE))
+        return {j: (y, height-1-x, score) for j, (x, y, score) in pose.items()}
+    if rotation == "counterclockwise":
+        pose = detect(net, cv2.rotate(frame, cv2.ROTATE_90_COUNTERCLOCKWISE))
+        return {j: (width-1-y, x, score) for j, (x, y, score) in pose.items()}
+    return detect(net, frame)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("video", type=Path, help="Local source file containing a single continuous shot")
@@ -116,6 +128,7 @@ def main():
     parser.add_argument("--frames", type=int, default=120)
     parser.add_argument("--mirror-depth", action="store_true")
     parser.add_argument("--temporal", action="store_true", help="Use the experimental temporal depth path")
+    parser.add_argument("--rotation", choices=("none", "clockwise", "counterclockwise"), default="none")
     args = parser.parse_args()
     if args.frames < 1 or args.start_frame < 0:
         parser.error("frame count must be positive and start frame must be nonnegative")
@@ -133,7 +146,7 @@ def main():
             ok, image = capture.read()
             if not ok:
                 break
-            observations.append(api["detect_onnx_pose"](net, image))
+            observations.append(detect_rotated(api["detect_onnx_pose"], net, image, args.rotation))
     finally:
         capture.release()
     poses = lift(observations, mirror=args.mirror_depth, temporal=args.temporal)
@@ -145,7 +158,7 @@ def main():
     payload = dict(title="Estimated 3D · single camera · relative pose only",
                    units="torso", depth="mirrored hypothesis" if args.mirror_depth else "prior hypothesis",
                    depth_method="temporal bend prior" if args.temporal else "fixed prior",
-                   timeline="nominal FPS", rate=fps, frames=frames, bones=api["BONES"], joints=api["JOINTS"])
+                   input_rotation=args.rotation, timeline="nominal FPS", rate=fps, frames=frames, bones=api["BONES"], joints=api["JOINTS"])
     data = json.dumps(payload, allow_nan=False)
     viewer = api["VIEWER"].replace("Landmarks reconstructed", "Landmarks estimated")
     viewer = viewer.replace("'Reconstructed'", "'Estimated · depth inferred'")
