@@ -29,7 +29,7 @@ def compare(observations, reference, confidence=.55):
     return errors
 
 
-def load_case(api, net, cameras, paths):
+def load_case(api, net, cameras, paths, *, metric_reference=False):
     known, views = [], []
     for path in paths:
         frames, poses = collect(path, net, api["detect_onnx_pose"])
@@ -50,7 +50,10 @@ def load_case(api, net, cameras, paths):
     if not torso_lengths:
         raise ValueError("No calibrated torso estimates.")
     scale = np.median(torso_lengths)
-    reference = [{j: point/scale for j, point in row.items()} for row in reference]
+    if not metric_reference:
+        reference = [{j: point/scale for j, point in row.items()} for row in reference]
+    else:
+        return views[0][:len(reference)], reference, float(scale)
     return views[0][:len(reference)], reference
 
 

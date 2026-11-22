@@ -104,3 +104,23 @@ camera depth, reshape limb proportions, establish a pool coordinate system
 or produce a race distance. The prior was smoke-tested on 10 Pose2Sim
 frames, with identical 2D evidence and expected scaling across 124 joint
 samples. No Phelps frames were processed in that test.
+
+
+## Body-scale sensitivity
+
+Run `python tools/monocular/benchmark_height.py Calib.qca.txt yolov8n-pose.onnx cam02.mp4 cam01.mp4 --assumed-height-m 1.93 --ratios .30 .34 .38`.
+The example stature is a sensitivity input and is not a measurement of the
+Pose2Sim subject. The calibrated comparison uses hip-centered camera
+coordinates and only joints shared by both estimates. In this run it
+used 26 shared head and limb samples from 12 frame pairs.
+
+| Scale input | Mean 3D error | Mean absolute depth error |
+| --- | ---: | ---: |
+| 1.93 m × 0.30 | 0.251 m | 0.205 m |
+| 1.93 m × 0.34 | 0.306 m | 0.204 m |
+| 1.93 m × 0.38 | 0.368 m | 0.202 m |
+| Reference torso length (~0.484 m) | 0.216 m | 0.208 m |
+
+The reference scale uses calibrated triangulation, not independently
+measured anatomy. Errors are body-relative. The example measures sensitivity
+to scale on one recording and does not evaluate Phelps or swimming.

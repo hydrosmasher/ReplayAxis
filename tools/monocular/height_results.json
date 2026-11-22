@@ -1,0 +1,41 @@
+{
+  "input_camera": "cam02",
+  "reference_camera": "cam01",
+  "assumed_stature_m": 1.93,
+  "frame_pairs": 12,
+  "reference_torso_m": 0.4842193212506306,
+  "results": [
+    {
+      "scale_source": "assumed stature and ratio",
+      "torso_to_height": 0.3,
+      "metres_per_torso": 0.579,
+      "samples": 26,
+      "mean_3d_error_m": 0.2512904025020225,
+      "mean_absolute_depth_error_m": 0.20545893453867736
+    },
+    {
+      "scale_source": "assumed stature and ratio",
+      "torso_to_height": 0.34,
+      "metres_per_torso": 0.6562,
+      "samples": 26,
+      "mean_3d_error_m": 0.3055904326332591,
+      "mean_absolute_depth_error_m": 0.2035792920491329
+    },
+    {
+      "scale_source": "assumed stature and ratio",
+      "torso_to_height": 0.38,
+      "metres_per_torso": 0.7333999999999999,
+      "samples": 26,
+      "mean_3d_error_m": 0.36751837220844696,
+      "mean_absolute_depth_error_m": 0.20169964955958838
+    },
+    {
+      "scale_source": "reference torso scale",
+      "torso_to_height": null,
+      "metres_per_torso": 0.4842193212506306,
+      "samples": 26,
+      "mean_3d_error_m": 0.21590127561533898,
+      "mean_absolute_depth_error_m": 0.20776662613149058
+    }
+  ]
+}
