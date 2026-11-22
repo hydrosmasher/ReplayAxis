@@ -159,9 +159,19 @@ def main():
     parser.add_argument("--mirror-depth", action="store_true")
     parser.add_argument("--temporal", action="store_true", help="Use the experimental temporal depth path")
     parser.add_argument("--rotation", choices=("none", "clockwise", "counterclockwise", "fused"), default="none")
+    parser.add_argument("--athlete-height-m", type=float, help="Standing stature used as a body-scale prior")
+    parser.add_argument("--torso-to-height", type=float, help="Assumed shoulder-midpoint to hip-midpoint length divided by stature")
     args = parser.parse_args()
     if args.frames < 1 or args.start_frame < 0:
         parser.error("frame count must be positive and start frame must be nonnegative")
+    height, ratio = args.athlete_height_m, args.torso_to_height
+    if (height is None) != (ratio is None):
+        parser.error("--athlete-height-m and --torso-to-height must be supplied together")
+    if height is not None and not (math.isfinite(height) and height > 0 and 0 < ratio < 1):
+        parser.error("height must be finite and positive, and torso ratio must be between 0 and 1")
+    scale = height*ratio if height is not None else None
+    if scale is not None and scale <= 0:
+        parser.error("height and torso ratio must yield a positive body scale")
     api = load_notebook(args.notebook)
     net = cv2.dnn.readNetFromONNX(str(args.model))
     capture = cv2.VideoCapture(str(args.video))
@@ -187,13 +197,20 @@ def main():
     poses = lift(observations, mirror=args.mirror_depth, temporal=args.temporal)
     frames = []
     for index, (pose, obs) in enumerate(zip(poses, observations), args.start_frame):
-        frames.append(dict(time=index/fps, source_frames=[index, None], points=pose,
+        points = ({j: [value*scale for value in point] for j, point in pose.items()}
+                  if scale is not None else pose)
+        frames.append(dict(time=index/fps, source_frames=[index, None], points=points,
                            rejected={j: "Unavailable" for j in api["JOINTS"] if j not in pose},
                            evidence={j: {"camera_a": obs[j]} for j in pose}))
     payload = dict(title="Estimated 3D · single camera · relative pose only",
                    units="torso", depth="mirrored hypothesis" if args.mirror_depth else "prior hypothesis",
                    depth_method="temporal bend prior" if args.temporal else "fixed prior",
                    input_rotation=args.rotation, timeline="nominal FPS", rate=fps, frames=frames, bones=api["BONES"], joints=api["JOINTS"])
+    if scale is not None:
+        payload.update(title="Estimated 3D · height-scaled body-relative pose",
+                       units="body_prior_m",
+                       body_scale_prior=dict(stature_m=height, torso_to_height=ratio,
+                                             metres_per_torso=scale))
     data = json.dumps(payload, allow_nan=False)
     viewer = api["VIEWER"].replace("Landmarks reconstructed", "Landmarks estimated")
     viewer = viewer.replace("'Reconstructed'", "'Estimated · depth inferred'")

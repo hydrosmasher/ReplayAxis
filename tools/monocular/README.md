@@ -85,3 +85,22 @@ share the same athlete, motion and times, so this measures transfer
 between camera groups within one recording. The reference is calibrated
 two-view triangulation, not independent motion capture. The learned model
 is a benchmark only and is not enabled in the replay CLI.
+
+
+## Optional athlete-height prior
+
+Provide both `--athlete-height-m` and `--torso-to-height` to express
+body-relative estimates in metres under a stated stature and proportion
+assumption. The ratio is shoulder midpoint to hip midpoint divided by
+standing stature. Prefer a measured ratio for the athlete when available.
+For example, `--athlete-height-m 1.93 --torso-to-height 0.34` gives
+0.6562 m per torso length. The 0.34 ratio is illustrative, not an observed
+Phelps measurement.
+
+The replay JSON records these assumptions under `body_scale_prior` and
+uses `body_prior_m` to identify the coordinate units. This multiplies the
+estimated coordinates by a single clip-wide factor. It does not resolve
+camera depth, reshape limb proportions, establish a pool coordinate system
+or produce a race distance. The prior was smoke-tested on 10 Pose2Sim
+frames, with identical 2D evidence and expected scaling across 124 joint
+samples. No Phelps frames were processed in that test.
