@@ -1,0 +1,14 @@
+{
+  "paired_frames": 100,
+  "label_rows": 1300,
+  "statuses": {
+    "low visibility": 19,
+    "reconstructed": 747,
+    "reprojection error": 534
+  },
+  "frames_with_3d": 92,
+  "timestamp_source": "nominal frame index at 60 Hz",
+  "reference_kind": "two_view",
+  "coordinates": "QCA venue metres",
+  "opencv_version": "5.1.0"
+}

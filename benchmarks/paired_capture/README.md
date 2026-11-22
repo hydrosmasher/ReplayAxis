@@ -57,3 +57,26 @@ python benchmarks/paired_capture/validate_manifest.py pilot_manifest.csv
 Paths are relative to the CSV directory or absolute. The preflight checks
 manifest structure and file presence. It does not inspect synchrony,
 calibration quality or trajectory contents.
+
+## Rehearsal with the Pose2Sim demo
+
+Run from the repository root with Python 3.10 or newer, OpenCV and NumPy.
+Supply the original demo QCA, the fixed 640-square YOLOv8n-pose ONNX
+export, both original clips and a new output directory.
+
+```sh
+python benchmarks/paired_capture/rehearse_pose2sim.py reference.qca yolov8n-pose.onnx cam01.mp4 cam02.mp4 paired_rehearsal
+```
+
+The script uses the notebook's production stereo and export path. It emits
+the camera pair JSON, timestamp CSV, trial manifest, metric joint CSV, timing
+report and replay HTML/JSON. It adjusts the principal point by the measured
+horizontal crop for these clips only. The synchronization table is generated
+from equal frame indices at the nominal 60 Hz. The saved timing report labels
+those timestamps as synthetic. No camera clock or independent motion-capture
+reference is available for this rehearsal.
+
+The verified run paired all 100 frames. The joint CSV retained 1,300
+decisions, including 747 reconstructed joints and 553 rejections.
+Ninety-two frames contained at least one reconstructed joint.
+The manifest preflight passed. See `rehearsal_summary.json`.
