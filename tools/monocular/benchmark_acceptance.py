@@ -17,9 +17,11 @@ TOLERANCES_M = (0.05, 0.10, 0.20)
 
 
 def score(predictions, reference, scale, joints=JOINTS):
+    if len(predictions) != len(reference):
+        raise ValueError("Predictions and reference must have matching frame counts.")
     errors = []
     eligible = 0
-    for predicted, actual in zip(predictions, reference, strict=True):
+    for predicted, actual in zip(predictions, reference):
         for joint in sorted(joints & actual.keys()):
             eligible += 1
             if joint in predicted and np.isfinite(predicted[joint]).all():

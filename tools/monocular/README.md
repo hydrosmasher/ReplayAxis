@@ -164,3 +164,34 @@ For the learned comparison, use dense matched source frames and identical
 [inference guide](https://github.com/Walter0807/MotionBERT/blob/main/docs/inference.md)
 and verify the joint mapping, depth axis and scale before feeding predictions
 to the same scorer. MotionBERT inference was not run for this result.
+
+## MotionBERT-Lite comparison on dense tracks
+
+Use a Python environment with PyTorch 2.8, NumPy and OpenCV. Obtain
+[upstream source at 705d3a9](https://github.com/Walter0807/MotionBERT/tree/705d3a95354db8bdb696b3492e47a3b5537174ff)
+and the author's [Lite weights](https://huggingface.co/walterzhu/MotionBERT/blob/main/checkpoint/pose3d/FT_MB_lite_MB_ft_h36m_global_lite/best_epoch.bin).
+The benchmark checks the published checkpoint SHA-256 before loading it.
+The checkpoint and upstream source are external dependencies.
+
+```sh
+python tools/monocular/benchmark_motionbert.py /path/to/MotionBERT /path/to/best_epoch.bin reference.qca yolov8n-pose.onnx cam02.mp4 cam01.mp4
+```
+
+Both camera directions use the first 60 consecutive frames. All methods
+receive the same undistorted YOLO detections for the input camera only.
+The MotionBERT adapter maps COCO joints to Human3.6M, approximates the
+landmarks absent in COCO, normalizes the clip and averages inference with
+a horizontally flipped pass. Predictions are centered at the hip midpoint
+and scaled to the triangulated median torso length for each comparison.
+No per-joint fit or rotation alignment is applied. This experiment tests
+pose under reference-assisted scale and lens correction. It keeps separate
+scores for all eligible reference samples and for joints all methods estimate.
+Both views observe the same performance and share one two-view reference.
+
+Results are in `motionbert_results.json`. All methods scored the same 175
+eligible joint samples per view. MotionBERT gained at the illustrative
+5 cm threshold (34 vs. 24 fixed-baseline passes in camera 02, and 15 vs. 12
+in camera 01). Its 95% error thresholds were 40.9 cm and 49.5 cm,
+respectively. The best existing baseline on each view reached 48.5 cm
+and 44.6 cm at 95%. These results do not establish a general improvement
+or qualify the model for metric analysis.

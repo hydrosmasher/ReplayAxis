@@ -30,7 +30,7 @@ def cameras_from_qca(path):
     return cameras
 
 
-def collect(path, net, detect):
+def collect(path, net, detect, *, stride=5):
     cap = cv2.VideoCapture(str(path))
     frames, poses = [], []
     try:
@@ -38,7 +38,7 @@ def collect(path, net, detect):
             ok, image = cap.read()
             if not ok:
                 break
-            if index % 5 == 0:
+            if index % stride == 0:
                 frames.append(cv2.cvtColor(image, cv2.COLOR_BGR2GRAY))
                 poses.append(detect(net, image))
     finally:

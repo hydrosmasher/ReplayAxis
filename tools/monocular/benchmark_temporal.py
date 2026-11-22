@@ -29,10 +29,10 @@ def compare(observations, reference, confidence=.55):
     return errors
 
 
-def load_case(api, net, cameras, paths, *, metric_reference=False):
+def load_case(api, net, cameras, paths, *, metric_reference=False, stride=5):
     known, views = [], []
     for path in paths:
-        frames, poses = collect(path, net, api["detect_onnx_pose"])
+        frames, poses = collect(path, net, api["detect_onnx_pose"], stride=stride)
         camera = cameras[path.stem]
         camera["image_size"] = frames[0].shape[::-1]
         known.append(camera)
