@@ -124,3 +124,25 @@ used 26 shared head and limb samples from 12 frame pairs.
 The reference scale uses calibrated triangulation, not independently
 measured anatomy. Errors are body-relative. The example measures sensitivity
 to scale on one recording and does not evaluate Phelps or swimming.
+
+## Scene-based scale and out-of-plane bias
+
+Run `python tools/monocular/benchmark_scene_scale.py` with NumPy and OpenCV.
+The seeded synthetic fixture fits an image-to-metre homography using six
+known planar landmarks. It estimates torso length from the projected hip
+and shoulder midpoints without access to the simulated camera parameters.
+It compares this with the previous illustrative stature prior and a fixed
+equal-weight average. See `scene_scale_results.json` for 1,200 trials.
+
+On the landmark plane, scene-only torso length MAE was 1.3–2.5 cm.
+At a 1.5 m offset away from the plane, it rose to 6.6–11.7 cm.
+The illustrative stature prior overestimates every simulated torso, so
+improvements from averaging at large offsets reflect cancellation of
+opposing biases in this fixture. These scores are torso length errors,
+not 3D joint or depth errors.
+
+Before using this in swimming, annotate dimensioned landmarks in a
+fixed camera shot and check them on withheld landmarks. An above-water
+homography applies to its landmark plane. Underwater validation needs
+separate reference observations and a model of refraction if the rays
+cross the air–water interface.
