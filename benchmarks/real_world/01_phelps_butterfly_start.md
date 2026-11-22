@@ -20,3 +20,12 @@ Public broadcast reference identified. Synchronized independent feeds covering l
 ## Gate for accepting a metric 3D result
 
 Require two synchronized views of the same interval with enough overlap and verified scale. Validate pool geometry against held-out landmarks and report coverage per race phase. Quantitative 3D results are pending that evidence. The broadcast alone is a reference for phase labeling and possible image-plane tracking.
+
+
+## Underwater viewer requirement
+
+Show a shaded, semi-transparent water surface fixed in pool coordinates.
+Keep the athlete and tracked landmarks legible on both sides of the surface
+during entry and breakout. Use the same plane in 3D, side and overhead views.
+Expose a visibility toggle for inspection. If the surface height is estimated,
+label it as estimated and keep it separate from the pose prediction.
