@@ -68,3 +68,21 @@ Do not infer the 25 m crossing from the red rope markings alone.
 No frame-level coordinates or reconstructed 3D have been exported for
 this performance. The water surface height remains unset until pool
 registration yields a height in the same coordinates as the pose.
+
+
+## First overhead annotations
+
+Two paused samples near player time 3:33 give usable cap centers for the
+central pair of swimmers. See [the sample CSV](01_phelps_overhead_samples.csv).
+The lane assignment graphic places Phelps in lane 4. The overhead crop
+shows the two central lanes but does not show the starting wall or lane
+numbers, so the annotations retain screen-left and screen-right candidate
+identities until the orientation is verified. The earlier paused frame
+had more splash over the caps and was excluded.
+
+Coordinates are approximate in the 880×495 rendered video region, with
+a top-left origin. The two retained samples were separated by five browser
+frame-step commands. The absolute decoded frame numbers and exact
+presentation timestamps are unknown. Camera motion and perspective are
+unaccounted for. These annotations do not establish the 25 m crossing
+or metric velocity.
