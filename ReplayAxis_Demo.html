@@ -13,7 +13,7 @@ const data={"frames": [{"points": {"0": [-3.4416913763379853e-15, -0.90000000000
 const el=id=>document.getElementById(id);
 const canvas=document.querySelector('canvas'),ctx=canvas.getContext('2d');
 const frames=data.frames;
-el('title').textContent=data.title;
+el('title').textContent=data.title+(data.units==='baseline'?' · distances in camera-baseline units':'');
 const joint=el('joint');
 for(const [id,name] of Object.entries(data.joints)){
  const option=document.createElement('option');option.value=id;option.textContent=name;joint.appendChild(option);
@@ -24,7 +24,7 @@ const points=frames.flatMap(f=>Object.values(f.points));
 const bounds=[0,1,2].map(axis=>points.reduce(([lo,hi],p)=>[Math.min(lo,p[axis]),Math.max(hi,p[axis])],[Infinity,-Infinity]));
 const center=bounds.map(([lo,hi])=>(lo+hi)/2);
 const extent=Math.max(.001,...bounds.map(([lo,hi])=>hi-lo));
-let i=0,yaw=-.44,pitch=.12,zoom=1,drag=null,timer=null;
+let i=0,fraction=0,yaw=-.44,pitch=.12,zoom=1,drag=null,timer=null;
 const marks=new Map(), anchors=new Map();
 let projected={}, surfaceFaces=new Map(), surfacePixels=new Map();
 function markedAt(id,frame){
@@ -225,6 +225,15 @@ el('render-mode').onchange=()=>{
  pickMode.disabled=el('render-mode').value==='skeleton';
  render();
 };
+function previewPoints(index,amount){
+ const current=frames[index].points,next=frames[index+1]?.points;
+ if(!amount||!next)return current;
+ const blended={};
+ for(const [id,point] of Object.entries(current)){
+  if(next[id])blended[id]=mix3(point,next[id],amount);
+ }
+ return blended;
+}
 function render(){
  const w=canvas.clientWidth,h=canvas.clientHeight,dpr=devicePixelRatio||1;
  if(canvas.width!==Math.round(w*dpr)||canvas.height!==Math.round(h*dpr)){canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr)}
@@ -239,12 +248,13 @@ function render(){
   return [w/2+a*scale,h/2+(y*Math.cos(pitch)-b*Math.sin(pitch))*scale,y*Math.sin(pitch)+b*Math.cos(pitch)];
  }
  const f=frames[i];
- projected=Object.fromEntries(Object.entries(f.points).map(([j,p])=>[j,screen(p)]));
+ const meshPoints=previewPoints(i,el('render-mode').value==='skeleton'?0:fraction);
+ projected=Object.fromEntries(Object.entries(meshPoints).map(([j,p])=>[j,screen(p)]));
  surfaceFaces=new Map();surfacePixels=new Map();
  ctx.lineCap='round';
  if(el('render-mode').value!=='skeleton'){
   const faces=new Map();
-  const wires=bodyWireframe(f.points,bodyScale,faces);
+  const wires=bodyWireframe(meshPoints,bodyScale,faces);
   const screenVertices=new Map();
   const projectVertex=point=>{
    if(!screenVertices.has(point))screenVertices.set(point,screen(point));
@@ -333,12 +343,15 @@ function render(){
  el('skew').textContent=f.pair_skew_ms==null?'—':f.pair_skew_ms.toFixed(1)+' ms';
  el('time').textContent=f.time.toFixed(3)+' s';
  el('source').textContent=f.source_frames.join(' / ');
- el('count').textContent=Object.keys(projected).length+' / '+Object.keys(data.joints).length;
+ el('count').textContent=Object.keys(f.points).length+' / '+Object.keys(data.joints).length;
  el('err').textContent=f.error_px===null?'—':f.error_px.toFixed(2)+' px';
  scrub.value=i;
 }
-function show(index){i=Math.max(0,Math.min(frames.length-1,index));render()}
-function stop(){clearInterval(timer);timer=null;el('play').textContent='Play'}
+function show(index, blend=0){i=Math.max(0,Math.min(frames.length-1,index));fraction=i===frames.length-1?0:blend;render()}
+function stop(){
+ clearInterval(timer);timer=null;el('play').textContent='Play';
+ if(fraction)show(i);
+}
 const speed=el('playback-speed');
 speed.onchange=()=>{if(timer!==null){stop();el('play').onclick();}};
 el('play').onclick=()=>{
@@ -347,10 +360,12 @@ el('play').onclick=()=>{
  const first=i,start=performance.now(),rate=data.rate*Number(speed.value||1);
  el('play').textContent='Pause';
  timer=setInterval(()=>{
-  const target=first+Math.floor((performance.now()-start)*rate/1000);
-  if(target!==i)show(target);
+  const position=first+(performance.now()-start)*rate/1000;
+  const target=Math.floor(position);
+  const blend=el('render-mode').value==='skeleton'?0:position-target;
+  if(target!==i||Math.abs(blend-fraction)>.01)show(target,blend);
   if(i===frames.length-1)stop();
- },Math.max(16,Math.min(100,1000/rate)));
+ },16);
 };
 el('prev').onclick=()=>{stop();show(i-1)};el('next').onclick=()=>{stop();show(i+1)};
 scrub.oninput=()=>{stop();show(Number(scrub.value))};
