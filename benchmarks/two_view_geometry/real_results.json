@@ -1,0 +1,38 @@
+{
+  "cam01 + cam02": {
+    "reference_screened_matches": 1,
+    "withheld": "Provide at least 20 paired finite background image points.",
+    "frame_pairs": 12,
+    "reference_joints": 99
+  },
+  "cam01 + cam03": {
+    "reference_screened_matches": 0,
+    "withheld": "Provide at least 20 paired finite background image points.",
+    "frame_pairs": 12,
+    "reference_joints": 69
+  },
+  "cam01 + cam04": {
+    "reference_screened_matches": 0,
+    "withheld": "Provide at least 20 paired finite background image points.",
+    "frame_pairs": 12,
+    "reference_joints": 87
+  },
+  "cam02 + cam03": {
+    "reference_screened_matches": 1,
+    "withheld": "Provide at least 20 paired finite background image points.",
+    "frame_pairs": 12,
+    "reference_joints": 58
+  },
+  "cam02 + cam04": {
+    "reference_screened_matches": 0,
+    "withheld": "Provide at least 20 paired finite background image points.",
+    "frame_pairs": 12,
+    "reference_joints": 70
+  },
+  "cam03 + cam04": {
+    "reference_screened_matches": 1,
+    "withheld": "Provide at least 20 paired finite background image points.",
+    "frame_pairs": 12,
+    "reference_joints": 71
+  }
+}

@@ -8,10 +8,10 @@ import cv2
 import numpy as np
 
 
-def load_notebook(path):
+def load_notebook(path, extra_signatures=()):
     namespace = {"cv2": cv2, "np": np}
     notebook = json.loads(path.read_text())
-    signatures = ("def triangulate(", "def estimate_stereo_geometry(")
+    signatures = ("def triangulate(", "def estimate_stereo_geometry(") + extra_signatures
     for cell in notebook["cells"]:
         source = "".join(cell["source"])
         if cell["cell_type"] == "code" and any(s in source for s in signatures):
