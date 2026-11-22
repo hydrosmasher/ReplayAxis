@@ -272,3 +272,24 @@ Distances ranged from 0.2 to 40.3 px across 10 comparisons of three landmarks.
 The test uses approximate marks, including rims viewed from different
 angles. It establishes that static correspondence discrepancies merit
 investigation, without identifying a specific calibration or export fault.
+
+## Decoded pixel mapping check
+
+Run from the repository root:
+
+```sh
+python tools/monocular/benchmark_video_pixel_mapping.py tools/monocular/static_landmarks.json tools/monocular/static_landmarks_holdout.json reference.qca cam01.mp4 cam02.mp4 cam03.mp4 cam04.mp4
+```
+
+The script compares identity, symmetric horizontal crop, and horizontal
+resize mappings into the QCA video field. The center-crop hypothesis adds
+four pixels to x for 1080-wide views. The resize hypothesis scales x using
+pixel centers. Both leave the 1088-wide views unchanged. The test uses
+three original features and two separately annotated roller housings.
+
+Median epipolar distance on the original marks was 11.79 px (identity),
+11.59 px (crop), and 11.27 px (resize). All three gave 87.51 px median on
+the separate marks. Several roller correspondences have very large errors
+and should be independently verified. The test does not support adopting
+either mapping. The identical 40.35 px maximum on the original marks is
+from cameras 03 and 04, whose decoded dimensions already match the QCA.
