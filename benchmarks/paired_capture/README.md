@@ -80,3 +80,22 @@ The verified run paired all 100 frames. The joint CSV retained 1,300
 decisions, including 747 reconstructed joints and 553 rejections.
 Ninety-two frames contained at least one reconstructed joint.
 The manifest preflight passed. See `rehearsal_summary.json`.
+
+## Lab-trial scoring
+
+Export the independent reference and each method as CSV with
+`source_frame_a,joint,status,x_m,y_m,z_m`. Match the reference to camera A
+using the measured capture clock before exporting. All exports must use
+the same joint names and metric coordinate frame. For hip-relative scoring,
+transform every export to the same hip-relative frame before running this
+command. A valid coordinate uses status `reconstructed`. Retain missing
+reference observations with their own status. The script excludes invalid
+reference coordinates and counts missing predictions on valid references
+against the pass rate. It does not infer alignment or verify provenance.
+
+```sh
+python benchmarks/paired_capture/score_lab_trial.py heldout_reference.csv video_only.csv video_plus_prompt.csv two_view.csv --tolerance-cm 5 10 --reference-kind independent_3d
+```
+
+The two example tolerances are diagnostic. Prespecify appropriate tolerances
+before using the results against the 90% minimum and 95% target.
