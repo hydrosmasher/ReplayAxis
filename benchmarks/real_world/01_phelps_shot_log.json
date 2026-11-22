@@ -1,0 +1,16 @@
+{
+  "case": "01",
+  "source": "https://www.youtube.com/watch?v=X7bj_LUIY7Y",
+  "clock": "broadcast_player_seconds",
+  "review_window_s": [197, 216],
+  "target": {"athlete": "Michael Phelps", "lane": 4},
+  "observations": [
+    {"player_s": 185, "view": "lane graphic", "visible": "Phelps is listed in lane 4.", "target_identity": "lane assignment only"},
+    {"player_s": 202, "view": "blocks side view", "visible": "Swimmers are set on the blocks.", "target_identity": "unverified in shot"},
+    {"player_s": 206, "race_clock_s": 3.5, "view": "underwater side view", "visible": "Two submerged swimmers are visible between lane ropes.", "target_identity": "unverified in shot"},
+    {"player_s": 214, "race_clock_s": 11.4, "view": "overhead", "visible": "Swimmers are on the surface and transverse rope markings are visible.", "target_identity": "unverified in shot"}
+  ],
+  "events_player_s": {"feet_leave_block": null, "hands_enter_water": null, "head_breakout": null, "head_crosses_25m": null},
+  "water_surface": {"height_m": null, "coordinate_frame": "pool", "display": "shaded translucent plane"},
+  "pose_tracks": []
+}

@@ -45,3 +45,26 @@ apparent depths. Lane 4 identity needs to be checked per shot before
 extracting keypoints. The opening broadcast interval can be used to
 annotate observable motion, with separate per-shot tracks. Simultaneous
 view overlap and the pool-fixed 25 m plane remain unverified.
+
+
+## Shot log and track handoff
+
+The [machine-readable shot log](01_phelps_shot_log.json) records inspected
+player times and keeps them distinct from the on-screen race clock.
+The 3:05 lane graphic provides the lane assignment. It does not identify
+the athlete through subsequent cuts. The three motion views are separate
+observations. Their exact cut boundaries are unmeasured.
+
+For the first frame-level pass, follow lane 4 in the overhead shot,
+using the lane order from the graphic and checking the orientation of the
+start wall. Mark a point only where either visual identity or continuity
+within that shot supports it. Store original frame index, presentation
+timestamp, shot ID, athlete ID, landmark, pixel coordinates and visibility.
+When a cut or uncertain identity interrupts the track, leave coordinates
+missing and resume with a new shot ID. The underwater side view remains
+an unattributed observation until its lane is independently verified.
+Do not infer the 25 m crossing from the red rope markings alone.
+
+No frame-level coordinates or reconstructed 3D have been exported for
+this performance. The water surface height remains unset until pool
+registration yields a height in the same coordinates as the pose.
