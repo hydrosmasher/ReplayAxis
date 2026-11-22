@@ -252,3 +252,23 @@ This checks one frame and does not identify whether timestamps, pixel
 geometry, calibration, or visible landmark interpretation drives the
 remaining disagreement. The results JSON preserves the individual pixel
 residuals, including the failed pairs.
+
+## Static calibration spot check
+
+```sh
+python tools/monocular/benchmark_static_calibration.py tools/monocular/static_landmarks.json reference.qca cam01.mp4 cam02.mp4 cam03.mp4 cam04.mp4
+```
+
+Approximate manual treadmill landmarks were selected on frame 0, using
+432 × 768 image previews cropped from row 350. The script maps the preview
+coordinates back to decoded pixels, corrects lens distortion and computes
+the distance from each observed point to its predicted epipolar line.
+The paired distances in the results JSON are ordered by camera name.
+No calibration parameters are estimated from these annotations.
+
+Cameras 01 and 02 decoded to 1080 × 1920; Cameras 03 and 04 decoded to
+1088 × 1920. The QCA video fields span 1088 × 1920 in all views.
+Distances ranged from 0.2 to 40.3 px across 10 comparisons of three landmarks.
+The test uses approximate marks, including rims viewed from different
+angles. It establishes that static correspondence discrepancies merit
+investigation, without identifying a specific calibration or export fault.

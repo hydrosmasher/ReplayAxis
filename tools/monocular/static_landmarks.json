@@ -1,0 +1,52 @@
+{
+  "source_frame": 0,
+  "annotation_canvas": [
+    432,
+    768
+  ],
+  "crop_top": 350,
+  "landmarks": {
+    "cable_side_post_rim": {
+      "cam01": [
+        263,
+        256
+      ],
+      "cam02": [
+        110,
+        179
+      ],
+      "cam03": [
+        103,
+        40
+      ]
+    },
+    "opposite_post_rim": {
+      "cam01": [
+        379,
+        218
+      ],
+      "cam02": [
+        252,
+        188
+      ],
+      "cam03": [
+        25,
+        76
+      ],
+      "cam04": [
+        236,
+        14
+      ]
+    },
+    "cable_side_mid_rail_plate": {
+      "cam01": [
+        108,
+        195
+      ],
+      "cam02": [
+        109,
+        137
+      ]
+    }
+  }
+}
