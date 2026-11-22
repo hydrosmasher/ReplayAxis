@@ -69,6 +69,21 @@ def predict(model, torch, observations):
             if row else {} for frame, row in zip(normalized, observations)]
 
 
+def load_model(source, checkpoint_path):
+    if hashlib.sha256(checkpoint_path.read_bytes()).hexdigest() != CHECKPOINT_SHA256:
+        raise ValueError("MotionBERT-Lite checkpoint SHA-256 mismatch.")
+    sys.path.insert(0, str(source.resolve()))
+    import torch
+    from lib.model.DSTformer import DSTformer
+
+    torch.set_num_threads(4)
+    model = DSTformer(norm_layer=partial(torch.nn.LayerNorm, eps=1e-6))
+    checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=True)
+    model.load_state_dict({k.removeprefix("module."): v for k, v in checkpoint["model_pos"].items()})
+    model.eval()
+    return model, torch
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("source", type=Path, help="MotionBERT upstream source directory")
@@ -79,17 +94,7 @@ def main():
     parser.add_argument("camera_b", type=Path)
     parser.add_argument("--notebook", type=Path, default=Path("ReplayAxis_Markerless_TwoView.ipynb"))
     args = parser.parse_args()
-    if hashlib.sha256(args.checkpoint.read_bytes()).hexdigest() != CHECKPOINT_SHA256:
-        parser.error("MotionBERT-Lite checkpoint SHA-256 mismatch.")
-    sys.path.insert(0, str(args.source.resolve()))
-    import torch
-    from lib.model.DSTformer import DSTformer
-
-    torch.set_num_threads(4)
-    model = DSTformer(norm_layer=partial(torch.nn.LayerNorm, eps=1e-6))
-    checkpoint = torch.load(args.checkpoint, map_location="cpu", weights_only=True)
-    model.load_state_dict({k.removeprefix("module."): v for k, v in checkpoint["model_pos"].items()})
-    model.eval()
+    model, torch = load_model(args.source, args.checkpoint)
     api = load_notebook(args.notebook)
     net = cv2.dnn.readNetFromONNX(str(args.detector))
     cameras = cameras_from_qca(args.qca)

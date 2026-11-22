@@ -195,3 +195,25 @@ in camera 01). Its 95% error thresholds were 40.9 cm and 49.5 cm,
 respectively. The best existing baseline on each view reached 48.5 cm
 and 44.6 cm at 95%. These results do not establish a general improvement
 or qualify the model for metric analysis.
+
+## Disjoint-camera benchmark
+
+Run `benchmark_heldout_views.py` from the repository root with the same
+MotionBERT source, checkpoint, QCA and ONNX detector as above, followed by
+all four Pose2Sim clips in camera-number order. The JSON reports all six
+directed input/reference pair splits across the first 60 source frames.
+Equal frame indices are assumed to correspond. Hardware timing was not
+independently verified. The disjoint reference uses the same detector and
+calibration source, so agreement is not ground-truth motion-capture accuracy.
+
+Hip-relative scores compare stereo to each input camera's fixed and
+MotionBERT estimates on shared joints. Monocular metric scale comes from the
+held-out reference torso. Venue scores compare stereo directly in the
+calibrated world frame. The all-eligible pass rates count missing joints
+as failures. Clips that cannot supply a held-out torso scale still report
+venue results. The compared joint set matches the acceptance benchmark.
+
+Where all methods had overlapping joints, stereo achieved 65.3–73.1%
+within 10 cm and 3.8–15.3% within 5 cm. Counting missing estimates, its best
+hip-relative pass rates were 37.9% and 8.9%, respectively. Its best venue
+pass rates were 26.9% and 5.0%.

@@ -1,0 +1,1943 @@
+{
+  "frame_pairs": 60,
+  "frame_matching": "equal source frame index",
+  "checkpoint_sha256": "9811155371db4ca5d20f31a36a232d41012e12e1333882888a564d741861148f",
+  "opencv_version": "4.11.0",
+  "torch_version": "2.8.0",
+  "cases": [
+    {
+      "input_pair": [
+        "cam01",
+        "cam02"
+      ],
+      "reference_pair": [
+        "cam03",
+        "cam04"
+      ],
+      "stereo_venue": {
+        "reference_samples": 152,
+        "scored_samples": 99,
+        "coverage": 0.6513157894736842,
+        "position": {
+          "tolerance_m_at_pass_rate_on_scored": {
+            "90": 0.2436050422032453,
+            "95": 0.4471952745053964
+          },
+          "reference_pass_rate_at_tolerance_m": {
+            "0.05": 0.019736842105263157,
+            "0.1": 0.14473684210526316,
+            "0.2": 0.5263157894736842
+          }
+        },
+        "depth": {
+          "tolerance_m_at_pass_rate_on_scored": {
+            "90": 0.14479645341993685,
+            "95": 0.17520439557885092
+          },
+          "reference_pass_rate_at_tolerance_m": {
+            "0.05": 0.23026315789473684,
+            "0.1": 0.4473684210526316,
+            "0.2": 0.625
+          }
+        }
+      },
+      "poses": [
+        {
+          "monocular_view": "cam01",
+          "reference_torso_m": 0.5237474830894436,
+          "all_eligible": {
+            "fixed": {
+              "reference_samples": 124,
+              "scored_samples": 124,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.3912774878945217,
+                  "95": 0.3984974503124997
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.008064516129032258,
+                  "0.1": 0.11290322580645161,
+                  "0.2": 0.1935483870967742
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.3792291816363403,
+                  "95": 0.39733882144267474
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.04032258064516129,
+                  "0.1": 0.13709677419354838,
+                  "0.2": 0.3064516129032258
+                }
+              }
+            },
+            "motionbert_lite": {
+              "reference_samples": 124,
+              "scored_samples": 124,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.39410188538491414,
+                  "95": 0.42373959482600565
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.06451612903225806,
+                  "0.1": 0.12096774193548387,
+                  "0.2": 0.4435483870967742
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.38838719433872904,
+                  "95": 0.4139576743296878
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.11290322580645161,
+                  "0.1": 0.21774193548387097,
+                  "0.2": 0.5080645161290323
+                }
+              }
+            },
+            "calibrated_stereo": {
+              "reference_samples": 124,
+              "scored_samples": 72,
+              "coverage": 0.5806451612903226,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.12800806317123986,
+                  "95": 0.15058069260729404
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.08870967741935484,
+                  "0.1": 0.3790322580645161,
+                  "0.2": 0.5725806451612904
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.11172329283530497,
+                  "95": 0.11921504399573335
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.28225806451612906,
+                  "0.1": 0.46774193548387094,
+                  "0.2": 0.5725806451612904
+                }
+              }
+            }
+          },
+          "common_joints": {
+            "fixed": {
+              "reference_samples": 72,
+              "scored_samples": 72,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.3944840799078788,
+                  "95": 0.39986649021378506
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.013888888888888888,
+                  "0.1": 0.18055555555555555,
+                  "0.2": 0.2916666666666667
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.3884713063662469,
+                  "95": 0.3980365026040522
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.06944444444444445,
+                  "0.1": 0.19444444444444445,
+                  "0.2": 0.4166666666666667
+                }
+              }
+            },
+            "motionbert_lite": {
+              "reference_samples": 72,
+              "scored_samples": 72,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.35479272140894486,
+                  "95": 0.41098466589136
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.06944444444444445,
+                  "0.1": 0.1388888888888889,
+                  "0.2": 0.5
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.3522399085441664,
+                  "95": 0.4050029650591869
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.1388888888888889,
+                  "0.1": 0.2777777777777778,
+                  "0.2": 0.5555555555555556
+                }
+              }
+            },
+            "calibrated_stereo": {
+              "reference_samples": 72,
+              "scored_samples": 72,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.12800806317123986,
+                  "95": 0.15058069260729404
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.1527777777777778,
+                  "0.1": 0.6527777777777778,
+                  "0.2": 0.9861111111111112
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.11172329283530497,
+                  "95": 0.11921504399573335
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.4861111111111111,
+                  "0.1": 0.8055555555555556,
+                  "0.2": 0.9861111111111112
+                }
+              }
+            }
+          }
+        },
+        {
+          "monocular_view": "cam02",
+          "reference_torso_m": 0.5237474830894436,
+          "all_eligible": {
+            "fixed": {
+              "reference_samples": 124,
+              "scored_samples": 124,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.22883559023524985,
+                  "95": 0.37636750481498876
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.016129032258064516,
+                  "0.1": 0.3225806451612903,
+                  "0.2": 0.8629032258064516
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.15789233627303437,
+                  "95": 0.17122382475718784
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.23387096774193547,
+                  "0.1": 0.5806451612903226,
+                  "0.2": 0.9919354838709677
+                }
+              }
+            },
+            "motionbert_lite": {
+              "reference_samples": 124,
+              "scored_samples": 124,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.33213398825575896,
+                  "95": 0.3742785830625685
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.10483870967741936,
+                  "0.1": 0.5161290322580645,
+                  "0.2": 0.7419354838709677
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.19405085011027973,
+                  "95": 0.2603228779760065
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.5241935483870968,
+                  "0.1": 0.7258064516129032,
+                  "0.2": 0.9274193548387096
+                }
+              }
+            },
+            "calibrated_stereo": {
+              "reference_samples": 124,
+              "scored_samples": 72,
+              "coverage": 0.5806451612903226,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.12800806317123997,
+                  "95": 0.150580692607294
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.08870967741935484,
+                  "0.1": 0.3790322580645161,
+                  "0.2": 0.5725806451612904
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.07354316402101084,
+                  "95": 0.1090402824316571
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.4032258064516129,
+                  "0.1": 0.5483870967741935,
+                  "0.2": 0.5725806451612904
+                }
+              }
+            }
+          },
+          "common_joints": {
+            "fixed": {
+              "reference_samples": 72,
+              "scored_samples": 72,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.18359611802117293,
+                  "95": 0.22883559023524985
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.027777777777777776,
+                  "0.1": 0.2777777777777778,
+                  "0.2": 0.9305555555555556
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.15789233627303437,
+                  "95": 0.17060861403286925
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.20833333333333334,
+                  "0.1": 0.4861111111111111,
+                  "0.2": 1.0
+                }
+              }
+            },
+            "motionbert_lite": {
+              "reference_samples": 72,
+              "scored_samples": 72,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.25359858647540756,
+                  "95": 0.3376397781299994
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.1388888888888889,
+                  "0.1": 0.5416666666666666,
+                  "0.2": 0.8055555555555556
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.17275727792178786,
+                  "95": 0.18896454342725272
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.6111111111111112,
+                  "0.1": 0.7361111111111112,
+                  "0.2": 0.9861111111111112
+                }
+              }
+            },
+            "calibrated_stereo": {
+              "reference_samples": 72,
+              "scored_samples": 72,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.12800806317123997,
+                  "95": 0.150580692607294
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.1527777777777778,
+                  "0.1": 0.6527777777777778,
+                  "0.2": 0.9861111111111112
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.07354316402101084,
+                  "95": 0.1090402824316571
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.6944444444444444,
+                  "0.1": 0.9444444444444444,
+                  "0.2": 0.9861111111111112
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "input_pair": [
+        "cam01",
+        "cam03"
+      ],
+      "reference_pair": [
+        "cam02",
+        "cam04"
+      ],
+      "stereo_venue": {
+        "reference_samples": 216,
+        "scored_samples": 98,
+        "coverage": 0.4537037037037037,
+        "position": {
+          "tolerance_m_at_pass_rate_on_scored": {
+            "90": 0.30714036699202524,
+            "95": 0.34697756606946156
+          },
+          "reference_pass_rate_at_tolerance_m": {
+            "0.05": 0.009259259259259259,
+            "0.1": 0.1574074074074074,
+            "0.2": 0.3333333333333333
+          }
+        },
+        "depth": {
+          "tolerance_m_at_pass_rate_on_scored": {
+            "90": 0.06047577217519928,
+            "95": 0.06971982992962422
+          },
+          "reference_pass_rate_at_tolerance_m": {
+            "0.05": 0.35185185185185186,
+            "0.1": 0.4537037037037037,
+            "0.2": 0.4537037037037037
+          }
+        }
+      },
+      "poses": [
+        {
+          "monocular_view": "cam01",
+          "reference_torso_m": 0.5084819781594931,
+          "all_eligible": {
+            "fixed": {
+              "reference_samples": 142,
+              "scored_samples": 142,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.43543031608589094,
+                  "95": 0.47748374182449643
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.007042253521126761,
+                  "0.1": 0.07746478873239436,
+                  "0.2": 0.2746478873239437
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.39685792566784617,
+                  "95": 0.40805245114355587
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.056338028169014086,
+                  "0.1": 0.15492957746478872,
+                  "0.2": 0.3873239436619718
+                }
+              }
+            },
+            "motionbert_lite": {
+              "reference_samples": 142,
+              "scored_samples": 142,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.440824584043347,
+                  "95": 0.4821116318141284
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.02112676056338028,
+                  "0.1": 0.056338028169014086,
+                  "0.2": 0.3873239436619718
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.41593024225481745,
+                  "95": 0.42774784652420555
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.07042253521126761,
+                  "0.1": 0.15492957746478872,
+                  "0.2": 0.5140845070422535
+                }
+              }
+            },
+            "calibrated_stereo": {
+              "reference_samples": 142,
+              "scored_samples": 0,
+              "coverage": 0.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": null,
+                  "95": null
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.0,
+                  "0.1": 0.0,
+                  "0.2": 0.0
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": null,
+                  "95": null
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.0,
+                  "0.1": 0.0,
+                  "0.2": 0.0
+                }
+              }
+            }
+          },
+          "common_joints": {
+            "fixed": {
+              "reference_samples": 0,
+              "scored_samples": 0,
+              "coverage": null,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": null,
+                  "95": null
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": null,
+                  "0.1": null,
+                  "0.2": null
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": null,
+                  "95": null
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": null,
+                  "0.1": null,
+                  "0.2": null
+                }
+              }
+            },
+            "motionbert_lite": {
+              "reference_samples": 0,
+              "scored_samples": 0,
+              "coverage": null,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": null,
+                  "95": null
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": null,
+                  "0.1": null,
+                  "0.2": null
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": null,
+                  "95": null
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": null,
+                  "0.1": null,
+                  "0.2": null
+                }
+              }
+            },
+            "calibrated_stereo": {
+              "reference_samples": 0,
+              "scored_samples": 0,
+              "coverage": null,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": null,
+                  "95": null
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": null,
+                  "0.1": null,
+                  "0.2": null
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": null,
+                  "95": null
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": null,
+                  "0.1": null,
+                  "0.2": null
+                }
+              }
+            }
+          }
+        },
+        {
+          "monocular_view": "cam03",
+          "reference_torso_m": 0.5084819781594933,
+          "all_eligible": {
+            "fixed": {
+              "reference_samples": 142,
+              "scored_samples": 136,
+              "coverage": 0.9577464788732394,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.762107171944323,
+                  "95": 0.9711529397454041
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.014084507042253521,
+                  "0.1": 0.014084507042253521,
+                  "0.2": 0.16901408450704225
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.7520419701397234,
+                  "95": 0.850086392207048
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.04929577464788732,
+                  "0.1": 0.07746478873239436,
+                  "0.2": 0.352112676056338
+                }
+              }
+            },
+            "motionbert_lite": {
+              "reference_samples": 142,
+              "scored_samples": 142,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.29674909433969565,
+                  "95": 0.49766910231276995
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.007042253521126761,
+                  "0.1": 0.1056338028169014,
+                  "0.2": 0.6197183098591549
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.24838930497976108,
+                  "95": 0.3020225270458723
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.14788732394366197,
+                  "0.1": 0.47183098591549294,
+                  "0.2": 0.8098591549295775
+                }
+              }
+            },
+            "calibrated_stereo": {
+              "reference_samples": 142,
+              "scored_samples": 0,
+              "coverage": 0.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": null,
+                  "95": null
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.0,
+                  "0.1": 0.0,
+                  "0.2": 0.0
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": null,
+                  "95": null
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.0,
+                  "0.1": 0.0,
+                  "0.2": 0.0
+                }
+              }
+            }
+          },
+          "common_joints": {
+            "fixed": {
+              "reference_samples": 0,
+              "scored_samples": 0,
+              "coverage": null,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": null,
+                  "95": null
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": null,
+                  "0.1": null,
+                  "0.2": null
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": null,
+                  "95": null
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": null,
+                  "0.1": null,
+                  "0.2": null
+                }
+              }
+            },
+            "motionbert_lite": {
+              "reference_samples": 0,
+              "scored_samples": 0,
+              "coverage": null,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": null,
+                  "95": null
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": null,
+                  "0.1": null,
+                  "0.2": null
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": null,
+                  "95": null
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": null,
+                  "0.1": null,
+                  "0.2": null
+                }
+              }
+            },
+            "calibrated_stereo": {
+              "reference_samples": 0,
+              "scored_samples": 0,
+              "coverage": null,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": null,
+                  "95": null
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": null,
+                  "0.1": null,
+                  "0.2": null
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": null,
+                  "95": null
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": null,
+                  "0.1": null,
+                  "0.2": null
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "input_pair": [
+        "cam01",
+        "cam04"
+      ],
+      "reference_pair": [
+        "cam02",
+        "cam03"
+      ],
+      "stereo_venue": {
+        "reference_samples": 119,
+        "scored_samples": 71,
+        "coverage": 0.5966386554621849,
+        "position": {
+          "tolerance_m_at_pass_rate_on_scored": {
+            "90": 0.1671291649012071,
+            "95": 0.18891790884961315
+          },
+          "reference_pass_rate_at_tolerance_m": {
+            "0.05": 0.05042016806722689,
+            "0.1": 0.2689075630252101,
+            "0.2": 0.5966386554621849
+          }
+        },
+        "depth": {
+          "tolerance_m_at_pass_rate_on_scored": {
+            "90": 0.09958688191710396,
+            "95": 0.1315898080919553
+          },
+          "reference_pass_rate_at_tolerance_m": {
+            "0.05": 0.3865546218487395,
+            "0.1": 0.5378151260504201,
+            "0.2": 0.5966386554621849
+          }
+        }
+      },
+      "poses": [
+        {
+          "monocular_view": "cam01",
+          "reference_torso_m": 0.5043237559765401,
+          "all_eligible": {
+            "fixed": {
+              "reference_samples": 83,
+              "scored_samples": 83,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.3015777297532122,
+                  "95": 0.3330364493106359
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.024096385542168676,
+                  "0.1": 0.14457831325301204,
+                  "0.2": 0.4939759036144578
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.24887384051162742,
+                  "95": 0.3212633311407771
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.1686746987951807,
+                  "0.1": 0.37349397590361444,
+                  "0.2": 0.7710843373493976
+                }
+              }
+            },
+            "motionbert_lite": {
+              "reference_samples": 83,
+              "scored_samples": 83,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.32072285316312404,
+                  "95": 0.33492424932706577
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.03614457831325301,
+                  "0.1": 0.1927710843373494,
+                  "0.2": 0.6867469879518072
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.2105736563965393,
+                  "95": 0.27639578604776405
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.24096385542168675,
+                  "0.1": 0.43373493975903615,
+                  "0.2": 0.8554216867469879
+                }
+              }
+            },
+            "calibrated_stereo": {
+              "reference_samples": 83,
+              "scored_samples": 26,
+              "coverage": 0.3132530120481928,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.11528261680281608,
+                  "95": 0.12636883311088834
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.012048192771084338,
+                  "0.1": 0.2289156626506024,
+                  "0.2": 0.3132530120481928
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.09995968266342217,
+                  "95": 0.10702067195900333
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.13253012048192772,
+                  "0.1": 0.2891566265060241,
+                  "0.2": 0.3132530120481928
+                }
+              }
+            }
+          },
+          "common_joints": {
+            "fixed": {
+              "reference_samples": 26,
+              "scored_samples": 26,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.22518520871782688,
+                  "95": 0.23322422977133062
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.038461538461538464,
+                  "0.1": 0.11538461538461539,
+                  "0.2": 0.6538461538461539
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.1944177124009788,
+                  "95": 0.19999661263972482
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.23076923076923078,
+                  "0.1": 0.5,
+                  "0.2": 0.9615384615384616
+                }
+              }
+            },
+            "motionbert_lite": {
+              "reference_samples": 26,
+              "scored_samples": 26,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.26866523414658217,
+                  "95": 0.29790422732716937
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.038461538461538464,
+                  "0.1": 0.11538461538461539,
+                  "0.2": 0.8461538461538461
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.1866891453821663,
+                  "95": 0.18817015705097684
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.38461538461538464,
+                  "0.1": 0.6153846153846154,
+                  "0.2": 0.9615384615384616
+                }
+              }
+            },
+            "calibrated_stereo": {
+              "reference_samples": 26,
+              "scored_samples": 26,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.11528261680281608,
+                  "95": 0.12636883311088834
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.038461538461538464,
+                  "0.1": 0.7307692307692307,
+                  "0.2": 1.0
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.09995968266342217,
+                  "95": 0.10702067195900333
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.4230769230769231,
+                  "0.1": 0.9230769230769231,
+                  "0.2": 1.0
+                }
+              }
+            }
+          }
+        },
+        {
+          "monocular_view": "cam04",
+          "reference_torso_m": 0.5043237559765401,
+          "all_eligible": {
+            "fixed": {
+              "reference_samples": 83,
+              "scored_samples": 83,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.4258044051512526,
+                  "95": 0.4728293609984944
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.0,
+                  "0.1": 0.18072289156626506,
+                  "0.2": 0.6024096385542169
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.4171914843184661,
+                  "95": 0.4574981210047799
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.07228915662650602,
+                  "0.1": 0.40963855421686746,
+                  "0.2": 0.6867469879518072
+                }
+              }
+            },
+            "motionbert_lite": {
+              "reference_samples": 83,
+              "scored_samples": 83,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.3215325564168723,
+                  "95": 0.3338007233292616
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.0,
+                  "0.1": 0.07228915662650602,
+                  "0.2": 0.5421686746987951
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.3052215735970806,
+                  "95": 0.32148338832160295
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.12048192771084337,
+                  "0.1": 0.3253012048192771,
+                  "0.2": 0.5783132530120482
+                }
+              }
+            },
+            "calibrated_stereo": {
+              "reference_samples": 83,
+              "scored_samples": 26,
+              "coverage": 0.3132530120481928,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.11528261680281608,
+                  "95": 0.1263688331108884
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.012048192771084338,
+                  "0.1": 0.2289156626506024,
+                  "0.2": 0.3132530120481928
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.08022127668222905,
+                  "95": 0.09570843031713844
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.18072289156626506,
+                  "0.1": 0.3132530120481928,
+                  "0.2": 0.3132530120481928
+                }
+              }
+            }
+          },
+          "common_joints": {
+            "fixed": {
+              "reference_samples": 26,
+              "scored_samples": 26,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.23001809115129468,
+                  "95": 0.25300465076244427
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.0,
+                  "0.1": 0.038461538461538464,
+                  "0.2": 0.8461538461538461
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.18563187925932534,
+                  "95": 0.2365389664344247
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.0,
+                  "0.1": 0.46153846153846156,
+                  "0.2": 0.9230769230769231
+                }
+              }
+            },
+            "motionbert_lite": {
+              "reference_samples": 26,
+              "scored_samples": 26,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.3067579300025815,
+                  "95": 0.31842421604344
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.0,
+                  "0.1": 0.07692307692307693,
+                  "0.2": 0.5
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.2830925892669335,
+                  "95": 0.2894238050950665
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.038461538461538464,
+                  "0.1": 0.2692307692307692,
+                  "0.2": 0.5
+                }
+              }
+            },
+            "calibrated_stereo": {
+              "reference_samples": 26,
+              "scored_samples": 26,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.11528261680281608,
+                  "95": 0.1263688331108884
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.038461538461538464,
+                  "0.1": 0.7307692307692307,
+                  "0.2": 1.0
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.08022127668222905,
+                  "95": 0.09570843031713844
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.5769230769230769,
+                  "0.1": 1.0,
+                  "0.2": 1.0
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "input_pair": [
+        "cam02",
+        "cam03"
+      ],
+      "reference_pair": [
+        "cam01",
+        "cam04"
+      ],
+      "stereo_venue": {
+        "reference_samples": 269,
+        "scored_samples": 71,
+        "coverage": 0.26394052044609667,
+        "position": {
+          "tolerance_m_at_pass_rate_on_scored": {
+            "90": 0.1671291649012071,
+            "95": 0.18891790884961315
+          },
+          "reference_pass_rate_at_tolerance_m": {
+            "0.05": 0.022304832713754646,
+            "0.1": 0.11895910780669144,
+            "0.2": 0.26394052044609667
+          }
+        },
+        "depth": {
+          "tolerance_m_at_pass_rate_on_scored": {
+            "90": 0.09958688191710396,
+            "95": 0.1315898080919553
+          },
+          "reference_pass_rate_at_tolerance_m": {
+            "0.05": 0.17100371747211895,
+            "0.1": 0.2379182156133829,
+            "0.2": 0.26394052044609667
+          }
+        }
+      },
+      "poses": [
+        {
+          "monocular_view": "cam02",
+          "reference_torso_m": 0.5169473800097407,
+          "all_eligible": {
+            "fixed": {
+              "reference_samples": 156,
+              "scored_samples": 156,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.39069815868244995,
+                  "95": 0.6166797287423365
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.04487179487179487,
+                  "0.1": 0.30128205128205127,
+                  "0.2": 0.7884615384615384
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.1920103470090567,
+                  "95": 0.27390408917411424
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.2948717948717949,
+                  "0.1": 0.6025641025641025,
+                  "0.2": 0.9038461538461539
+                }
+              }
+            },
+            "motionbert_lite": {
+              "reference_samples": 156,
+              "scored_samples": 156,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.3685404728527583,
+                  "95": 0.48895825318441455
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.08333333333333333,
+                  "0.1": 0.3974358974358974,
+                  "0.2": 0.7435897435897436
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.20813735467593292,
+                  "95": 0.24870741464948304
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.40384615384615385,
+                  "0.1": 0.6602564102564102,
+                  "0.2": 0.8846153846153846
+                }
+              }
+            },
+            "calibrated_stereo": {
+              "reference_samples": 156,
+              "scored_samples": 26,
+              "coverage": 0.16666666666666666,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.11528261680281608,
+                  "95": 0.12636883311088826
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.00641025641025641,
+                  "0.1": 0.12179487179487179,
+                  "0.2": 0.16666666666666666
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.08285106237921688,
+                  "95": 0.10350172840654781
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.11538461538461539,
+                  "0.1": 0.15384615384615385,
+                  "0.2": 0.16666666666666666
+                }
+              }
+            }
+          },
+          "common_joints": {
+            "fixed": {
+              "reference_samples": 26,
+              "scored_samples": 26,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.21313753240188438,
+                  "95": 0.21612155403042804
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.0,
+                  "0.1": 0.3076923076923077,
+                  "0.2": 0.8846153846153846
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.17271351280201164,
+                  "95": 0.1920103470090567
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.11538461538461539,
+                  "0.1": 0.7307692307692307,
+                  "0.2": 0.9615384615384616
+                }
+              }
+            },
+            "motionbert_lite": {
+              "reference_samples": 26,
+              "scored_samples": 26,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.3328112881309347,
+                  "95": 0.4195137552902821
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.0,
+                  "0.1": 0.11538461538461539,
+                  "0.2": 0.8461538461538461
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.3061178156702552,
+                  "95": 0.4094976000693026
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.07692307692307693,
+                  "0.1": 0.2692307692307692,
+                  "0.2": 0.8846153846153846
+                }
+              }
+            },
+            "calibrated_stereo": {
+              "reference_samples": 26,
+              "scored_samples": 26,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.11528261680281608,
+                  "95": 0.12636883311088826
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.038461538461538464,
+                  "0.1": 0.7307692307692307,
+                  "0.2": 1.0
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.08285106237921688,
+                  "95": 0.10350172840654781
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.6923076923076923,
+                  "0.1": 0.9230769230769231,
+                  "0.2": 1.0
+                }
+              }
+            }
+          }
+        },
+        {
+          "monocular_view": "cam03",
+          "reference_torso_m": 0.5169473800097408,
+          "all_eligible": {
+            "fixed": {
+              "reference_samples": 156,
+              "scored_samples": 150,
+              "coverage": 0.9615384615384616,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.658922457878445,
+                  "95": 0.7698535208039555
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.02564102564102564,
+                  "0.1": 0.0641025641025641,
+                  "0.2": 0.23717948717948717
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.6369262883228423,
+                  "95": 0.7394123635801855
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.05128205128205128,
+                  "0.1": 0.08333333333333333,
+                  "0.2": 0.38461538461538464
+                }
+              }
+            },
+            "motionbert_lite": {
+              "reference_samples": 156,
+              "scored_samples": 156,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.25897789217851924,
+                  "95": 0.34741412232273894
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.00641025641025641,
+                  "0.1": 0.1858974358974359,
+                  "0.2": 0.7564102564102564
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.22354484286509468,
+                  "95": 0.2482384648437107
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.1346153846153846,
+                  "0.1": 0.4551282051282051,
+                  "0.2": 0.8333333333333334
+                }
+              }
+            },
+            "calibrated_stereo": {
+              "reference_samples": 156,
+              "scored_samples": 26,
+              "coverage": 0.16666666666666666,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.11528261680281604,
+                  "95": 0.12636883311088837
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.00641025641025641,
+                  "0.1": 0.12179487179487179,
+                  "0.2": 0.16666666666666666
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.06486337232185654,
+                  "95": 0.07135624115800787
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.11538461538461539,
+                  "0.1": 0.16025641025641027,
+                  "0.2": 0.16666666666666666
+                }
+              }
+            }
+          },
+          "common_joints": {
+            "fixed": {
+              "reference_samples": 26,
+              "scored_samples": 26,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.6858656783025318,
+                  "95": 0.8032398619003376
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.038461538461538464,
+                  "0.1": 0.23076923076923078,
+                  "0.2": 0.34615384615384615
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.6771137796191804,
+                  "95": 0.7955837725487048
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.19230769230769232,
+                  "0.1": 0.2692307692307692,
+                  "0.2": 0.38461538461538464
+                }
+              }
+            },
+            "motionbert_lite": {
+              "reference_samples": 26,
+              "scored_samples": 26,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.35045722138338004,
+                  "95": 0.36438651155949214
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.0,
+                  "0.1": 0.038461538461538464,
+                  "0.2": 0.7307692307692307
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.3316797259923554,
+                  "95": 0.34813374477029824
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.07692307692307693,
+                  "0.1": 0.3076923076923077,
+                  "0.2": 0.7692307692307693
+                }
+              }
+            },
+            "calibrated_stereo": {
+              "reference_samples": 26,
+              "scored_samples": 26,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.11528261680281604,
+                  "95": 0.12636883311088837
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.038461538461538464,
+                  "0.1": 0.7307692307692307,
+                  "0.2": 1.0
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.06486337232185654,
+                  "95": 0.07135624115800787
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.6923076923076923,
+                  "0.1": 0.9615384615384616,
+                  "0.2": 1.0
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "input_pair": [
+        "cam02",
+        "cam04"
+      ],
+      "reference_pair": [
+        "cam01",
+        "cam03"
+      ],
+      "stereo_venue": {
+        "reference_samples": 273,
+        "scored_samples": 98,
+        "coverage": 0.358974358974359,
+        "position": {
+          "tolerance_m_at_pass_rate_on_scored": {
+            "90": 0.30714036699202524,
+            "95": 0.34697756606946156
+          },
+          "reference_pass_rate_at_tolerance_m": {
+            "0.05": 0.007326007326007326,
+            "0.1": 0.12454212454212454,
+            "0.2": 0.26373626373626374
+          }
+        },
+        "depth": {
+          "tolerance_m_at_pass_rate_on_scored": {
+            "90": 0.06047577217519928,
+            "95": 0.06971982992962422
+          },
+          "reference_pass_rate_at_tolerance_m": {
+            "0.05": 0.2783882783882784,
+            "0.1": 0.358974358974359,
+            "0.2": 0.358974358974359
+          }
+        }
+      },
+      "poses": [],
+      "pose_unavailable": "Held-out pair has no usable torso scale."
+    },
+    {
+      "input_pair": [
+        "cam03",
+        "cam04"
+      ],
+      "reference_pair": [
+        "cam01",
+        "cam02"
+      ],
+      "stereo_venue": {
+        "reference_samples": 321,
+        "scored_samples": 99,
+        "coverage": 0.308411214953271,
+        "position": {
+          "tolerance_m_at_pass_rate_on_scored": {
+            "90": 0.2436050422032453,
+            "95": 0.4471952745053964
+          },
+          "reference_pass_rate_at_tolerance_m": {
+            "0.05": 0.009345794392523364,
+            "0.1": 0.06853582554517133,
+            "0.2": 0.24922118380062305
+          }
+        },
+        "depth": {
+          "tolerance_m_at_pass_rate_on_scored": {
+            "90": 0.14479645341993685,
+            "95": 0.17520439557885092
+          },
+          "reference_pass_rate_at_tolerance_m": {
+            "0.05": 0.10903426791277258,
+            "0.1": 0.2118380062305296,
+            "0.2": 0.29595015576323985
+          }
+        }
+      },
+      "poses": [
+        {
+          "monocular_view": "cam03",
+          "reference_torso_m": 0.48462045333890524,
+          "all_eligible": {
+            "fixed": {
+              "reference_samples": 307,
+              "scored_samples": 287,
+              "coverage": 0.9348534201954397,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.6357616707365272,
+                  "95": 0.6891730075251861
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.009771986970684038,
+                  "0.1": 0.035830618892508145,
+                  "0.2": 0.23452768729641693
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.5893782418535687,
+                  "95": 0.6646348730914184
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.03908794788273615,
+                  "0.1": 0.08469055374592833,
+                  "0.2": 0.3127035830618892
+                }
+              }
+            },
+            "motionbert_lite": {
+              "reference_samples": 307,
+              "scored_samples": 307,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.3016565884251072,
+                  "95": 0.40502844449344866
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.006514657980456026,
+                  "0.1": 0.14006514657980457,
+                  "0.2": 0.745928338762215
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.2615151129349971,
+                  "95": 0.32690406988644594
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.07166123778501629,
+                  "0.1": 0.28013029315960913,
+                  "0.2": 0.8078175895765473
+                }
+              }
+            },
+            "calibrated_stereo": {
+              "reference_samples": 307,
+              "scored_samples": 72,
+              "coverage": 0.23452768729641693,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.12800806317123994,
+                  "95": 0.15058069260729404
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.035830618892508145,
+                  "0.1": 0.15309446254071662,
+                  "0.2": 0.23127035830618892
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.09762947906702979,
+                  "95": 0.10651815274441373
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.1270358306188925,
+                  "0.1": 0.21172638436482086,
+                  "0.2": 0.23127035830618892
+                }
+              }
+            }
+          },
+          "common_joints": {
+            "fixed": {
+              "reference_samples": 72,
+              "scored_samples": 72,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.3247504391248646,
+                  "95": 0.34361389812296667
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.0,
+                  "0.1": 0.041666666666666664,
+                  "0.2": 0.20833333333333334
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.30385671393899255,
+                  "95": 0.3288854060287244
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.027777777777777776,
+                  "0.1": 0.05555555555555555,
+                  "0.2": 0.3055555555555556
+                }
+              }
+            },
+            "motionbert_lite": {
+              "reference_samples": 72,
+              "scored_samples": 72,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.19626363927445864,
+                  "95": 0.23822946390819483
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.0,
+                  "0.1": 0.08333333333333333,
+                  "0.2": 0.9444444444444444
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.18534419829700605,
+                  "95": 0.19354112325108624
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.0,
+                  "0.1": 0.18055555555555555,
+                  "0.2": 0.9583333333333334
+                }
+              }
+            },
+            "calibrated_stereo": {
+              "reference_samples": 72,
+              "scored_samples": 72,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.12800806317123994,
+                  "95": 0.15058069260729404
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.1527777777777778,
+                  "0.1": 0.6527777777777778,
+                  "0.2": 0.9861111111111112
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.09762947906702979,
+                  "95": 0.10651815274441373
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.5416666666666666,
+                  "0.1": 0.9027777777777778,
+                  "0.2": 0.9861111111111112
+                }
+              }
+            }
+          }
+        },
+        {
+          "monocular_view": "cam04",
+          "reference_torso_m": 0.4846204533389053,
+          "all_eligible": {
+            "fixed": {
+              "reference_samples": 307,
+              "scored_samples": 298,
+              "coverage": 0.9706840390879479,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.5735023889099824,
+                  "95": 0.6589006567906421
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.009771986970684038,
+                  "0.1": 0.10097719869706841,
+                  "0.2": 0.2996742671009772
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.5052925308856557,
+                  "95": 0.5745715149513759
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.1237785016286645,
+                  "0.1": 0.20521172638436483,
+                  "0.2": 0.3550488599348534
+                }
+              }
+            },
+            "motionbert_lite": {
+              "reference_samples": 307,
+              "scored_samples": 307,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.36753354496851226,
+                  "95": 0.4901871445750511
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.016286644951140065,
+                  "0.1": 0.1237785016286645,
+                  "0.2": 0.40716612377850164
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.3453030827969615,
+                  "95": 0.3664757319400693
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.19543973941368079,
+                  "0.1": 0.26058631921824105,
+                  "0.2": 0.4560260586319218
+                }
+              }
+            },
+            "calibrated_stereo": {
+              "reference_samples": 307,
+              "scored_samples": 72,
+              "coverage": 0.23452768729641693,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.12800806317124,
+                  "95": 0.15058069260729406
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.035830618892508145,
+                  "0.1": 0.15309446254071662,
+                  "0.2": 0.23127035830618892
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.07660100765978904,
+                  "95": 0.08490870928855314
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.15309446254071662,
+                  "0.1": 0.23127035830618892,
+                  "0.2": 0.23452768729641693
+                }
+              }
+            }
+          },
+          "common_joints": {
+            "fixed": {
+              "reference_samples": 72,
+              "scored_samples": 72,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.5026038093943551,
+                  "95": 0.515040018516329
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.013888888888888888,
+                  "0.1": 0.041666666666666664,
+                  "0.2": 0.1111111111111111
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.49093024330784707,
+                  "95": 0.4989451268623153
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.013888888888888888,
+                  "0.1": 0.05555555555555555,
+                  "0.2": 0.1111111111111111
+                }
+              }
+            },
+            "motionbert_lite": {
+              "reference_samples": 72,
+              "scored_samples": 72,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.33715543210007537,
+                  "95": 0.3455849093655008
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.0,
+                  "0.1": 0.013888888888888888,
+                  "0.2": 0.16666666666666666
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.33435582820210064,
+                  "95": 0.3389137928636368
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.013888888888888888,
+                  "0.1": 0.08333333333333333,
+                  "0.2": 0.2361111111111111
+                }
+              }
+            },
+            "calibrated_stereo": {
+              "reference_samples": 72,
+              "scored_samples": 72,
+              "coverage": 1.0,
+              "position": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.12800806317124,
+                  "95": 0.15058069260729406
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.1527777777777778,
+                  "0.1": 0.6527777777777778,
+                  "0.2": 0.9861111111111112
+                }
+              },
+              "depth": {
+                "tolerance_m_at_pass_rate_on_scored": {
+                  "90": 0.07660100765978904,
+                  "95": 0.08490870928855314
+                },
+                "reference_pass_rate_at_tolerance_m": {
+                  "0.05": 0.6527777777777778,
+                  "0.1": 0.9861111111111112,
+                  "0.2": 1.0
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
