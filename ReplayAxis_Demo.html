@@ -103,7 +103,25 @@ function boneBasis(a,b,reference){
 }
 const restBases=rig.map(([a,b])=>boneBasis(neutralJoints[a],neutralJoints[b],[1,0,0]));
 
-function bodyWireframe(p,bodyScale,faces,wireframe){
+function fitBodyProportions(frames){
+ const distance=(a,b)=>a&&b?Math.hypot(...sub3(a,b)):NaN;
+ const midpoint=(a,b)=>a&&b?mix3(a,b,.5):null;
+ function medianLength(measure,fallback){
+  const values=frames.map(({points})=>measure(points))
+   .filter(value=>Number.isFinite(value)&&value>1e-7).sort((a,b)=>a-b);
+  const middle=Math.floor(values.length/2);
+  if(!values.length)return fallback;
+  return values.length%2?values[middle]:(values[middle-1]+values[middle])/2;
+ }
+ const scale=medianLength(p=>distance(midpoint(p[11],p[12]),midpoint(p[23],p[24])),.62)/.62;
+ const bounded=(value,low,high)=>Math.max(low,Math.min(high,value));
+ const shoulders=bounded(medianLength(p=>distance(p[11],p[12]),.390*scale)/(.390*scale),.70,1.40);
+ const hips=bounded(medianLength(p=>distance(p[23],p[24]),.228*scale)/(.228*scale),.70,1.40);
+ return {scale,shoulders,hips};
+}
+
+function bodyWireframe(p,profile,faces,wireframe){
+ const bodyScale=profile.scale;
  const segments=[];
  if(![11,12,23,24].every(id=>p[id]))return segments;
  const joints={...p,chest:mix3(p[11],p[12],.5),pelvis:mix3(p[23],p[24],.5)};
@@ -128,7 +146,11 @@ function bodyWireframe(p,bodyScale,faces,wireframe){
    const transform=transforms[id];
    if(!transform)return null;
    const {basis,origin,rest,axes,lengthScale}=transform;
-   const local=sub3(point,rest),factors=[bodyScale,lengthScale,bodyScale];
+   const local=sub3(point,rest);
+   const shoulderBlend=1-smooth(-.52,-.11,point[1]);
+   const torsoWidth=profile.hips+(profile.shoulders-profile.hips)*shoulderBlend;
+   const width=id===0?bodyScale*torsoWidth:bodyScale;
+   const factors=[width,lengthScale,bodyScale];
    for(let axis=0;axis<3;axis++){
     const distance=dot3(local,axes[axis])*factors[axis];
     for(let coordinate=0;coordinate<3;coordinate++)result[coordinate]+=weight*basis[axis][coordinate]*distance;
@@ -206,10 +228,8 @@ function markSurfaceAt(x,y){
  anchors.set(id,{face:hit.face,weights:hit.weights,name:hit.face.split(':')[0]+' spot '+(anchors.size+1)});
  toggleMark(id);
 }
-const torsoLengths=frames.filter(({points:p})=>p[11]&&p[12]&&p[23]&&p[24])
- .map(({points:p})=>Math.hypot(...sub3(mix3(p[11],p[12],.5),mix3(p[23],p[24],.5))))
- .filter(length=>length>1e-7).sort((a,b)=>a-b);
-const bodyScale=torsoLengths.length?torsoLengths[Math.floor(torsoLengths.length/2)]/.62:1;
+const bodyProfile=fitBodyProportions(frames);
+const bodyScale=bodyProfile.scale;
 const pickMode=el('pick-mode');
 el('render-mode').onchange=()=>{
  if(el('render-mode').value==='skeleton')pickMode.value='joint';
@@ -245,7 +265,7 @@ function render(){
  ctx.lineCap='round';
  if(el('render-mode').value!=='skeleton'){
   const faces=new Map();
-  const wires=bodyWireframe(meshPoints,bodyScale,faces,el('render-mode').value==='wireframe');
+  const wires=bodyWireframe(meshPoints,bodyProfile,faces,el('render-mode').value==='wireframe');
   const screenVertices=new Map();
   const projectVertex=point=>{
    if(!screenVertices.has(point))screenVertices.set(point,screen(point));
