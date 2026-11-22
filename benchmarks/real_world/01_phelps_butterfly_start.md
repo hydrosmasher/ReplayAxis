@@ -86,3 +86,23 @@ frame-step commands. The absolute decoded frame numbers and exact
 presentation timestamps are unknown. Camera motion and perspective are
 unaccounted for. These annotations do not establish the 25 m crossing
 or metric velocity.
+
+
+## Provisional lane assignment in the overhead shot
+
+The official [London 2012 results book](https://www.usaswimming.org/docs/default-source/timesdocuments/meet-results/olympic-games/2012-olympic-games.pdf)
+lists Michael Phelps in lane 4 and Chad le Clos in lane 5 (men's 100 m
+butterfly final, event 27). At 3:05 in the [Olympic broadcast](https://www.youtube.com/watch?v=X7bj_LUIY7Y&t=185s),
+the start wall is screen-left, the first length runs screen-right, and
+lanes 1–8 are ordered top to bottom. At 3:33 the swimmers are still on
+the first length and travel toward the top of the overhead image.
+Rotating the first orientation counterclockwise to align travel
+directions places lanes 1–8 left to right. Under the assumption that
+neither broadcast view is reflected, the CSV's center_left candidate
+maps to lane 4 and center_right maps to lane 5.
+
+This is a geometric inference. No lane number is visible in the overhead
+crop, so keep the CSV track IDs and do not treat the provisional
+assignment as an independently verified identity. This mapping applies
+only to the first-length overhead shot. No new positions, depths or
+metric motion measurements were obtained.
