@@ -293,3 +293,24 @@ the separate marks. Several roller correspondences have very large errors
 and should be independently verified. The test does not support adopting
 either mapping. The identical 40.35 px maximum on the original marks is
 from cameras 03 and 04, whose decoded dimensions already match the QCA.
+
+## Upstream file and camera assignment audit
+
+The [pinned Pose2Sim demo](https://github.com/perfanalytics/pose2sim/tree/88e870e8b28c2c15c0fcb290e4ee71a588746cdc/Pose2Sim/Demo_SinglePerson)
+contains the QCA, videos and four numbered PNGs in
+`calibration/extrinsics`. Save the upstream GitHub recursive tree JSON at
+that revision and pass the four extrinsic PNGs in a directory:
+
+```sh
+python tools/monocular/benchmark_camera_assignment.py reference.qca upstream_tree.json path/to/extrinsics cam01.mp4 cam02.mp4 cam03.mp4 cam04.mp4
+```
+
+All nine local files matched upstream Git blob IDs. Each video frame
+matched its numbered calibration still with 545–1,038 SIFT correspondences
+accepted by a 2 px RANSAC homography. Off-diagonal matches had at most 27
+inliers. Same-view median inlier residuals were 0.20–0.52 px. At the image
+center the inferred horizontal offsets were +3.99 and +3.95 px for
+cameras 01 and 02, and within 0.03 px of zero for cameras 03 and 04.
+This supports testing the four-pixel center-crop correction in the
+calibrated benchmark. It verifies image correspondence and file
+identity. Absolute 3D calibration remains unverified.
