@@ -314,3 +314,27 @@ cameras 01 and 02, and within 0.03 px of zero for cameras 03 and 04.
 This supports testing the four-pixel center-crop correction in the
 calibrated benchmark. It verifies image correspondence and file
 identity. Absolute 3D calibration remains unverified.
+
+## Stereo rerun with the measured center crop
+
+Run from the repository root:
+
+```sh
+python tools/monocular/benchmark_stereo_crop.py reference.qca yolov8n-pose.onnx cam01.mp4 cam02.mp4 cam03.mp4 cam04.mp4
+```
+
+This benchmark caches detections on the first 60 frames and reconstructs
+all six input/reference splits with both mappings. The crop adds four
+pixels to the raw horizontal coordinates for cameras 01 and 02 before
+lens correction. Both input and held-out triangulations use the selected
+mapping. Shared scores use the same reference frame/joint IDs across both
+variants, with each variant's independently triangulated coordinates.
+Native scores include all valid reference samples from that variant.
+Missing predictions count as failures at the fixed error thresholds.
+
+On shared samples the highest venue 10 cm pass rate moved from 26.9% to
+21.8%, and the highest hip-relative 10 cm rate stayed at 37.9%. The frame-10
+left-wrist discrepancy moved from 0.986 m to 0.981 m. This supports using
+the crop as a dataset-specific pixel transform where required by the export,
+with no general improvement in stereo agreement. The primary replay
+pipeline has not been changed.
