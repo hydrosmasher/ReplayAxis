@@ -63,3 +63,25 @@ head and limb joints. It also reports reflected hypotheses to expose
 sign ambiguity. Calibrated triangulation is a proxy reference and uses
 the same 2D detections. These comparisons are neither independent subjects
 nor motion-capture ground truth. The fixed estimator remains the default.
+
+
+## Learned depth benchmark
+
+From the repository root, run:
+
+```sh
+python tools/monocular/benchmark_learned.py Calib.qca.txt yolov8n-pose.onnx cam01.mp4 cam02.mp4 cam03.mp4 cam04.mp4
+```
+
+The ridge model predicts joint depth relative to the hips using joint identity,
+normalized 2D position, segment direction, fixed-prior depth and changes
+in the projected segment across adjacent sampled frames. Train on views
+01–02 and evaluate on 03–04, then reverse the groups. The penalty is fixed.
+All three methods are scored on identical shared joints.
+
+Mean depth error was lower than both baselines in two of four held-out
+views. Full per-view results are in `learned_results.json`. The folds
+share the same athlete, motion and times, so this measures transfer
+between camera groups within one recording. The reference is calibrated
+two-view triangulation, not independent motion capture. The learned model
+is a benchmark only and is not enabled in the replay CLI.

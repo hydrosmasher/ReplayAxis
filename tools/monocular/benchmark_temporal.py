@@ -29,19 +29,9 @@ def compare(observations, reference, confidence=.55):
     return errors
 
 
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("qca", type=Path)
-    parser.add_argument("model", type=Path)
-    parser.add_argument("camera_a", type=Path)
-    parser.add_argument("camera_b", type=Path)
-    parser.add_argument("--notebook", type=Path, default=Path("ReplayAxis_Markerless_TwoView.ipynb"))
-    args = parser.parse_args()
-    api = load_notebook(args.notebook)
-    net = cv2.dnn.readNetFromONNX(str(args.model))
-    cameras = cameras_from_qca(args.qca)
+def load_case(api, net, cameras, paths):
     known, views = [], []
-    for path in (args.camera_a, args.camera_b):
+    for path in paths:
         frames, poses = collect(path, net, api["detect_onnx_pose"])
         camera = cameras[path.stem]
         camera["image_size"] = frames[0].shape[::-1]
@@ -61,8 +51,23 @@ def main():
         raise ValueError("No calibrated torso estimates.")
     scale = np.median(torso_lengths)
     reference = [{j: point/scale for j, point in row.items()} for row in reference]
+    return views[0][:len(reference)], reference
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("qca", type=Path)
+    parser.add_argument("model", type=Path)
+    parser.add_argument("camera_a", type=Path)
+    parser.add_argument("camera_b", type=Path)
+    parser.add_argument("--notebook", type=Path, default=Path("ReplayAxis_Markerless_TwoView.ipynb"))
+    args = parser.parse_args()
+    api = load_notebook(args.notebook)
+    net = cv2.dnn.readNetFromONNX(str(args.model))
+    cameras = cameras_from_qca(args.qca)
+    observations, reference = load_case(api, net, cameras, (args.camera_a, args.camera_b))
     print(json.dumps({"frame_pairs": len(reference),
-                      "scores_in_torso_lengths": compare(views[0][:len(reference)], reference)},
+                      "scores_in_torso_lengths": compare(observations, reference)},
                      indent=2, allow_nan=False))
 
 
