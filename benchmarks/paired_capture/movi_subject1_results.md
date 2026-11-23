@@ -10,3 +10,7 @@ Both Grasshopper AVI files matched the MD5 values published by Borealis (file ID
 | Total | 2184 | 1677 | 1157 | 1574 | |
 
 A shift of the reference by one video frame in either direction did not improve the pooled pass rates. Valid reference counts differed slightly by offset. This is a single-trial result. The left wrist was the largest coverage gap. Earlier visual review of eight partially downloaded frames suggested that it is often hidden in the PG2 side view.
+
+## Left-wrist confidence sensitivity
+
+On the same 548 eligible samples, lowering confidence from 0.55 to 0.35 increased reconstruction from 243 to 322, 5 cm passes from 114 to 151, and 10 cm passes from 224 to 281. Reprojection rejections rose from 66 to 138 and low-visibility rejections fell from 239 to 88. At 0.55, 225 samples fell below threshold in PG2 and 14 in PG1. The production default remains 0.55.
