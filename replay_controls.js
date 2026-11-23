@@ -18,15 +18,12 @@
     answer.textContent = "Replay command sent: " + action;
     return true;
   };
-  document.getElementById("load-synthetic").onclick = () => {
-    replay.src = "ReplayAxis_3D_Example.html";
-  };
   document.getElementById("load-pilot").onclick = () => {
     if (!localServer) {
       answer.textContent = "Open the local demo server to load the butterfly pilot.";
       return;
     }
-    replay.src = "ReplayAxis_3D_Example.html?replay=butterfly";
+    replay.src = "replay/viewer.html?replay=butterfly";
   };
 
   document.getElementById("load-case-replay").onclick = () => {
@@ -34,7 +31,7 @@
       answer.textContent = "Open the local demo server to load the Akhtar pose pilot.";
       return;
     }
-    replay.src = "ReplayAxis_3D_Example.html?replay=akhtar";
+    replay.src = "replay/viewer.html?replay=akhtar";
   };
 
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;

@@ -37,10 +37,9 @@ a{color:#78e7ff}p{max-width:72ch}iframe{border:0;width:100%;height:740px;margin-
 <h3 id="replay-heading">3D replay test bench</h3>
 <p>The underwater butterfly pilot uses separate footage from the Phelps case. The pose is estimated from one camera and uses relative units.</p>
 <p><a href="https://commons.wikimedia.org/wiki/File:Butterfly_stroke_from_underwater.webm">Pilot source by It is a wonderful world (CC BY-SA 4.0)</a></p>
-<button type="button" id="load-synthetic">Synthetic replay</button>
 <button type="button" id="load-pilot">Underwater butterfly pilot</button>
 <button type="button" id="load-case-replay" hidden>Load Akhtar pose pilot</button>
-<iframe id="replay" src="ReplayAxis_3D_Example.html" title="ReplayAxis 3D replay"></iframe>
+<iframe id="replay" src="replay/viewer.html?replay=butterfly" title="ReplayAxis 3D replay"></iframe>
 </section>
 <section class="assistant" aria-labelledby="assistant-title">
 <h3 id="assistant-title">ReplayAxis Assistant</h3>
@@ -153,8 +152,8 @@ function select(index) {
  const hasPilot = name === akhtarCase;
  caseReplayButton.hidden = !hasPilot;
  const replay = document.getElementById("replay");
- if (!hasPilot && replay.getAttribute("src") === "ReplayAxis_3D_Example.html?replay=akhtar") {
-   replay.src = "ReplayAxis_3D_Example.html";
+ if (!hasPilot && replay.getAttribute("src") === "replay/viewer.html?replay=akhtar") {
+   replay.src = "replay/viewer.html?replay=butterfly";
  }
  document.getElementById("status").textContent = hasPilot ? status + " " + akhtarStatus : status || "Footage selection and reconstruction pending.";
  source.hidden = !url;

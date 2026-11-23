@@ -3,11 +3,10 @@
 Research and software for 3D sports motion analysis.
 
 - [Sports case demo and assistant](ReplayAxis_Demo.html)
-- [Interactive synthetic 3D replay](ReplayAxis_3D_Example.html)
 - [Two-view reconstruction notebook](ReplayAxis_Markerless_TwoView.ipynb)
 - Feasibility paper in [PDF](ReplayAxis_Feasibility_Assesment_First_Draft.pdf) and [Word](ReplayAxis_Feasibility_Assesment_First_Draft.docx)
 
-The sports case demo links to footage. The synthetic example illustrates 3D replay and manual joint marking. Sport-specific reconstructions are pending.
+The sports demo links to footage and hosts the Akhtar and underwater butterfly pose pilots in one viewer.
 
 ## Local OpenJarvis assistant
 
@@ -18,11 +17,11 @@ jarvis serve --host 127.0.0.1 --port 8000 --agent simple
 python3 serve_demo.py --jarvis-port 8000 --model qwen3:8b
 ```
 
-Use the model ID available in your OpenJarvis instance. Open the demo URL printed by the server. Only the typed question and selected case text go to OpenJarvis. The assistant has no access to the camera footage, research files, or measurement pipeline. Replay navigation uses the explicit local commands listed under `help`.
+Use the model ID available in your OpenJarvis instance. Open the demo URL printed by the server. The replay pilots also work with this server when OpenJarvis is offline. Only the typed question and selected case text go to OpenJarvis. The assistant has no access to the camera footage, research files, or measurement pipeline. Replay navigation uses the explicit local commands listed under `help`.
 
 ## Branches
 
-Keep the current demos and paper on `main`. Save the previous working `main` commit to `checkpoints` before publishing a replacement. Keep exploratory scripts, validation results, and project handoff in the research archive.
+Keep the current demo, reconstruction notebook, and paper on `main`. Save the previous working `main` commit to `checkpoints` before publishing a replacement. Keep exploratory scripts, validation results, and project handoff in the research archive.
 
 ### Replay controls
 
@@ -36,8 +35,7 @@ may use its speech provider. Use **Enable camera gestures** to load the
 MediaPipe model and grant camera access. Hand inference runs in the browser.
 Open palm plays and closed fist pauses. Disable gestures to release the camera.
 
-The synthetic replay and the underwater butterfly pilot exercise the same
-controls. The pilot is a separate video from the Phelps case and shows
+The underwater butterfly pilot uses a separate video from the Phelps case and shows
 estimated single-camera relative pose. Its source is
 [Butterfly stroke from underwater](https://commons.wikimedia.org/wiki/File:Butterfly_stroke_from_underwater.webm)
 by It is a wonderful world, CC BY-SA 4.0. The bundled pilot trajectory
