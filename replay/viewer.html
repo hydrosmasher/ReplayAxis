@@ -455,14 +455,37 @@ canvas.onkeydown=e=>{const key={ArrowLeft:[-.1,0],ArrowRight:[.1,0],ArrowUp:[0,-
 window.addEventListener('message', event => {
  if (event.source !== window.parent || event.origin !== location.origin ||
      event.data?.type !== 'replayaxis-control') return;
+ let message;
  switch (event.data.action) {
-  case 'play': if (timer === null) el('play').click(); break;
-  case 'pause': stop(); break;
+  case 'play': if (timer === null) el('play').click(); message='Playing.'; break;
+  case 'pause': stop(); message=`Paused at ${frames[i].time.toFixed(3)} seconds.`; break;
   case 'next frame': el('next').click(); break;
   case 'previous frame': el('prev').click(); break;
-  case 'reset view': el('reset').click(); break;
-  case 'mark joint': el('mark').click(); break;
+  case 'rewind': stop(); show(0); break;
+  case 'reset view': el('reset').click(); message='View reset.'; break;
+  case 'half speed': case 'normal speed':
+   speed.value=event.data.action==='half speed'?'.5':'1';
+   speed.onchange();
+   message=event.data.action==='half speed'?'Half speed.':'Normal speed.';
+   break;
+  case 'zoom in': case 'zoom out':
+   zoom=Math.min(5,Math.max(.25,zoom*(event.data.action==='zoom in'?1.2:1/1.2)));
+   render(); message='Zoom '+Math.round(zoom*100)+' percent.'; break;
+  case 'mark joint': {
+   stop();
+   const mark=el('mark');
+   if (mark.disabled) { message='The selected joint is unavailable in this frame.'; break; }
+   mark.click();
+   message=(markedAt(joint.value,i)?'Marked ':'Unmarked ')+data.joints[joint.value]+'.';
+   break;
+  }
+  case 'replay status': break;
+  default: return;
  }
+ event.source.postMessage({
+  type:'replayaxis-result', id:event.data.id,
+  message:message??`Frame ${i+1} of ${frames.length}, ${frames[i].time.toFixed(3)} seconds.`
+ }, event.origin);
 });
 new ResizeObserver(render).observe(canvas);render();
 })();

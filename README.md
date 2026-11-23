@@ -13,7 +13,7 @@ The sports demo links to footage and hosts the Akhtar and underwater butterfly p
 The demo works directly from the HTML file for case browsing and local navigation commands. Free-text questions use the chat API from [OpenJarvis](https://github.com/open-jarvis/OpenJarvis). Install and configure a local model using the [OpenJarvis documentation](https://open-jarvis.github.io/OpenJarvis/getting-started/installation/), then run these in separate terminals:
 
 ```sh
-jarvis serve --host 127.0.0.1 --port 8000 --agent simple
+jarvis serve --host 127.0.0.1 --port 8000 --model qwen3:8b
 python3 serve_demo.py --jarvis-port 8000 --model qwen3:8b
 ```
 
@@ -25,15 +25,21 @@ Keep the current demo, reconstruction notebook, and paper on `main`. Save the pr
 
 ### Replay controls
 
-Open the demo through the local server for the 3D assistant controls. Type
-or say `play`, `pause`, `next frame`, `previous frame`, `reset view`, or
-`mark joint`. These commands go directly to the viewer. OpenJarvis handles
-free-text case questions when its server is running.
+Open the demo through `python3 serve_demo.py` for the 3D controls. Type
+or say `play`, `pause`, `next frame`, `previous frame`, `rewind`, `half speed`,
+`normal speed`, `zoom in`, `zoom out`, `reset view`, `mark joint`, or
+`replay status`. Say `load Akhtar` or `load butterfly` to load a pilot.
+Replay commands are handled locally and the viewer confirms the result.
+Use **Start microphone** for one utterance at a time. The optional “Jarvis”
+prefix works in a command, and **Speak replies** enables browser speech
+synthesis. Start spoken questions with “ask” to send the transcript to
+local OpenJarvis. **Check OpenJarvis** checks whether the server lists the
+configured model. Browser speech recognition may use an online provider.
 
-Use **Voice** in a browser that supports speech recognition. The browser
-may use its speech provider. Use **Enable camera gestures** to load the
-MediaPipe model and grant camera access. Hand inference runs in the browser.
-Open palm plays and closed fist pauses. Disable gestures to release the camera.
+**Enable camera gestures** loads the MediaPipe model and requests camera
+access. Recognition runs in the browser. Open palm plays, fist pauses,
+thumbs-up steps forward and thumbs-down steps back. Hold the gesture briefly
+and release to repeat. Disable gestures to stop the camera.
 
 The underwater butterfly pilot uses a separate video from the Phelps case and shows
 estimated single-camera relative pose. Its source is

@@ -27,6 +27,22 @@ class DemoHandler(SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(body)
 
+    def do_GET(self):
+        if self.path != "/api/assistant/status":
+            return super().do_GET()
+        message = "OpenJarvis is offline. Replay commands still work."
+        try:
+            url = f"http://127.0.0.1:{self.server.jarvis_port}/v1/models"
+            with urlopen(url, timeout=3) as result:
+                models = json.loads(result.read(262144))["data"]
+            if any(item["id"] == self.server.model for item in models):
+                message = f"OpenJarvis lists the configured model ({self.server.model})."
+            else:
+                message = f"OpenJarvis responded, but did not list {self.server.model}."
+        except (OSError, ValueError, TypeError, KeyError):
+            pass
+        self.reply(200, {"message": message})
+
     def do_POST(self):
         if self.path != "/api/assistant":
             self.send_error(404)

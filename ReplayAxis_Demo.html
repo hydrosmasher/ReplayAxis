@@ -21,6 +21,7 @@ a{color:#78e7ff}p{max-width:72ch}iframe{border:0;width:100%;height:740px;margin-
 .assistant form{display:flex;gap:8px;flex-wrap:wrap}
 .assistant input{flex:1;min-width:160px;padding:8px;background:#102a37;color:inherit;border:1px solid #255065;border-radius:6px}
 .assistant button{border-color:#255065}
+#gesture-camera{width:min(100%,280px);transform:scaleX(-1)}
 .assistant output{display:block;white-space:pre-wrap;margin-top:12px}
 @media(max-width:720px){main{grid-template-columns:1fr}nav{max-height:260px;overflow:auto}}
 </style>
@@ -42,15 +43,18 @@ a{color:#78e7ff}p{max-width:72ch}iframe{border:0;width:100%;height:740px;margin-
 <iframe id="replay" src="replay/viewer.html?replay=butterfly" title="ReplayAxis 3D replay"></iframe>
 </section>
 <section class="assistant" aria-labelledby="assistant-title">
-<h3 id="assistant-title">ReplayAxis Assistant</h3>
-<p>Ask about the selected case, or type “next”, “previous”, or “help”.</p>
+<h3 id="assistant-title">ReplayAxis Jarvis</h3>
+<p>Type a command or press the microphone and say “Jarvis, pause”, “next frame”, or “ask what this case shows”.</p>
 <form id="assistant-form">
 <input id="assistant-question" aria-label="Message the assistant" maxlength="1000" required>
 <button type="submit">Send</button>
-<button type="button" id="listen">Voice</button>
-<button type="button" id="gesture">Enable camera gestures</button>
+<button type="button" id="listen" aria-pressed="false">Start microphone</button>
+<button type="button" id="gesture" aria-pressed="false">Enable camera gestures</button>
 </form>
-<p>Voice uses browser speech recognition. Camera gestures load a recognition model and process frames in your browser. Open palm plays, fist pauses.</p>
+<p><label><input type="checkbox" id="spoken-replies"> Speak replies</label>
+<button type="button" id="check-jarvis">Check OpenJarvis</button></p>
+<p>Browser speech recognition may use an online service. Camera recognition runs in the browser after loading its model. Hold an open palm to play, a fist to pause, a thumbs-up to step forward, or a thumbs-down to step back. Release the pose before repeating.</p>
+<p id="jarvis-devices" aria-live="polite"></p>
 <video id="gesture-camera" muted playsinline hidden></video>
 <output id="assistant-answer" aria-live="polite"></output>
 </section>
@@ -176,16 +180,23 @@ form.addEventListener("submit", async (event) => {
  event.preventDefault();
  const question = questionInput.value.trim();
  if (!question) return;
- const command = question.toLowerCase().replace(/[.!?]+$/, "");
- if (window.replayControl?.(command)) return;
+ const command = window.normalizeReplayCommand(question);
+ if (window.replayControl(command)) return;
+ if (command === "load akhtar" || command === "load butterfly") {
+   if (command === "load akhtar") {
+     select(cases.findIndex(([name]) => name === akhtarCase));
+     caseReplayButton.click();
+   } else document.getElementById("load-pilot").click();
+   return;
+ }
  if (command === "next" || command === "previous") {
    select((activeCase + (command === "next" ? 1 : -1) + cases.length) % cases.length);
-   answer.textContent = cases[activeCase][0];
+   window.jarvisReply(cases[activeCase][0]);
    return;
  }
  if (["help", "status", "show footage"].includes(command)) {
-   if (command === "help") answer.textContent = "Commands: next, previous, status, show footage. Free-text questions use local OpenJarvis when the demo is served locally.";
-   if (command === "status") answer.textContent = cases[activeCase][1] + " " + (cases[activeCase][0] === akhtarCase ? akhtarStatus : "3D reconstruction pending.");
+   if (command === "help") window.jarvisReply("Say play, pause, next frame, previous frame, rewind, half speed, normal speed, zoom in, zoom out, reset view, mark joint, replay status, load Akhtar, or load butterfly. Next case and previous case browse the catalog. Start a spoken question with ask.");
+   if (command === "status") window.jarvisReply(document.getElementById("status").textContent);
    if (command === "show footage") {
      if (source.hidden) answer.textContent = "No source footage link for this case.";
      else { source.focus(); answer.textContent = "The source footage link is selected."; }
@@ -196,17 +207,19 @@ form.addEventListener("submit", async (event) => {
    answer.textContent = "Start the local demo server to ask OpenJarvis questions. Commands work here.";
    return;
  }
+ const prompt = question.replace(/^\s*(?:jarvis\b[,:]?\s*)?ask\s+/i, "").trim();
  const button = form.querySelector("button");
+ if (button.disabled) return;
  button.disabled = true;
  answer.textContent = "Waiting for OpenJarvis…";
  try {
    const response = await fetch("/api/assistant", {
      method: "POST", headers: {"Content-Type": "application/json"},
-     body: JSON.stringify({question, case: cases[activeCase].slice(0, 2).join(" — ")}),
+     body: JSON.stringify({question: prompt, case: cases[activeCase].slice(0, 2).join(" — ")}),
      signal: AbortSignal.timeout(35000)
    });
    const result = await response.json();
-   answer.textContent = response.ok ? result.answer : result.error;
+   window.jarvisReply(response.ok ? result.answer : result.error);
  } catch {
    answer.textContent = "OpenJarvis is unavailable. Local demo commands are still available.";
  } finally {
