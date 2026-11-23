@@ -52,3 +52,24 @@ body prior supplies estimated depth in a hip-relative coordinate system. Missing
 observations remain missing. Seventeen frames contain some accepted joints.
 The replay includes no broadcast video, ball track, metric scale, or validated
 accuracy. The same playback, voice-command, and gesture controls target this replay.
+
+#### Second-angle review
+
+The primary [Cricket Australia feature](https://www.cricket.com.au/videos/2965060)
+cuts from a close-up of Akhtar's approach at about 13.6 s to the end-on
+release view by 13.8 s. It cuts to a fielder by 15.4 s. Those cuts do
+not provide overlapping views of the release.
+
+A low, behind-batter shot around 32–33.5 s shows an approach, then cuts
+to another end-on delivery around 34 s. At 15.2 s Ponting crouches as he
+evades the ball; around 35 s he stays upright and brings his bat across
+his body. Treat this later sequence as a different delivery and exclude
+it from the first delivery's stereo pair. The [official YouTube upload](https://www.youtube.com/watch?v=jdrItizhcRA)
+has the same feature title and is an alternate source for review. The local
+copy decoded only through 40.08 s, so later footage remains unreviewed.
+
+For a new candidate, verify delivery identity using the broadcast sequence
+and the batter's response, then align the bowler's front-foot contact,
+release, and (when visible) bounce. Require distinct views with overlapping
+frames around release and independently check the camera geometry before
+triangulation. The current pilot remains a single-view estimate.
