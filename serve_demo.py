@@ -10,7 +10,10 @@ from urllib.request import Request, urlopen
 
 class DemoHandler(SimpleHTTPRequestHandler):
     def send_head(self):
-        if self.path not in {"/ReplayAxis_Demo.html", "/ReplayAxis_3D_Example.html"}:
+        if self.path.split("?", 1)[0] not in {
+            "/ReplayAxis_Demo.html", "/ReplayAxis_3D_Example.html",
+            "/ReplayAxis_Butterfly_Pilot.json", "/replay_controls.js",
+        }:
             self.send_error(404)
             return None
         return super().send_head()

@@ -33,14 +33,25 @@ a{color:#78e7ff}p{max-width:72ch}iframe{border:0;width:100%;height:740px;margin-
 <p id="status" aria-live="polite"></p>
 <p><a id="source" hidden>Watch source footage</a></p>
 
-<p><a href="ReplayAxis_3D_Example.html">Open interactive synthetic 3D replay</a></p>
+<section aria-labelledby="replay-heading">
+<h3 id="replay-heading">3D replay test bench</h3>
+<p>The underwater butterfly pilot uses separate footage from the Phelps case. The pose is estimated from one camera and uses relative units.</p>
+<p><a href="https://commons.wikimedia.org/wiki/File:Butterfly_stroke_from_underwater.webm">Pilot source by It is a wonderful world (CC BY-SA 4.0)</a></p>
+<button type="button" id="load-synthetic">Synthetic replay</button>
+<button type="button" id="load-pilot">Underwater butterfly pilot</button>
+<iframe id="replay" src="ReplayAxis_3D_Example.html" title="ReplayAxis 3D replay"></iframe>
+</section>
 <section class="assistant" aria-labelledby="assistant-title">
 <h3 id="assistant-title">ReplayAxis Assistant</h3>
 <p>Ask about the selected case, or type “next”, “previous”, or “help”.</p>
 <form id="assistant-form">
 <input id="assistant-question" aria-label="Message the assistant" maxlength="1000" required>
 <button type="submit">Send</button>
+<button type="button" id="listen">Voice</button>
+<button type="button" id="gesture">Enable camera gestures</button>
 </form>
+<p>Voice uses browser speech recognition. Camera gestures load a recognition model and process frames in your browser. Open palm plays, fist pauses.</p>
+<video id="gesture-camera" muted playsinline hidden></video>
 <output id="assistant-answer" aria-live="polite"></output>
 </section>
 </article>
@@ -156,7 +167,8 @@ form.addEventListener("submit", async (event) => {
  event.preventDefault();
  const question = questionInput.value.trim();
  if (!question) return;
- const command = question.toLowerCase();
+ const command = question.toLowerCase().replace(/[.!?]+$/, "");
+ if (window.replayControl?.(command)) return;
  if (command === "next" || command === "previous") {
    select((activeCase + (command === "next" ? 1 : -1) + cases.length) % cases.length);
    answer.textContent = cases[activeCase][0];
@@ -193,4 +205,5 @@ form.addEventListener("submit", async (event) => {
  }
 });
 </script>
+<script src="replay_controls.js"></script>
 </html>
