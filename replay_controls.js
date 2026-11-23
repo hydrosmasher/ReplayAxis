@@ -29,6 +29,14 @@
     replay.src = "ReplayAxis_3D_Example.html?replay=butterfly";
   };
 
+  document.getElementById("load-case-replay").onclick = () => {
+    if (!localServer) {
+      answer.textContent = "Open the local demo server to load the Akhtar pose pilot.";
+      return;
+    }
+    replay.src = "ReplayAxis_3D_Example.html?replay=akhtar";
+  };
+
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   const listen = document.getElementById("listen");
   listen.onclick = () => {

@@ -25,7 +25,7 @@ a{color:#78e7ff}p{max-width:72ch}iframe{border:0;width:100%;height:740px;margin-
 @media(max-width:720px){main{grid-template-columns:1fr}nav{max-height:260px;overflow:auto}}
 </style>
 <h1>ReplayAxis</h1>
-<p>Watch footage for the 16 benchmark cases. The 3D reconstructions are pending.</p>
+<p>Browse footage for the 16 benchmark cases and review the first estimated replay in the Shoaib Akhtar case.</p>
 <main>
 <nav aria-label="Sports examples" id="cases"></nav>
 <article>
@@ -39,6 +39,7 @@ a{color:#78e7ff}p{max-width:72ch}iframe{border:0;width:100%;height:740px;margin-
 <p><a href="https://commons.wikimedia.org/wiki/File:Butterfly_stroke_from_underwater.webm">Pilot source by It is a wonderful world (CC BY-SA 4.0)</a></p>
 <button type="button" id="load-synthetic">Synthetic replay</button>
 <button type="button" id="load-pilot">Underwater butterfly pilot</button>
+<button type="button" id="load-case-replay" hidden>Load Akhtar pose pilot</button>
 <iframe id="replay" src="ReplayAxis_3D_Example.html" title="ReplayAxis 3D replay"></iframe>
 </section>
 <section class="assistant" aria-labelledby="assistant-title">
@@ -141,12 +142,21 @@ const cases = [
 ];
 const list = document.getElementById("cases");
 const source = document.getElementById("source");
+const caseReplayButton = document.getElementById("load-case-replay");
+const akhtarCase = "Shoaib Akhtar · Bouncer";
+const akhtarStatus = "Estimated body pose at 14.00–14.72 s from one broadcast view at 25 fps. Depth uses a body prior. Some joints and two frames are missing. Ball trajectory and metric kinematics are unavailable.";
 let activeCase = 0;
 function select(index) {
  activeCase = index;
  const [name,status,url] = cases[index];
  document.getElementById("name").textContent = name;
- document.getElementById("status").textContent = status || "Footage selection and reconstruction pending.";
+ const hasPilot = name === akhtarCase;
+ caseReplayButton.hidden = !hasPilot;
+ const replay = document.getElementById("replay");
+ if (!hasPilot && replay.getAttribute("src") === "ReplayAxis_3D_Example.html?replay=akhtar") {
+   replay.src = "ReplayAxis_3D_Example.html";
+ }
+ document.getElementById("status").textContent = hasPilot ? status + " " + akhtarStatus : status || "Footage selection and reconstruction pending.";
  source.hidden = !url;
  if (url) source.href = url;
  else source.removeAttribute("href");
@@ -176,7 +186,7 @@ form.addEventListener("submit", async (event) => {
  }
  if (["help", "status", "show footage"].includes(command)) {
    if (command === "help") answer.textContent = "Commands: next, previous, status, show footage. Free-text questions use local OpenJarvis when the demo is served locally.";
-   if (command === "status") answer.textContent = cases[activeCase][1] + " 3D reconstruction pending.";
+   if (command === "status") answer.textContent = cases[activeCase][1] + " " + (cases[activeCase][0] === akhtarCase ? akhtarStatus : "3D reconstruction pending.");
    if (command === "show footage") {
      if (source.hidden) answer.textContent = "No source footage link for this case.";
      else { source.focus(); answer.textContent = "The source footage link is selected."; }

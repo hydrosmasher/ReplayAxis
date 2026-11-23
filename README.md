@@ -43,3 +43,14 @@ estimated single-camera relative pose. Its source is
 by It is a wonderful world, CC BY-SA 4.0. The bundled pilot trajectory
 is provided under the same license. The 16 catalog entries still need their
 own validated 3D reconstructions.
+
+### Broadcast case pilot
+
+Select **Shoaib Akhtar · Bouncer** and choose **Load Akhtar pose pilot**.
+The demo bundles estimated joint coordinates from frames 350–368 (14.00–14.72 s)
+of the linked Cricket Australia review clip, sampled at its source rate of 25 fps.
+A crop isolates the bowler. The markerless detector finds 2D joints, and a fixed
+body prior supplies estimated depth in a hip-relative coordinate system. Missing
+observations remain missing. Seventeen frames contain some accepted joints.
+The replay includes no broadcast video, ball track, metric scale, or validated
+accuracy. The same playback, voice-command, and gesture controls target this replay.
