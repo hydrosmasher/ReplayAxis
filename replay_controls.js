@@ -8,7 +8,7 @@
   const spoken = document.getElementById("spoken-replies");
   const commands = new Set([
     "play", "pause", "next frame", "previous frame", "rewind", "reset view",
-    "half speed", "normal speed", "zoom in", "zoom out", "mark joint", "replay status",
+    "half speed", "normal speed", "zoom in", "zoom out", "mark joint", "replay status", "frame evidence",
   ]);
   const aliases = new Map([
     ["resume", "play"], ["start replay", "play"], ["play replay", "play"],
@@ -16,7 +16,7 @@
     ["step back", "previous frame"], ["last frame", "previous frame"],
     ["next case", "next"], ["previous case", "previous"], ["case status", "status"],
     ["go to start", "rewind"], ["restart replay", "rewind"], ["slow down", "half speed"],
-    ["reset camera", "reset view"],
+    ["reset camera", "reset view"], ["inspect frame", "frame evidence"], ["what supports this frame", "frame evidence"],
     ["open akhtar", "load akhtar"], ["open butterfly", "load butterfly"],
   ]);
   const normalize = (input) => {
@@ -48,7 +48,8 @@
   });
   window.replayControl = (action, aloud = true) => {
     const seek = action.match(/^(?:go to |jump to |seek to )?(?:(source frame|frame) (\d+)|(\d+(?:\.\d+| point \d+)?)(?: seconds?| s))$/);
-    if (!commands.has(action) && !seek) return false;
+    const inspect = action.match(/^inspect (?:the )?((?:left |right )?[a-z]+(?: [a-z]+)?)$/);
+    if (!commands.has(action) && !seek && !inspect) return false;
     const target = seek && Number((seek[2] ?? seek[3]).replace(" point ", "."));
     const kind = seek && (seek[1] ?? "time");
     if (!localServer) {
@@ -62,7 +63,8 @@
       reply("The replay did not respond. Wait for it to load, then try again.", false);
     }, 2000);
     pending = {id, timer, aloud};
-    replay.contentWindow.postMessage({type: "replayaxis-control", action: seek ? "seek" : action, id, target, kind}, location.origin);
+    replay.contentWindow.postMessage({type: "replayaxis-control", action: seek ? "seek" : inspect && !commands.has(action) ? "inspect joint" : action,
+      id, target, kind, jointName: inspect?.[1]}, location.origin);
     return true;
   };
   document.getElementById("load-pilot").onclick = () => {

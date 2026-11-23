@@ -504,6 +504,26 @@ window.addEventListener('message', event => {
    message=(markedAt(joint.value,i)?'Marked ':'Unmarked ')+data.joints[joint.value]+'.';
    break;
   }
+  case 'inspect joint':
+  case 'frame evidence': {
+   if(event.data.action==='inspect joint'){
+    const match=Object.entries(data.joints).find(([,name])=>name.toLowerCase()===event.data.jointName);
+    if(!match){message='Joint not recognized. Try inspect left knee or choose a joint in Frame diagnostics.'; break;}
+    joint.value=match[0];
+   }
+   stop();render();
+   const frame=frames[i];
+   const sources=frame.source_frames.flatMap((number,index)=>
+    number==null?[]:['camera '+String.fromCharCode(65+index)+' frame '+number]);
+   const count=Object.keys(frame.points).length;
+   const jointName=data.joints[joint.value];
+   const availability=frame.points[joint.value]?'available as an estimate':'unavailable';
+   message='Replay frame '+(i+1)+' at '+frame.time.toFixed(3)+' seconds. '
+    +(sources.length?'Source: '+sources.join(', ')+'. ':'Source frames unavailable. ')
+    +count+' of '+Object.keys(data.joints).length+' joints available. '
+    +jointName+': '+availability+'. Relative pose only. Metric measurements are unavailable.';
+   break;
+  }
   case 'replay status': break;
   default: return;
  }

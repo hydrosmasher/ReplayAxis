@@ -193,7 +193,7 @@ form.addEventListener("submit", (event) => {
    return;
  }
  if (["help", "status", "show footage"].includes(command)) {
-   if (command === "help") window.replayReply("Say play, pause, next frame, previous frame, rewind, half speed, normal speed, zoom in, zoom out, reset view, mark joint, replay status, load Akhtar, or load butterfly. Say frame 10, source frame 350, or go to 14.4 seconds to pause at a location in the loaded replay. Next case and previous case browse the catalog. Say select followed by an athlete and event to switch cases. Ask about any named case, its footage, camera views, or measurement limits.");
+   if (command === "help") window.replayReply("Say play, pause, next frame, previous frame, rewind, half speed, normal speed, zoom in, zoom out, reset view, mark joint, replay status, load Akhtar, or load butterfly. Say frame 10, source frame 350, or go to 14.4 seconds to pause at a location in the loaded replay. Say frame evidence or inspect left knee to pause and review the current frame. Next case and previous case browse the catalog. Say select followed by an athlete and event to switch cases. Ask about any named case, its footage, camera views, or measurement limits.");
    if (command === "status") window.replayReply(document.getElementById("status").textContent);
    if (command === "show footage") {
      if (source.hidden) answer.textContent = "No source footage link for this case.";

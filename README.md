@@ -35,6 +35,11 @@ Say or type `frame 10` for a one-based replay frame, `source frame 350` for
 a camera A frame, or `go to 14.4 seconds` for the nearest recorded frame at
 that source timestamp. The viewer pauses on a match and reports the actual
 source time. Requests outside the loaded replay leave playback alone.
+
+Say or type `frame evidence` to pause and report the source frame, number of
+available joints and current joint status. Use `inspect left knee` to select
+that joint and hear or read the same evidence. A missing joint is reported
+even when the rest of the pose is available.
 Use **Start microphone** for one utterance at a time and optionally begin with
 “ReplayAxis.” **Speak replies** enables browser speech synthesis. The question
 handler itself runs locally, and browser speech recognition may use an online
