@@ -15,7 +15,9 @@ The assistant answers supported questions in the browser using the selected
 case and documented validation limits. Example questions include “What does
 this case show?”, “Is there a second camera angle?”, and “Can I measure ball
 speed?” The response identifies its evidence source. Unsupported questions
-receive guidance on supported topics. A separate, fixed command list controls
+receive guidance on supported topics. Ask “Does Akhtar have a second
+camera angle?” from any case, or say “select Phelps butterfly finish” to
+switch cases. If a name matches multiple events, the assistant lists them. A separate, fixed command list controls
 the viewer. The web server only serves demo files.
 
 ## Branches

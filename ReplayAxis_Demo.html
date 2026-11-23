@@ -193,7 +193,7 @@ form.addEventListener("submit", (event) => {
    return;
  }
  if (["help", "status", "show footage"].includes(command)) {
-   if (command === "help") window.replayReply("Say play, pause, next frame, previous frame, rewind, half speed, normal speed, zoom in, zoom out, reset view, mark joint, replay status, load Akhtar, or load butterfly. Next case and previous case browse the catalog. Ask about the active case, its footage, camera views, or measurement limits.");
+   if (command === "help") window.replayReply("Say play, pause, next frame, previous frame, rewind, half speed, normal speed, zoom in, zoom out, reset view, mark joint, replay status, load Akhtar, or load butterfly. Next case and previous case browse the catalog. Say select followed by an athlete and event to switch cases. Ask about any named case, its footage, camera views, or measurement limits.");
    if (command === "status") window.replayReply(document.getElementById("status").textContent);
    if (command === "show footage") {
      if (source.hidden) answer.textContent = "No source footage link for this case.";
@@ -201,10 +201,26 @@ form.addEventListener("submit", (event) => {
    }
    return;
  }
- const [name, notes, url] = cases[activeCase];
+ const selection = command.match(/^(?:select|switch to|show case)\s+(.+)$/);
+ const query = selection ? selection[1] : command;
+ const matches = window.findReplayCases(query, cases);
+ if (matches.length > 1) {
+   window.replayReply("Which case do you mean? " + matches.map(index => cases[index][0]).join(". "));
+   return;
+ }
+ if (selection) {
+   if (!matches.length) {
+     window.replayReply("I couldn’t match that case. Try “select Akhtar” or “select Phelps butterfly finish”.");
+     return;
+   }
+   select(matches[0]);
+   window.replayReply("Selected " + cases[activeCase][0] + ".");
+   return;
+ }
+ const [name, notes, url] = cases[matches[0] ?? activeCase];
  const replay = new URL(document.getElementById("replay").src).searchParams.get("replay");
  const response = window.answerReplayQuestion(question, {
-   name, notes, hasPilot: name === akhtarCase, hasSource: Boolean(url), replay,
+   name, notes, hasPilot: name === akhtarCase, hasSource: Boolean(url), replay, namedCase: matches.length === 1,
  });
  window.replayReply(response.message + "\nSource: " + response.source, true, response.message);
 });
