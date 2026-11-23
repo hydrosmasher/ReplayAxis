@@ -145,11 +145,15 @@
   let stream = null;
   let recognizer = null;
   let timer = null;
+  let gestureStartup = null;
   const gestures = new Map([
     ["Open_Palm", "play"], ["Closed_Fist", "pause"],
     ["Thumb_Up", "next frame"], ["Thumb_Down", "previous frame"],
   ]);
   const stopGestures = () => {
+    gestureStartup?.abort();
+    gestureStartup = null;
+    gestureButton.disabled = false;
     clearInterval(timer);
     timer = null;
     stream?.getTracks().forEach((track) => track.stop());
@@ -171,19 +175,33 @@
       answer.textContent = "Camera gestures require the local demo server and browser camera support.";
       return;
     }
+    const startup = new AbortController();
+    gestureStartup = startup;
     gestureButton.disabled = true;
     answer.textContent = "Loading hand-gesture recognition…";
     try {
       const base = "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.21";
       const {FilesetResolver, GestureRecognizer} = await import(base + "/vision_bundle.mjs");
       const files = await FilesetResolver.forVisionTasks(base + "/wasm");
-      recognizer = await GestureRecognizer.createFromOptions(files, {
+      if (startup.signal.aborted) return;
+      const model = await GestureRecognizer.createFromOptions(files, {
         baseOptions: {modelAssetPath: "https://storage.googleapis.com/mediapipe-models/gesture_recognizer/gesture_recognizer/float16/1/gesture_recognizer.task"},
         runningMode: "VIDEO", numHands: 1,
       });
-      stream = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
+      if (startup.signal.aborted) {
+        model.close();
+        return;
+      }
+      recognizer = model;
+      const camera = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
+      if (startup.signal.aborted) {
+        camera.getTracks().forEach((track) => track.stop());
+        return;
+      }
+      stream = camera;
       video.srcObject = stream;
       await video.play();
+      if (startup.signal.aborted) return;
       video.hidden = false;
       gestureButton.setAttribute("aria-pressed", "true");
       gestureButton.textContent = "Disable camera gestures";
@@ -211,10 +229,12 @@
         }
       }, 125);
     } catch {
+      if (startup.signal.aborted) return;
       stopGestures();
       answer.textContent = "Camera or gesture model unavailable. Typed and voice controls are still available.";
     } finally {
-      gestureButton.disabled = false;
+      if (gestureStartup === startup) gestureStartup = null;
+      if (!startup.signal.aborted) gestureButton.disabled = false;
     }
   };
   window.addEventListener("pagehide", () => {
