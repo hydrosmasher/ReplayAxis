@@ -43,18 +43,16 @@ a{color:#78e7ff}p{max-width:72ch}iframe{border:0;width:100%;height:740px;margin-
 <iframe id="replay" src="replay/viewer.html?replay=butterfly" title="ReplayAxis 3D replay"></iframe>
 </section>
 <section class="assistant" aria-labelledby="assistant-title">
-<h3 id="assistant-title">ReplayAxis Jarvis</h3>
-<p>Type a command or press the microphone and say “Jarvis, pause”, “next frame”, or “ask what this case shows”.</p>
+<h3 id="assistant-title">ReplayAxis Assistant</h3>
+<p>Type a command or press the microphone and say “ReplayAxis, pause”, “next frame”, or “ask what this case shows”.</p>
 <form id="assistant-form">
 <input id="assistant-question" aria-label="Message the assistant" maxlength="1000" required>
 <button type="submit">Send</button>
 <button type="button" id="listen" aria-pressed="false">Start microphone</button>
 <button type="button" id="gesture" aria-pressed="false">Enable camera gestures</button>
 </form>
-<p><label><input type="checkbox" id="spoken-replies"> Speak replies</label>
-<button type="button" id="check-jarvis">Check OpenJarvis</button></p>
+<p><label><input type="checkbox" id="spoken-replies"> Speak replies</label></p>
 <p>Browser speech recognition may use an online service. Camera recognition runs in the browser after loading its model. Hold an open palm to play, a fist to pause, a thumbs-up to step forward, or a thumbs-down to step back. Release the pose before repeating.</p>
-<p id="jarvis-devices" aria-live="polite"></p>
 <video id="gesture-camera" muted playsinline hidden></video>
 <output id="assistant-answer" aria-live="polite"></output>
 </section>
@@ -176,7 +174,7 @@ select(0);
 const form = document.getElementById("assistant-form");
 const questionInput = document.getElementById("assistant-question");
 const answer = document.getElementById("assistant-answer");
-form.addEventListener("submit", async (event) => {
+form.addEventListener("submit", (event) => {
  event.preventDefault();
  const question = questionInput.value.trim();
  if (!question) return;
@@ -191,41 +189,26 @@ form.addEventListener("submit", async (event) => {
  }
  if (command === "next" || command === "previous") {
    select((activeCase + (command === "next" ? 1 : -1) + cases.length) % cases.length);
-   window.jarvisReply(cases[activeCase][0]);
+   window.replayReply(cases[activeCase][0]);
    return;
  }
  if (["help", "status", "show footage"].includes(command)) {
-   if (command === "help") window.jarvisReply("Say play, pause, next frame, previous frame, rewind, half speed, normal speed, zoom in, zoom out, reset view, mark joint, replay status, load Akhtar, or load butterfly. Next case and previous case browse the catalog. Start a spoken question with ask.");
-   if (command === "status") window.jarvisReply(document.getElementById("status").textContent);
+   if (command === "help") window.replayReply("Say play, pause, next frame, previous frame, rewind, half speed, normal speed, zoom in, zoom out, reset view, mark joint, replay status, load Akhtar, or load butterfly. Next case and previous case browse the catalog. Ask about the active case, its footage, camera views, or measurement limits.");
+   if (command === "status") window.replayReply(document.getElementById("status").textContent);
    if (command === "show footage") {
      if (source.hidden) answer.textContent = "No source footage link for this case.";
      else { source.focus(); answer.textContent = "The source footage link is selected."; }
    }
    return;
  }
- if (location.protocol === "file:") {
-   answer.textContent = "Start the local demo server to ask OpenJarvis questions. Commands work here.";
-   return;
- }
- const prompt = question.replace(/^\s*(?:jarvis\b[,:]?\s*)?ask\s+/i, "").trim();
- const button = form.querySelector("button");
- if (button.disabled) return;
- button.disabled = true;
- answer.textContent = "Waiting for OpenJarvis…";
- try {
-   const response = await fetch("/api/assistant", {
-     method: "POST", headers: {"Content-Type": "application/json"},
-     body: JSON.stringify({question: prompt, case: cases[activeCase].slice(0, 2).join(" — ")}),
-     signal: AbortSignal.timeout(35000)
-   });
-   const result = await response.json();
-   window.jarvisReply(response.ok ? result.answer : result.error);
- } catch {
-   answer.textContent = "OpenJarvis is unavailable. Local demo commands are still available.";
- } finally {
-   button.disabled = false;
- }
+ const [name, notes, url] = cases[activeCase];
+ const replay = new URL(document.getElementById("replay").src).searchParams.get("replay");
+ const response = window.answerReplayQuestion(question, {
+   name, notes, hasPilot: name === akhtarCase, hasSource: Boolean(url), replay,
+ });
+ window.replayReply(response.message + "\nSource: " + response.source, true, response.message);
 });
 </script>
+<script src="replay_assistant.js"></script>
 <script src="replay_controls.js"></script>
 </html>

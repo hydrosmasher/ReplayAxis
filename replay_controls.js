@@ -5,13 +5,11 @@
   const question = document.getElementById("assistant-question");
   const video = document.getElementById("gesture-camera");
   const gestureButton = document.getElementById("gesture");
-  const devices = document.getElementById("jarvis-devices");
   const spoken = document.getElementById("spoken-replies");
   const commands = new Set([
     "play", "pause", "next frame", "previous frame", "rewind", "reset view",
     "half speed", "normal speed", "zoom in", "zoom out", "mark joint", "replay status",
   ]);
-  const catalog = new Set(["next", "previous", "status", "help", "show footage", "load akhtar", "load butterfly"]);
   const aliases = new Map([
     ["resume", "play"], ["start replay", "play"], ["play replay", "play"],
     ["stop", "pause"], ["pause replay", "pause"], ["step forward", "next frame"],
@@ -22,22 +20,22 @@
     ["open akhtar", "load akhtar"], ["open butterfly", "load butterfly"],
   ]);
   const normalize = (input) => {
-    const words = input.trim().toLowerCase().replace(/^jarvis(?:[,:]+|\s+|$)\s*/, "")
+    const words = input.trim().toLowerCase().replace(/^(?:replay\s*axis|jarvis)(?:[,:]+|\s+|$)\s*/, "")
       .replace(/^please\s+/, "").replace(/[.!?]+$/, "").replace(/\s+please$/, "").trim();
     return aliases.get(words) ?? words;
   };
   window.normalizeReplayCommand = normalize;
   const localServer = location.hostname === "127.0.0.1";
-  const reply = (message, aloud = true) => {
+  const reply = (message, aloud = true, spokenMessage = message) => {
     answer.textContent = message;
     if (aloud && spoken.checked && window.speechSynthesis && window.SpeechSynthesisUtterance) {
       window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(message);
+      const utterance = new SpeechSynthesisUtterance(spokenMessage);
       utterance.lang = "en-US";
       window.speechSynthesis.speak(utterance);
     }
   };
-  window.jarvisReply = reply;
+  window.replayReply = reply;
   let sequence = 0;
   let pending = null;
   window.addEventListener("message", (event) => {
@@ -63,17 +61,6 @@
     pending = {id, timer, aloud};
     replay.contentWindow.postMessage({type: "replayaxis-control", action, id}, location.origin);
     return true;
-  };
-  document.getElementById("check-jarvis").onclick = async () => {
-    if (!localServer) { reply("Open the local demo server to check OpenJarvis."); return; }
-    devices.textContent = "Checking OpenJarvis…";
-    try {
-      const response = await fetch("/api/assistant/status", {signal: AbortSignal.timeout(5000)});
-      const status = await response.json();
-      devices.textContent = status.message;
-    } catch {
-      devices.textContent = "Could not check OpenJarvis.";
-    }
   };
   document.getElementById("load-pilot").onclick = () => {
     if (!localServer) {
@@ -106,10 +93,8 @@
     session.lang = "en-US";
     session.onresult = (event) => {
       const transcript = event.results[0][0].transcript.trim();
-      const command = normalize(transcript);
       question.value = transcript;
-      if (commands.has(command) || catalog.has(command) || /^ask\s+\S/.test(command)) form.requestSubmit();
-      else reply("I didn’t recognize that command. Say help for commands, or start a question with ask.", false);
+      if (transcript) form.requestSubmit();
     };
     session.onerror = (event) => {
       if (event.error !== "aborted") reply("Microphone recognition: " + event.error + ".", false);

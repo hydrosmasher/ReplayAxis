@@ -8,16 +8,15 @@ Research and software for 3D sports motion analysis.
 
 The sports demo links to footage and hosts the Akhtar and underwater butterfly pose pilots in one viewer.
 
-## Local OpenJarvis assistant
+## ReplayAxis Assistant
 
-The demo works directly from the HTML file for case browsing and local navigation commands. Free-text questions use the chat API from [OpenJarvis](https://github.com/open-jarvis/OpenJarvis). Install and configure a local model using the [OpenJarvis documentation](https://open-jarvis.github.io/OpenJarvis/getting-started/installation/), then run these in separate terminals:
-
-```sh
-jarvis serve --host 127.0.0.1 --port 8000 --model qwen3:8b
-python3 serve_demo.py --jarvis-port 8000 --model qwen3:8b
-```
-
-Use the model ID available in your OpenJarvis instance. Open the demo URL printed by the server. The replay pilots also work with this server when OpenJarvis is offline. Only the typed question and selected case text go to OpenJarvis. The assistant has no access to the camera footage, research files, or measurement pipeline. Replay navigation uses the explicit local commands listed under `help`.
+Start the demo with `python3 serve_demo.py` and open the printed link.
+The assistant answers supported questions in the browser using the selected
+case and documented validation limits. Example questions include “What does
+this case show?”, “Is there a second camera angle?”, and “Can I measure ball
+speed?” The response identifies its evidence source. Unsupported questions
+receive guidance on supported topics. A separate, fixed command list controls
+the viewer. The web server only serves demo files.
 
 ## Branches
 
@@ -30,11 +29,10 @@ or say `play`, `pause`, `next frame`, `previous frame`, `rewind`, `half speed`,
 `normal speed`, `zoom in`, `zoom out`, `reset view`, `mark joint`, or
 `replay status`. Say `load Akhtar` or `load butterfly` to load a pilot.
 Replay commands are handled locally and the viewer confirms the result.
-Use **Start microphone** for one utterance at a time. The optional “Jarvis”
-prefix works in a command, and **Speak replies** enables browser speech
-synthesis. Start spoken questions with “ask” to send the transcript to
-local OpenJarvis. **Check OpenJarvis** checks whether the server lists the
-configured model. Browser speech recognition may use an online provider.
+Use **Start microphone** for one utterance at a time and optionally begin with
+“ReplayAxis.” **Speak replies** enables browser speech synthesis. The question
+handler itself runs locally, and browser speech recognition may use an online
+provider.
 
 **Enable camera gestures** loads the MediaPipe model and requests camera
 access. Recognition runs in the browser. Open palm plays, fist pauses,
