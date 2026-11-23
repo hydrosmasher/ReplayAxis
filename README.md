@@ -39,7 +39,10 @@ source time. Requests outside the loaded replay leave playback alone.
 Say or type `frame evidence` to pause and report the source frame, number of
 available joints and current joint status. Use `inspect left knee` to select
 that joint and hear or read the same evidence. A missing joint is reported
-even when the rest of the pose is available.
+even when the rest of the pose is available. Use **Download frame evidence JSON**
+to save that snapshot with its replay identity, source timestamp and frame
+IDs, joint availability, and measurement limits. The label next to the
+button identifies the last inspected frame, even if playback has moved.
 Use **Start microphone** for one utterance at a time and optionally begin with
 “ReplayAxis.” **Speak replies** enables browser speech synthesis. The question
 handler itself runs locally, and browser speech recognition may use an online

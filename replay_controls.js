@@ -36,6 +36,20 @@
     }
   };
   window.replayReply = reply;
+  const evidencePanel = document.getElementById("evidence-download");
+  const evidenceSummary = document.getElementById("evidence-summary");
+  let snapshot = null;
+  document.getElementById("download-evidence").onclick = () => {
+    if (!snapshot) return;
+    const file = new Blob([JSON.stringify(snapshot, null, 2) + "\n"], {type:"application/json"});
+    const url = URL.createObjectURL(file);
+    const link = document.createElement("a");
+    const replaySlug = (snapshot.replayId ?? "replay").replace(/[^a-z0-9-]/gi, "-");
+    link.href = url;
+    link.download = "replayaxis-" + replaySlug + "-frame-" + snapshot.replayFrame + ".json";
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
   let sequence = 0;
   let pending = null;
   window.addEventListener("message", (event) => {
@@ -43,6 +57,13 @@
         event.data?.type !== "replayaxis-result" || !pending || event.data.id !== pending.id ||
         typeof event.data.message !== "string") return;
     clearTimeout(pending.timer);
+    const evidence = event.data.evidence;
+    if (evidence?.schemaVersion === 1) {
+      snapshot = evidence;
+      evidenceSummary.textContent = snapshot.replayTitle + " · frame " + snapshot.replayFrame
+        + " · " + snapshot.sourceTimeSeconds.toFixed(3) + " s · " + snapshot.joint.name;
+      evidencePanel.hidden = false;
+    }
     reply(event.data.message, pending.aloud);
     pending = null;
   });

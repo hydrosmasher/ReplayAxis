@@ -455,7 +455,7 @@ canvas.onkeydown=e=>{const key={ArrowLeft:[-.1,0],ArrowRight:[.1,0],ArrowUp:[0,-
 window.addEventListener('message', event => {
  if (event.source !== window.parent || event.origin !== location.origin ||
      event.data?.type !== 'replayaxis-control') return;
- let message;
+ let message, evidence;
  switch (event.data.action) {
   case 'play': if (timer === null) el('play').click(); message='Playing.'; break;
   case 'pause': stop(); message=`Paused at ${frames[i].time.toFixed(3)} seconds.`; break;
@@ -517,7 +517,23 @@ window.addEventListener('message', event => {
     number==null?[]:['camera '+String.fromCharCode(65+index)+' frame '+number]);
    const count=Object.keys(frame.points).length;
    const jointName=data.joints[joint.value];
-   const availability=frame.points[joint.value]?'available as an estimate':'unavailable';
+   const available=Boolean(frame.points[joint.value]);
+   const availability=available?'available as an estimate':'unavailable';
+   evidence={
+    schemaVersion:1,
+    replayId:new URLSearchParams(location.search).get('replay'),
+    replayTitle:data.title,
+    replayFrame:i+1,
+    sourceTimeSeconds:frame.time,
+    sourceFrames:frame.source_frames.map((frameNumber,index)=>({
+     camera:String.fromCharCode(65+index),frameNumber:frameNumber??null
+    })),
+    availableJointCount:count,
+    totalJointCount:Object.keys(data.joints).length,
+    joint:{id:joint.value,name:jointName,state:available?'estimated':'unavailable'},
+    poseUnits:data.units,
+    metricMeasurementsAvailable:false
+   };
    message='Replay frame '+(i+1)+' at '+frame.time.toFixed(3)+' seconds. '
     +(sources.length?'Source: '+sources.join(', ')+'. ':'Source frames unavailable. ')
     +count+' of '+Object.keys(data.joints).length+' joints available. '
@@ -528,7 +544,7 @@ window.addEventListener('message', event => {
   default: return;
  }
  event.source.postMessage({
-  type:'replayaxis-result', id:event.data.id,
+  type:'replayaxis-result', id:event.data.id, evidence,
   message:message??`Frame ${i+1} of ${frames.length}, ${frames[i].time.toFixed(3)} seconds.`
  }, event.origin);
 });
