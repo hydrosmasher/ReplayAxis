@@ -462,6 +462,31 @@ window.addEventListener('message', event => {
   case 'next frame': el('next').click(); break;
   case 'previous frame': el('prev').click(); break;
   case 'rewind': stop(); show(0); break;
+  case 'seek': {
+   const {target,kind}=event.data;
+   const first=frames[0].time,last=frames.at(-1).time;
+   let index=-1;
+   if (!Number.isFinite(target)) return;
+   if (kind==='frame') {
+    if (Number.isInteger(target)&&target>=1&&target<=frames.length) index=target-1;
+    else message='Replay frames run from 1 to '+frames.length+'.';
+   } else if (kind==='source frame') {
+    index=frames.findIndex(frame=>frame.source_frames[0]===target);
+    if(index<0)message='Source frame '+target+' is unavailable in camera A for this replay.';
+   } else if (kind==='time') {
+    if(target>=first&&target<=last){
+     index=frames.reduce((best,frame,j)=>
+      Math.abs(frame.time-target)<Math.abs(frames[best].time-target)?j:best,0);
+    }else message='This replay covers source times '+first.toFixed(3)+' to '+last.toFixed(3)+' seconds.';
+   } else return;
+   if(index>=0){
+    stop();show(index);
+    const source=frames[i].source_frames[0];
+    message='Paused at replay frame '+(i+1)+' of '+frames.length+', source time '+frames[i].time.toFixed(3)+' seconds'
+      +(source==null?'.':', camera A source frame '+source+'.');
+   }
+   break;
+  }
   case 'reset view': el('reset').click(); message='View reset.'; break;
   case 'half speed': case 'normal speed':
    speed.value=event.data.action==='half speed'?'.5':'1';

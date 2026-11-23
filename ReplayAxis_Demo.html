@@ -44,7 +44,7 @@ a{color:#78e7ff}p{max-width:72ch}iframe{border:0;width:100%;height:740px;margin-
 </section>
 <section class="assistant" aria-labelledby="assistant-title">
 <h3 id="assistant-title">ReplayAxis Assistant</h3>
-<p>Type a command or press the microphone and say “ReplayAxis, pause”, “next frame”, or “ask what this case shows”.</p>
+<p>Type a command or press the microphone and say “ReplayAxis, pause”, “next frame”, “frame 10”, or “ask what this case shows”.</p>
 <form id="assistant-form">
 <input id="assistant-question" aria-label="Message the assistant" maxlength="1000" required>
 <button type="submit">Send</button>
@@ -193,7 +193,7 @@ form.addEventListener("submit", (event) => {
    return;
  }
  if (["help", "status", "show footage"].includes(command)) {
-   if (command === "help") window.replayReply("Say play, pause, next frame, previous frame, rewind, half speed, normal speed, zoom in, zoom out, reset view, mark joint, replay status, load Akhtar, or load butterfly. Next case and previous case browse the catalog. Say select followed by an athlete and event to switch cases. Ask about any named case, its footage, camera views, or measurement limits.");
+   if (command === "help") window.replayReply("Say play, pause, next frame, previous frame, rewind, half speed, normal speed, zoom in, zoom out, reset view, mark joint, replay status, load Akhtar, or load butterfly. Say frame 10, source frame 350, or go to 14.4 seconds to pause at a location in the loaded replay. Next case and previous case browse the catalog. Say select followed by an athlete and event to switch cases. Ask about any named case, its footage, camera views, or measurement limits.");
    if (command === "status") window.replayReply(document.getElementById("status").textContent);
    if (command === "show footage") {
      if (source.hidden) answer.textContent = "No source footage link for this case.";

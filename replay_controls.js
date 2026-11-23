@@ -47,7 +47,10 @@
     pending = null;
   });
   window.replayControl = (action, aloud = true) => {
-    if (!commands.has(action)) return false;
+    const seek = action.match(/^(?:go to |jump to |seek to )?(?:(source frame|frame) (\d+)|(\d+(?:\.\d+| point \d+)?)(?: seconds?| s))$/);
+    if (!commands.has(action) && !seek) return false;
+    const target = seek && Number((seek[2] ?? seek[3]).replace(" point ", "."));
+    const kind = seek && (seek[1] ?? "time");
     if (!localServer) {
       reply("Open the local demo server to control 3D replay.");
       return true;
@@ -59,7 +62,7 @@
       reply("The replay did not respond. Wait for it to load, then try again.", false);
     }, 2000);
     pending = {id, timer, aloud};
-    replay.contentWindow.postMessage({type: "replayaxis-control", action, id}, location.origin);
+    replay.contentWindow.postMessage({type: "replayaxis-control", action: seek ? "seek" : action, id, target, kind}, location.origin);
     return true;
   };
   document.getElementById("load-pilot").onclick = () => {

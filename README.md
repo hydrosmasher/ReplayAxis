@@ -31,6 +31,10 @@ or say `play`, `pause`, `next frame`, `previous frame`, `rewind`, `half speed`,
 `normal speed`, `zoom in`, `zoom out`, `reset view`, `mark joint`, or
 `replay status`. Say `load Akhtar` or `load butterfly` to load a pilot.
 Replay commands are handled locally and the viewer confirms the result.
+Say or type `frame 10` for a one-based replay frame, `source frame 350` for
+a camera A frame, or `go to 14.4 seconds` for the nearest recorded frame at
+that source timestamp. The viewer pauses on a match and reports the actual
+source time. Requests outside the loaded replay leave playback alone.
 Use **Start microphone** for one utterance at a time and optionally begin with
 “ReplayAxis.” **Speak replies** enables browser speech synthesis. The question
 handler itself runs locally, and browser speech recognition may use an online
