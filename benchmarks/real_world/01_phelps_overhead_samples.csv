@@ -1,5 +1,0 @@
-player_display_s,relative_step_commands,track_id,landmark,x_render_px,y_render_px,width_px,height_px
-213,0,center_left,cap_center,398,204,880,495
-213,0,center_right,cap_center,487,210,880,495
-213,5,center_left,cap_center,397,202,880,495
-213,5,center_right,cap_center,486,210,880,495

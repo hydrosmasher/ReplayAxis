@@ -1,42 +1,25 @@
 # ReplayAxis
 
-Research and software for gesture-controlled 3D sports motion analysis. ReplayAxis will link measurements to synchronized camera evidence and support reproducible analysis across sports.
+Research and software for 3D sports motion analysis.
 
-## Open ReplayAxis
+- [Sports case demo and assistant](ReplayAxis_Demo.html)
+- [Interactive synthetic 3D replay](ReplayAxis_3D_Example.html)
+- [Two-view reconstruction notebook](ReplayAxis_Markerless_TwoView.ipynb)
+- Feasibility paper in [PDF](ReplayAxis_Feasibility_Assesment_First_Draft.pdf) and [Word](ReplayAxis_Feasibility_Assesment_First_Draft.docx)
 
-- [Interactive 3D demo](ReplayAxis_Demo.html). Download the HTML file and open it in a browser.
-- [Working Jupyter notebook](ReplayAxis_Markerless_TwoView.ipynb)
-- Research paper in [PDF](ReplayAxis_Feasibility_Assesment_First_Draft.pdf) and [editable Word](ReplayAxis_Feasibility_Assesment_First_Draft.docx)
+The sports case demo links to footage. The synthetic example illustrates 3D replay and manual joint marking. Sport-specific reconstructions are pending.
 
-## Visual target
+## Local OpenJarvis assistant
 
-The final viewer should show an articulated cyan body wireframe on a dark background across supported sports. Automatic markerless tracking runs by default. A click starts or ends a review highlight at the current frame. The prototype shows a shaded cyan body with rounded joints. The View selector also offers wireframe and skeleton views. Body proportions are illustrative. Review marks attach to reconstructed joints or to triangle coordinates on the proxy surface. Use the Click target selector in either body view to choose. Marks follow the current reconstruction and remain in the viewer session. Anatomically registered surface points require a validated body fit.
+The demo works directly from the HTML file for case browsing and local navigation commands. Free-text questions use the chat API from [OpenJarvis](https://github.com/open-jarvis/OpenJarvis). Install and configure a local model using the [OpenJarvis documentation](https://open-jarvis.github.io/OpenJarvis/getting-started/installation/), then run these in separate terminals:
 
-High-speed recordings can be analyzed offline at up to 500 samples per second. The notebook includes a motion timing budget for exposure, row readout and timestamp skew, along with slow playback and frame stepping. Real 500 Hz measurement accuracy remains to be validated.
+```sh
+jarvis serve --host 127.0.0.1 --port 8000 --agent simple
+python3 serve_demo.py --jarvis-port 8000 --model qwen3:8b
+```
 
-## Project folders
+Use the model ID available in your OpenJarvis instance. Open the demo URL printed by the server. Only the typed question and selected case text go to OpenJarvis. The assistant has no access to the camera footage, research files, or measurement pipeline. Replay navigation uses the explicit local commands listed under `help`.
 
-| Folder | Contents |
-|---|---|
-| [docs](docs/) | Project handoff, feasibility evidence, and validation protocols |
-| [research/markerless](research/markerless/) | Two-view setup notes and validation results |
-| [research/benchmark](research/benchmark/) | Synthetic tests, replay evidence, and benchmark outputs |
-| [research/papers](research/papers/) | Literature catalog and download tooling |
+## Branches
 
-## Project handoff
-
-- [Work done to date](docs/work-done.md) summarizes the research, feasibility studies and synthetic benchmark.
-- [Next work and checkpoints](docs/next-milestones.md) lists the research steps and their completion criteria.
-- [Final project goals](docs/final-goals.md) defines thesis and longer-term outcomes.
-
-Start with the [thesis feasibility brief](docs/thesis-feasibility-brief.md) for supervisor discussion. The [synthetic benchmark](research/benchmark/) includes the evidence view and sample notebook.
-
-## Project phases
-
-1. **Research and software feasibility.** Review prior art, products and patents. Model camera timing, exposure and geometry. Compare spatial displays, software licenses and distribution options. Validate the design with synthetic motion and appropriately licensed datasets.
-2. **Evidence-linked replay.** Reconstruct timestamped body, ball and equipment tracks. Provide synchronized source views, confidence flags and exports. Validate measurements by sport and task before making support claims.
-3. **Motion forecasting.** Evaluate ML and deep learning to estimate plausible motion beyond the observed time window or capture volume. Compare with simple kinematic and sport-specific physics baselines. Report error and uncertainty by forecast horizon, sport and event. Keep out-of-view estimates and forecasts visually distinct from evidence-backed reconstruction.
-
-Hardware procurement, installation, and athlete capture are deferred pending the research and software feasibility review. Athlete studies and commercial release require separate validation and applicable permissions.
-
-See [the research agenda](docs/research-agenda.md) and [contribution notes](CONTRIBUTING.md).
+Keep the current demos and paper on `main`. Save the previous working `main` commit to `checkpoints` before publishing a replacement. Keep exploratory scripts, validation results, and project handoff in the research archive.

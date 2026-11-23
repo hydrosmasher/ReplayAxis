@@ -16,6 +16,12 @@ article{border:1px solid #255065;border-radius:10px;padding:clamp(16px,3vw,28px)
 h2{margin:0;font-size:clamp(22px,3vw,34px);line-height:1.2}
 a{color:#78e7ff}p{max-width:72ch}iframe{border:0;width:100%;height:740px;margin-top:12px}
 [hidden]{display:none}
+.assistant{border-top:1px solid #255065;margin-top:24px;padding-top:20px}
+.assistant h3{margin:0}
+.assistant form{display:flex;gap:8px;flex-wrap:wrap}
+.assistant input{flex:1;min-width:160px;padding:8px;background:#102a37;color:inherit;border:1px solid #255065;border-radius:6px}
+.assistant button{border-color:#255065}
+.assistant output{display:block;white-space:pre-wrap;margin-top:12px}
 @media(max-width:720px){main{grid-template-columns:1fr}nav{max-height:260px;overflow:auto}}
 </style>
 <h1>ReplayAxis</h1>
@@ -27,6 +33,16 @@ a{color:#78e7ff}p{max-width:72ch}iframe{border:0;width:100%;height:740px;margin-
 <p id="status" aria-live="polite"></p>
 <p><a id="source" hidden>Watch source footage</a></p>
 
+<p><a href="ReplayAxis_3D_Example.html">Open interactive synthetic 3D replay</a></p>
+<section class="assistant" aria-labelledby="assistant-title">
+<h3 id="assistant-title">ReplayAxis Assistant</h3>
+<p>Ask about the selected case, or type “next”, “previous”, or “help”.</p>
+<form id="assistant-form">
+<input id="assistant-question" aria-label="Message the assistant" maxlength="1000" required>
+<button type="submit">Send</button>
+</form>
+<output id="assistant-answer" aria-live="polite"></output>
+</section>
 </article>
 </main>
 <script>
@@ -114,7 +130,9 @@ const cases = [
 ];
 const list = document.getElementById("cases");
 const source = document.getElementById("source");
+let activeCase = 0;
 function select(index) {
+ activeCase = index;
  const [name,status,url] = cases[index];
  document.getElementById("name").textContent = name;
  document.getElementById("status").textContent = status || "Footage selection and reconstruction pending.";
@@ -131,5 +149,48 @@ cases.forEach(([name],index)=>{
  list.append(button);
 });
 select(0);
+const form = document.getElementById("assistant-form");
+const questionInput = document.getElementById("assistant-question");
+const answer = document.getElementById("assistant-answer");
+form.addEventListener("submit", async (event) => {
+ event.preventDefault();
+ const question = questionInput.value.trim();
+ if (!question) return;
+ const command = question.toLowerCase();
+ if (command === "next" || command === "previous") {
+   select((activeCase + (command === "next" ? 1 : -1) + cases.length) % cases.length);
+   answer.textContent = cases[activeCase][0];
+   return;
+ }
+ if (["help", "status", "show footage"].includes(command)) {
+   if (command === "help") answer.textContent = "Commands: next, previous, status, show footage. Free-text questions use local OpenJarvis when the demo is served locally.";
+   if (command === "status") answer.textContent = cases[activeCase][1] + " 3D reconstruction pending.";
+   if (command === "show footage") {
+     if (source.hidden) answer.textContent = "No source footage link for this case.";
+     else { source.focus(); answer.textContent = "The source footage link is selected."; }
+   }
+   return;
+ }
+ if (location.protocol === "file:") {
+   answer.textContent = "Start the local demo server to ask OpenJarvis questions. Commands work here.";
+   return;
+ }
+ const button = form.querySelector("button");
+ button.disabled = true;
+ answer.textContent = "Waiting for OpenJarvis…";
+ try {
+   const response = await fetch("/api/assistant", {
+     method: "POST", headers: {"Content-Type": "application/json"},
+     body: JSON.stringify({question, case: cases[activeCase].slice(0, 2).join(" — ")}),
+     signal: AbortSignal.timeout(35000)
+   });
+   const result = await response.json();
+   answer.textContent = response.ok ? result.answer : result.error;
+ } catch {
+   answer.textContent = "OpenJarvis is unavailable. Local demo commands are still available.";
+ } finally {
+   button.disabled = false;
+ }
+});
 </script>
 </html>
