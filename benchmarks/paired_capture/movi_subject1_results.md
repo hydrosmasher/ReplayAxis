@@ -14,3 +14,20 @@ A shift of the reference by one video frame in either direction did not improve 
 ## Left-wrist confidence sensitivity
 
 On the same 548 eligible samples, lowering confidence from 0.55 to 0.35 increased reconstruction from 243 to 322, 5 cm passes from 114 to 151, and 10 cm passes from 224 to 281. Reprojection rejections rose from 66 to 138 and low-visibility rejections fell from 239 to 88. At 0.55, 225 samples fell below threshold in PG2 and 14 in PG1. The production default remains 0.55.
+
+## Offline interpolation of short left-wrist gaps
+
+Infer both views at 30 fps and reconstruct observed anchors using the selected confidence threshold. Interpolate only bounded gaps of at most the listed number of missing frames. Score the same 548 nominally aligned reference samples used above. No motion-capture value is used for interpolation. Missing estimates count as failures. Results apply to this trial only.
+
+| Confidence | Max missing frames | Eligible | Reconstructed or filled | Within 5 cm | Within 10 cm |
+|---|---:|---:|---:|---:|---:|
+| 0.55 | 0 | 548 | 243 | 114 | 224 |
+| 0.55 | 3 | 548 | 274 | 126 | 250 |
+| 0.55 | 6 | 548 | 290 | 135 | 262 |
+| 0.55 | 12 | 548 | 313 | 140 | 276 |
+| 0.35 | 0 | 548 | 322 | 151 | 281 |
+| 0.35 | 3 | 548 | 347 | 156 | 298 |
+| 0.35 | 6 | 548 | 368 | 165 | 310 |
+| 0.35 | 12 | 548 | 412 | 168 | 324 |
+
+The 0.35 threshold with gaps of up to 12 frames recovered the most estimates, but only 14 of the 44 additional fills relative to the six-frame limit were within 10 cm. This is an offline sensitivity analysis. Production settings were not changed.
